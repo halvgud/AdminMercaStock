@@ -1,5 +1,4 @@
 <?php
-require_once 'core.php';
 
 class Roles
 {
@@ -12,12 +11,15 @@ class Roles
     // return a role object with associated permissions
     public static function obtenerPermisosDelRol($role_id) {
         $role = new Roles();
-        $db = new Conexion();
-        $db->abrirConexion();
-        $db->seleccion('relacion_rol_permiso','p.descripcion',' r inner join permisos p on r.id_permiso = p.id_permiso','r.id_rol="'.$role_id.'" and r.estado="A"','p.id_permiso asc',null);
-        $permisos =  $db->obtenerResultado();
+        $db = getConnection();
+       $comando = "SELECT mo.valor from ms_permiso mp inner join ms_opcion mo on (mo.idOpcion = mp.idOpcion) where mp.idNivelAutorizacion=:idNivelAutorizacion and mp.idEstado='A' order by mo.idOpcion";
+        	$sentencia = $db->prepare($comando);
+		$sentencia->bindParam("usuario", $usuario);
+		$sentencia->execute();
+                $permisos = $sentencia->fetchObject();
+       // $permisos =  $db->obtenerResultado();
         foreach($permisos as &$permiso) {
-            $role->permissions[$permiso['descripcion']] = true;
+            $role->permissions[$permiso['valor']] = true;
         }
         return $role;
     }

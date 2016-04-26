@@ -1,5 +1,4 @@
 <?php
-require_once 'core.php';
 class PrivilegiosUsuario
 {
     private $roles;
@@ -20,14 +19,18 @@ class PrivilegiosUsuario
     }
 
     // Llenar roles con los permisos que tienen asociados
-    protected function InicializarRoles($username) {
+    protected function InicializarRoles($usuario) {
         $this->roles = array();
-        $db = new Conexion();
-        $db->abrirConexion();
-        $db->seleccion('roles','r.id_rol,r.descripcion',' r inner join usuario u on r.id_rol = u.rol','u.id_usuario="'.$username.'"','r.id_rol asc',null);
-        $resultado = $db->obtenerResultado();
+        
+        $comando = "SELECT mna.idNivelAutorizacion,mna.descripcion from ms_nivelAutorizacion mna inner join ms_usuario mu on (mu.usuario =:usuario) order by mna.idNivelAutorizacion asc";
+        $db = getConnection();
+		$sentencia = $db->prepare($comando);
+		$sentencia->bindParam("usuario", $usuario);
+		$sentencia->execute();
+                $resultado = $sentencia->fetchObject();
+      //  $resultado = $db->obtenerResultado();
         foreach($resultado as &$rol) {
-            $this->roles[$rol["descripcion"]] = Roles::obtenerPermisosDelRol($rol["id_rol"]);
+            $this->roles[$rol["descripcion"]] = Roles::obtenerPermisosDelRol($rol["idNivelAutorizacion"]);
         }
     }
 
