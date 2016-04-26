@@ -10,6 +10,7 @@ $("#loginForm").submit(function(){
     form.forEach(function(input) {
         datos[input.name] = input.value;
     });
-    peticionAjax('data/login.php',datos,exitoso,fallo);
+    peticionAjax('http://localhost/adminmstock/public/usuario/login',datos,exitoso,fallo);
+    
     return false;
 });

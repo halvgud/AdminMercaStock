@@ -1,8 +1,8 @@
 <?php
-require_once "data/Roles.php";
-require_once "data/PrivilegiosUsuario.php";
+//require_once "data/Roles.php";
+//require_once "data/PrivilegiosUsuario.php";
 
-$u = PrivilegiosUsuario::obtenerPorUsuario($_SESSION["id_usuario"]);
+//$u = PrivilegiosUsuario::obtenerPorUsuario($_SESSION["id_usuario"]);
 
 ?>
     <!-- Navigation -->
@@ -40,7 +40,7 @@ $u = PrivilegiosUsuario::obtenerPorUsuario($_SESSION["id_usuario"]);
                         <li>
                             <a href="index.php"><i class="fa fa-home fa-fw"></i> Home</a>
                         </li>
-<?php if ($u->tienePrivilegio("agregarUsuario")) { ?>
+<?php /*if ($u->tienePrivilegio("agregarUsuario")) { */?>
                         <li>
                             <a href="#"><i class="fa fa-users fa-fw"></i> Administrador<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -56,7 +56,7 @@ $u = PrivilegiosUsuario::obtenerPorUsuario($_SESSION["id_usuario"]);
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-<?php } if ($u->tienePrivilegio("nuevoMedicamento")) { ?>
+<?php /*} if ($u->tienePrivilegio("nuevoMedicamento")) { */?>
                         <li>
                             <!-- <i class="fa fa-bar-chart-o fa-fw"></i> -->
                             <a href="#"><i class="fa fa-medkit fa-fw"></i> Control de Comida<span class="fa arrow"></span></a>
@@ -85,7 +85,7 @@ $u = PrivilegiosUsuario::obtenerPorUsuario($_SESSION["id_usuario"]);
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-<?php } if ($u->tienePrivilegio("paseDeSalida")) { ?>
+<?php /*} if ($u->tienePrivilegio("paseDeSalida")) { */?>
                         <!--<li>-->
                             <!-- <i class="fa fa-bar-chart-o fa-fw"></i> -->
                             <!--<a href="#"><i class="fa fa-file-text fa-fw"></i> Expediente M&eacute;dico<span class="fa arrow"></span></a>
@@ -102,7 +102,7 @@ $u = PrivilegiosUsuario::obtenerPorUsuario($_SESSION["id_usuario"]);
                             </ul>-->
                             <!-- /.nav-second-level -->
                        <!-- </li>-->
-<?php } if ($u->tienePrivilegio("guardarIncapacidad")) { ?>
+<?php/* } if ($u->tienePrivilegio("guardarIncapacidad")) { */?>
                         <!--<li>-->
                             <!-- <i class="fa fa-bar-chart-o fa-fw"></i> -->
                             <!--<a href="#"><i class="fa fa-ambulance fa-fw"></i> Incapacidades<span class="fa arrow"></span></a>
@@ -116,7 +116,7 @@ $u = PrivilegiosUsuario::obtenerPorUsuario($_SESSION["id_usuario"]);
                             </ul>-->
                             <!-- /.nav-second-level -->
                        <!-- </li>-->
-<?php } if ($u->tienePrivilegio("leerReportes")) { ?>
+<?php /*} if ($u->tienePrivilegio("leerReportes")) { */?>
                        <!-- <li>-->
                             <!-- <i class="fa fa-bar-chart-o fa-fw"></i> -->
                             <!--<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i></i> Reportes<span class="fa arrow"></span></a>
@@ -160,7 +160,7 @@ $u = PrivilegiosUsuario::obtenerPorUsuario($_SESSION["id_usuario"]);
                             </ul>-->
                             <!-- /.nav-second-level -->
                         <!--</li>-->
-<?php } ?>
+<?php /*} */?>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

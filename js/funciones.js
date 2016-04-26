@@ -17,7 +17,7 @@
 			//resulta = $.parseJSON(jqXHR.responseText);
 			resulta = jqXHR.responseJSON;
             console.log(resulta);
-			notificacionError(resulta['error']);
+			notificacionError(resulta['mensaje']);
 			if(errorCallBack){
 				errorCallBack(resulta);
 			}
@@ -50,9 +50,9 @@ function notificacionError(mensaje){
 		from: "top",
 		align: "right"
 	},
-	z_index: 2000,
-	delay: 0,
-	timer: 1000,
+			z_index: 2000,
+			delay: 8000,
+			timer: 1000,
 	animate: {
 		enter: 'animated fadeInDown',
 		exit: 'animated fadeOutUp'

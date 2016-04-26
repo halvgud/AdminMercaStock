@@ -1,15 +1,22 @@
-<?php
+<?php session_start();
 
 require 'utilidad/ExcepcionApi.php';
-require 'Slim/Slim.php';
-
-
-$app = new Slim();
+require 'Slim/Slim/App.php';
+ 
+use \Slim\Slim;
+ 
+//Slim::registerAutoloader();
 
 //$app->get('/wines', 'getWines');
 //$app->get('/wines/:id',	'getWine');
 //$app->get('/wines/search/:query', 'findByName');
+$app->get('/hello/:name', function ($name) {
+    echo "Hello, $name! Welcome to Slim Framework";
+});
+ 
+$app->run();
 $app->post('/usuario/login', 'logIn');
+//$app->response->setStatus(401);
 //$app->put('/wines/:id', 'updateWine');
 //$app->delete('/wines/:id',	'deleteWine');
 
@@ -22,12 +29,20 @@ function logIn(){
 	$usuario = json_decode($request->getBody());
 	$correo = $usuario->usuario;
 	$contrasena = $usuario->contrasena;
-
-
-	if (autenticar($correo, $contrasena)) {
-
+try {
+	$autenticar = autenticar($correo,$contrasena);
+	if ($autenticar['estado']=='200') {
+		http_response_code(200);
+		$_SESSION['id_usuario']= 'id_usuario';
+		$_SESSION['usuario'] = 'usuario';
+		$_SESSION['rol'] = 'rol';
+		$resArray['success'] = 'Se ha logueado correctamente';
+		print json_encode($autenticar);
+	}else{
+	
+	 print json_encode($autenticar);
 	}
-	try {/*
+	/*
 		$db = getConnection();
 		$stmt = $db->prepare($sql);
 		$stmt->bindParam("usuario", $usuario->usuario);
@@ -83,28 +98,28 @@ function autenticar($usuario, $contrasena)
 		//$db = null;
 		if ($sentencia) {
 			$resultado = $sentencia->fetchObject();
-			//$resultado = $sentencia->fetchAll(PDO::FETCH_OBJ);
 				if(($resultado)&&validarContrasena($contrasena, $resultado->password)){
+					//echo '1111';
 					actualizarSesion($usuario);
 			try {
-					if ($sentencia->execute()) {
-						http_response_code(200);
+					//if ($sentencia->execute()) {
+						
 						return
 								[
-										"estado" => 100,
-										"datos" => $sentencia->rowCount()
+										"estado" => 200,
+										"datos" => $resultado
 								];
-					} else
-						throw new ExcepcionApi("", "Se ha producido un error");
+					//} else
+					//	throw new ExcepcionApi("", "Se ha producido un error");
 
 				} catch (PDOException $e) {
 					throw new ExcepcionApi(2, $e->getMessage());
 				}
 			}else {
-					http_response_code(200);
+				
 					return
 							[
-									"estado" => 100,
+									"estado" => 101,
 									"mensaje"=>"usuario inexistente"
 							];
 			}
@@ -225,7 +240,7 @@ function findByName($query) {
 	}
 }
 */
-function getConnection() {
+     function getConnection() {
 	$dbhost="50.62.209.162";
 	$dbuser="mercattoadmin";
 	$dbpass="Sy5@dm1n1*";
@@ -233,6 +248,5 @@ function getConnection() {
 	$dbh = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);	
 	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	return $dbh;
-}
-
+     }
 ?>
