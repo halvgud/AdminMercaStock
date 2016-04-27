@@ -10,7 +10,7 @@ $("#loginForm").submit(function(){
     form.forEach(function(input) {
         datos[input.name] = input.value;
     });
-    peticionAjax('http://localhost/ApiMercastock/public/usuario/login',datos,exitoso,fallo);
+    peticionAjax(API_SYS_PATH+'usuario/login',datos,exitoso,fallo);
     
     return false;
 });

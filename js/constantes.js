@@ -1,0 +1,1 @@
+var API_SYS_PATH="http://localhost/ApiMercastock/public/";

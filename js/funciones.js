@@ -8,16 +8,20 @@
         dataType: 'json'
 		})
 		.done(function(resultado) {
-			//console.log(resultado);
 			if(successCallBack){
 				successCallBack(resultado);
 			}
 		})
 		.fail(function(jqXHR, status, thrownError) {
-			//resulta = $.parseJSON(jqXHR.responseText);
 			resulta = jqXHR.responseJSON;
-            console.log(resulta);
-			notificacionError(resulta['mensaje']);
+			if(resulta!=undefined){
+				console.log(resulta);
+				notificacionError(resulta['mensaje']);
+			}else{
+
+				notificacionError('Error de conexión al servicio API');
+			}
+
 			if(errorCallBack){
 				errorCallBack(resulta);
 			}
