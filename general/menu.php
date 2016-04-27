@@ -24,7 +24,7 @@
     if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
         die('error occured: ' . $decoded->response->errormessage);
     }
-
+ 
     //$u = PrivilegiosUsuario::obtenerPorUsuario($_SESSION["idUsuario"]); 
 ?>
     <!-- Navigation -->
@@ -57,43 +57,41 @@
 
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
-                   
+                    <p><img src="img/header.png" class="img-responsive" alt="Responsive image"></p>
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a href="<?php echo $path;?>/index.php"><i class="fa fa-home fa-fw"></i> Dashboard</a>
+                            <a href="index.php"><i class="fa fa-home fa-fw"></i> Dashboard</a>
                         </li>
-                    
 <?php /*if ($u->tienePrivilegio("DUMMY")) { */?>
                         <li>
-                            <a href="#"><i class="fa fa-th-list fa-fw"></i> Catálogo<span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-users fa-fw"></i> Catálogo<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="<?php echo $path;?>/catalogo/general.php"><i class="fa fa-plus fa-fw"></i>General</a>       
                              </li>
                                  <li>
-                                    <a href="<?php echo $path;?>/catalogo/alta_usuario.php"><i class="fa fa-user-plus fa-fw"></i>Registrar Usuario</a>
+                                    <a href="<?php echo $path;?>/proceso/alta_usuario.php"><i class="fa fa-calendar-plus-o fa-fw"></i>Dar de Alta Usuario</a>
                                 </li>
                             
                                 <li>
-                                    <a href="<?php echo $path;?>/catalogo/alta_sucursal.php"><i class="fa fa-building fa-fw"></i>Registrar Sucursal</a>
+                                    <a href="<?php echo $path;?>/proceso/alta_sucursal.php"><i class="fa fa-calendar-plus-o fa-fw"></i>Dar de Alta Sucursal</a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo $path;?>/catalogo/permisos.php"><i class="fa fa-lock fa-fw"></i> Permisos</a>
+                                    <a href="<?php echo $path;?>/catalogo/permisos.php"><i class="fa fa-cogs fa-fw"></i> Permisos</a>
                                 </li>
                                  <li>
-                                    <a href="<?php echo $path;?>/catalogo/parametros.php"><i class="fa fa-wrench fa-fw"></i> Parametros</a>
+                                    <a href="<?php echo $path;?>/catalogo/parametros.php"><i class="fa fa-cogs fa-fw"></i> Parametros</a>
                                 </li>
-                            </ul>
-                        </li>
+                            
                             <!-- /.nav-second-level -->
                         
 <?php /*} if ($u->tienePrivilegio("nuevoMedicamento")) { */?>
                         <li>
                             <!-- <i class="fa fa-bar-chart-o fa-fw"></i> -->
-                            <a href="#"><i class="fa fa-cogs fa-fw"></i> Proceso<span class="fa arrow"></span></a>
+                        <!--    <a href="#"><i class="fa fa-medkit fa-fw"></i> Proceso<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                
-                                
+                                -->
                                 <li>
                                     <a href="proceso/_generar_inventario.php"><i class="fa fa-file-text-o fa-fw"></i>Generar Inventario</a>
                                 </li>
@@ -111,23 +109,22 @@
                                 </li>-->
                           <!--  </ul>-->
                             <!-- /.nav-second-level -->
-                            </ul>
                         </li>
                         <li>
                             <!-- <i class="fa fa-bar-chart-o fa-fw"></i> -->
-                            <a href="#"><i class="fa fa-database fa-fw"></i> Reportes<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
+                           <!-- <a href="#"><i class="fa fa-medkit fa-fw"></i> Reportes<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">-->
                                 <li>
-                                    <a href="reportes/estadisticas_venta.php"><i class="fa fa-area-chart fa-fw"></i>Estadísiticas por Venta</a>
+                                    <a href="reportes/estadisticas_venta.php"><i class="fa fa-calendar-plus-o fa-fw"></i>Estadísiticas por Venta</a>
                                 </li>
                                 <li>
-                                    <a href="reportes/movimiento_articulos.php"><i class="fa fa-exchange fa-fw"></i>Movimiento de Artículos</a>
+                                    <a href="reportes/movimiento_articulos.php"><i class="fa fa-calendar-plus-o fa-fw"></i>Movimiento de Artículos</a>
                                 </li>
                                 <li>
-                                    <a href="reportes/existencias.php"><i class="fa fa-calendar-check-o fa-fw"></i>Existencias</a>
+                                    <a href="reportes/existencias.php"><i class="fa fa-file-text-o fa-fw"></i>Existencias</a>
                                 </li>
                                   <li>
-                                    <a href="reportes/inventario_sucursal_articulos.php"><i class="fa fa-industry fa-fw"></i>Inventario por Sucursal / por Artículo</a>
+                                    <a href="reportes/inventario_sucursal_articulos.php"><i class="fa fa-file-text-o fa-fw"></i>Inventario por Sucursal / por Artículo</a>
                                 </li>
                                 <!--<li>
                                     <a href="#"><i class="fa fa-plus-square fa-fw"></i> Medicamento <span class="fa arrow"></span></a>
@@ -143,7 +140,6 @@
                                 </li>-->
                            <!-- </ul>-->
                             <!-- /.nav-second-level -->
-                            </ul>
                         </li>
 <?php /*} if ($u->tienePrivilegio("paseDeSalida")) { */?>
                         <!--<li>-->
@@ -220,8 +216,8 @@
                             </ul>-->
                             <!-- /.nav-second-level -->
                         <!--</li>-->
-                        
-<?php /*} */?>
+                        </ul>
+<?php /*} */?></li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
