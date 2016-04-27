@@ -7,40 +7,36 @@ class PrivilegiosUsuario
 
     }
 
-    // Metodo para obtener permisos del usuario
-    public static function obtenerPorUsuario($username) {
-        if (!empty($username)) {
-            $privUser = new PrivilegiosUsuario();
-            $privUser->InicializarRoles($username);
-            return $privUser;
-        } else {
-            return false;
+    public static function traerPrivilegios(){
+        $service_url = 'http://localhost/apimercastock/public/usuario/obtenerpermisos/'.$_SESSION['idUsuario'];
+        $curl = curl_init($service_url);
+        $curl_post_data = array(
+        );
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($curl_post_data));
+        $curl_response = curl_exec($curl);
+        if ($curl_response === false) {
+            $info = curl_getinfo($curl);
+            curl_close($curl);
+            die('error occured during curl exec. Additioanl info: ' . var_export($info));
         }
-    }
-
-    // Llenar roles con los permisos que tienen asociados
-    protected function InicializarRoles($usuario) {
-        $this->roles = array();
-        
-        $comando = "SELECT mna.idNivelAutorizacion,mna.descripcion from ms_nivelAutorizacion mna inner join ms_usuario mu on (mu.usuario =:usuario) order by mna.idNivelAutorizacion asc";
-        $db = getConnection();
-		$sentencia = $db->prepare($comando);
-		$sentencia->bindParam("usuario", $usuario);
-		$sentencia->execute();
-                $resultado = $sentencia->fetchObject();
-      //  $resultado = $db->obtenerResultado();
-        foreach($resultado as &$rol) {
-            $this->roles[$rol["descripcion"]] = Roles::obtenerPermisosDelRol($rol["idNivelAutorizacion"]);
+        curl_close($curl);
+        $decoded = ($curl_response);
+        if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
+            die('error occured: ' . $decoded->response->errormessage);
         }
+        return $decoded;
     }
-
-    // check if user has a specific privilege
-    public function tienePrivilegio($perm) {
-        foreach ($this->roles as $role) {
-            if ($role->tienePermiso($perm)) {
-                return true;
-            }
+   public static function tienePrivilegio($obj, $field) {
+       $obj = json_decode($obj);
+        foreach($obj as $item) {
+                if(isset($item->$field)) {
+                    return $item->$field;
+                }
         }
         return false;
     }
+
+
 }

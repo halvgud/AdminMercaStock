@@ -1,30 +1,7 @@
 <?php
 require_once "data/Roles.php";
 require_once "data/PrivilegiosUsuario.php";
-
-//= PrivilegiosUsuario::obtenerPorUsuario($_SESSION["id_usuario"]);
-
-//next example will insert new conversation
-$service_url = 'http://localhost/apimercastock/public/usuario/obtenerpermisos/'.$_SESSION['idUsuario'];
-$curl = curl_init($service_url);
-$curl_post_data = array(
-);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($curl_post_data));
-$curl_response = curl_exec($curl);
-if ($curl_response === false) {
-    $info = curl_getinfo($curl);
-    curl_close($curl);
-    die('error occured during curl exec. Additioanl info: ' . var_export($info));
-}
-curl_close($curl);
-$decoded = json_decode($curl_response);
-if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
-    die('error occured: ' . $decoded->response->errormessage);
-}
-echo 'response ok!';
-$u = PrivilegiosUsuario::obtenerPorUsuario($_SESSION["idUsuario"]); 
+$decoded = PrivilegiosUsuario::traerPrivilegios();
 ?>
     <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -56,12 +33,11 @@ $u = PrivilegiosUsuario::obtenerPorUsuario($_SESSION["idUsuario"]);
 
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
-                    <p><img src="img/header.png" class="img-responsive" alt="Responsive image"></p>
                     <ul class="nav" id="side-menu">
                         <li>
                             <a href="index.php"><i class="fa fa-home fa-fw"></i> Home</a>
                         </li>
-<?php if ($u->tienePrivilegio("DUMMY")) { ?>
+<?php if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
                         <li>
                             <a href="#"><i class="fa fa-users fa-fw"></i> Administrador<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -77,7 +53,7 @@ $u = PrivilegiosUsuario::obtenerPorUsuario($_SESSION["idUsuario"]);
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-<?php } if ($u->tienePrivilegio("nuevoMedicamento")) { ?>
+<?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
                         <li>
                             <!-- <i class="fa fa-bar-chart-o fa-fw"></i> -->
                             <a href="#"><i class="fa fa-medkit fa-fw"></i> Control de Comida<span class="fa arrow"></span></a>
@@ -106,7 +82,7 @@ $u = PrivilegiosUsuario::obtenerPorUsuario($_SESSION["idUsuario"]);
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-<?php } if ($u->tienePrivilegio("paseDeSalida")) { ?>
+<?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
                         <!--<li>-->
                             <!-- <i class="fa fa-bar-chart-o fa-fw"></i> -->
                             <!--<a href="#"><i class="fa fa-file-text fa-fw"></i> Expediente M&eacute;dico<span class="fa arrow"></span></a>
@@ -123,7 +99,7 @@ $u = PrivilegiosUsuario::obtenerPorUsuario($_SESSION["idUsuario"]);
                             </ul>-->
                             <!-- /.nav-second-level -->
                        <!-- </li>-->
-<?php } if ($u->tienePrivilegio("guardarIncapacidad")) { ?>
+<?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
                         <!--<li>-->
                             <!-- <i class="fa fa-bar-chart-o fa-fw"></i> -->
                             <!--<a href="#"><i class="fa fa-ambulance fa-fw"></i> Incapacidades<span class="fa arrow"></span></a>
@@ -137,7 +113,7 @@ $u = PrivilegiosUsuario::obtenerPorUsuario($_SESSION["idUsuario"]);
                             </ul>-->
                             <!-- /.nav-second-level -->
                        <!-- </li>-->
-<?php } if ($u->tienePrivilegio("leerReportes")) { ?>
+<?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
                        <!-- <li>-->
                             <!-- <i class="fa fa-bar-chart-o fa-fw"></i> -->
                             <!--<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i></i> Reportes<span class="fa arrow"></span></a>
