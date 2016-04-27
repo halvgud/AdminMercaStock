@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 <?php session_start(); 
 if(!isset($_SESSION['idUsuario'])){
+=======
+<?php session_start();
+ $path = "";
+if(!isset($_SESSION['id_usuario'])){
+>>>>>>> origin/master
    require_once('login.php');  
 }
 else
@@ -9,7 +15,7 @@ else
 <html lang="en">
 
 <head>
-    <?php require_once('header-comun.html'); ?> 
+    <?php require_once($path.'/header-comun.html'); ?> 
     
 
 </head>
@@ -17,7 +23,7 @@ else
 <body>
 
     <div id="wrapper">
-    <?php require_once('menu.php'); ?> 
+    <?php require_once($path.'/menu.php'); ?> 
         <div id="page-wrapper">
             <div class="jumbotron text-center">
               <h1>Bienvenido!</h1>
@@ -30,7 +36,7 @@ else
     </div>
     <!-- /#wrapper -->
 
-    <?php require_once('footer-comun.html'); ?> 
+    <?php require_once('/footer-comun.html'); ?> 
 
 </body>
 
