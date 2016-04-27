@@ -23,7 +23,7 @@
                 <div class="tab-content">
                     <div id="home" class="tab-pane fade in active">
                         <div class="col-md-6 col-md-offset-3">
-                            </br>
+                            
                             <h3>Registrar Sucursal</h3>
                             </br>
                             <form id="guardarUsuario">
@@ -50,11 +50,11 @@
                     </div>
                     <div id="menu1" class="tab-pane fade">
                         <div class="col-md-6 col-md-offset-3">
+                            
+                            
+                            <h3>Buscar y Modificar Sucursal</h3>
                             </br>
-                            <p>
-                            <h3>Buscar y Modificar</h3>
-                            </br>
-                            <form id="guardarUsuario">
+                            <form id="buscarUsuario">
                                 <input type="hidden" name="tabla" id="tabla" value="usuario">
                                 <input type="hidden" name="id_usuario_creacion"  value="N">
                                 <input type="hidden" name="estado"  value="A">
