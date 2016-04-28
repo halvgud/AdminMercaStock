@@ -11,12 +11,11 @@ $decoded = PrivilegiosUsuario::traerPrivilegios();
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                  
+                    
                 </button>
-                <a class="navbar-brand" href="index.php" data-toggle="collapse" data-target=".navbar-collapse"><i class="fa fa-heartbeat"></i> Sistema de Control de Cocina</a>
+                <a class="navbar-brand" href="<?php echo $path;?>/index.php" data-toggle="collapse" data-target=".navbar-collapse"><!--<i class="fa fa-heartbeat"></i>-->
+                <img src="<?php echo $path;?>/img/mstockicon.png" height="100%;" width="6%;" style="float: left"/> &nbsp;&nbsp;Sistema de Control de MercaStock</a>
             </div>
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-right">

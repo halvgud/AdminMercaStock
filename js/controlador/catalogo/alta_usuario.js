@@ -5,21 +5,22 @@
             form1.forEach(function(input) {
                 datosTabla1[input.name] = input.value;
             });
-            datosTabla1['fecha_alta'] = moment().format("YYYY/MM/DD HH:mm:ss");
+           // datosTabla1['fecha_alta'] = moment().format("YYYY/MM/DD HH:mm:ss");
             exitoso = function(datos){
-                notificacionSuccess(datos.success);
+                notificacionSuccess(datos.mensaje);
                 $("#guardarUsuario")[0].reset();
                 contador = 0;
             };
             fallo = function(datos){
+                console.log(datos);
                 notificacionError(datos.error);
             };
-            peticionAjax('data/testinsert.php',datosTabla1,exitoso,fallo);
+            peticionAjax(API_SYS_PATH+'usuario/insertar',datosTabla1,exitoso,fallo);
 
             return false;
         });
 
-        $(function() {
+       /* $(function() {
             $.datetimepicker.setLocale('es');
             $("#inicio").datetimepicker({
                 timepicker:false,
@@ -47,4 +48,4 @@
                 cargarInputs(datosTabla1,5,$("#id_empleado").val())
             }
             cargarDropDownList(("#rol"),'id_rol','descripcion',12);
-        });
+        });*/

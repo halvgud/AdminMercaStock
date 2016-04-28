@@ -32,10 +32,10 @@ else
                    <h3>Registrar Usuario</h3>
                    </br>
                      <form id="guardarUsuario">
-                         <input type="hidden" name="tabla" id="tabla" value="usuario">
+                         <!--<input type="hidden" name="tabla" id="tabla" value="usuario">
                          <input type="hidden" name="id_usuario_creacion"  value="N">
                          <input type="hidden" name="estado"  value="A">
-                         <input type="hidden" name="tipo_transaccion"  value="1">
+                         <input type="hidden" name="tipo_transaccion"  value="1">-->
                        <div class="form-group">
                          <label for="usuario">Nombre de Usuario:</label>
                          <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Nombre de Usuario" required autocomplete="off">
@@ -62,14 +62,16 @@ else
                        </div>
                         <div class="form-group">
                          <label for="sexo">Sexo</label>
-                         <select class="form-control" id="sexo" name="sexo" required>
-                             <option value="">Seleccione el Sexo</option>
+                         <select class="form-control" id="sexo" name="sexo" >
+                             <option value="1">Seleccione el Sexo</option>
+                             <option value="2">Seleccione el Sexo</option>
                          </select>
                        </div>
                        <div class="form-group">
                          <label for="rol">Nivel Autorizaci&oacute;n</label>
-                         <select class="form-control" id="autorizacion" name="autorizacion" required>
-                             <option value="">Seleccione un Nivel</option>
+                         <select class="form-control" id="idNivelAutorizacion" name="idNivelAutorizacion" >
+                             <option value="1">Seleccione un Nivel</option>
+                             <option value="2">Seleccione un Nivel</option>
                          </select>
                        </div>
                        <button type="submit" class="btn btn-outline btn-success"><i class="fa fa-floppy-o"></i> Guardar</button>
@@ -86,10 +88,6 @@ else
                        <h3>Buscar y Modificar Usuario</h3>
                        </br>
                      <form id="buscarUsuario">
-                         <input type="hidden" name="tabla" id="tabla" value="usuario">
-                         <input type="hidden" name="id_usuario_creacion"  value="N">
-                         <input type="hidden" name="estado"  value="A">
-                         <input type="hidden" name="tipo_transaccion"  value="1">
                        <div class="form-group">
                          <label for="usuario">Nombre de Usuario:</label>
                          <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Nombre de Usuario" required autocomplete="off">
@@ -116,14 +114,16 @@ else
                        </div>
                         <div class="form-group">
                          <label for="sexo">Sexo</label>
-                         <select class="form-control" id="sexo" name="sexo" required>
-                             <option value="">Seleccione el Sexo</option>
+                         <select class="form-control" id="sexo" name="sexo" >
+                             <option value="1">Seleccione el Sexo</option>
+                             <option value="2">Seleccione el Sexo</option>
                          </select>
                        </div>
                        <div class="form-group">
                          <label for="rol">Nivel Autorizaci&oacute;n</label>
-                         <select class="form-control" id="autorizacion" name="autorizacion" required>
-                             <option value="">Seleccione un Nivel</option>
+                         <select class="form-control" id="idNivelAutorizacion" name="idNivelAutorizacion" >
+                             <option value="1">Seleccione un Nivel</option>
+                             <option value="2">Seleccione un Nivel</option>
                          </select>
                        </div>
                        
@@ -140,8 +140,7 @@ else
     <!-- /#wrapper -->
 
      <?php require_once('../footer-comun-carpeta.html'); ?>
-    <script type="text/javascript">
-
+    <script type="text/javascript" src="<?php echo $path;?>/js/controlador/catalogo/alta_usuario.js">
     </script>
 </body>
 

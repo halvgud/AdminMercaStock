@@ -25,7 +25,7 @@ else
             <div class="jumbotron text-center">
               <h1>Bienvenido!</h1>
               <p></p>
-              <p><img src="img/sysco-inicio.png" class="img-responsive" alt="Responsive image"></p>
+             <!-- <p><img src="img/mstockicon.png" class="img-responsive" alt="Responsive image"></p>-->
             </div>
         </div>
         <!-- /#page-wrapper -->

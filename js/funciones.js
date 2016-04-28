@@ -1,9 +1,9 @@
 
-	function peticionAjax (archivo,datos,successCallBack,errorCallBack){
+	function peticionAjax (URL,datos,successCallBack,errorCallBack){
 		//console.log(datos);
         $.ajax({
         type: "POST",
-        url: archivo,
+        url: URL,
         data: JSON.stringify(datos),
         dataType: 'json'
 		})
