@@ -5,7 +5,7 @@
  */
 
 body {
-    background-color: #f8f8f8;
+    background-color: #3c3f41;
 }
 
 #wrapper {
@@ -15,7 +15,7 @@ body {
 #page-wrapper {
     padding: 0 15px;
     min-height: 568px;
-    background-color: #f8f8f8;
+    background-color: #313335;
 }
 
 @media(min-width:768px) {
@@ -23,7 +23,7 @@ body {
         position: inherit;
         margin: 0 0 0 250px;
         padding: 0 30px;
-        border-left: 1px solid #e7e7e7;
+        border-left: 1px solid #3c3f41;
     }
 }
 
@@ -95,11 +95,11 @@ body {
 }
 
 .sidebar ul li {
-    border-bottom: 1px solid #e7e7e7;
+    border-bottom: 1px solid #303030;
 }
 
 .sidebar ul li a.active {
-    background-color: #eee;
+    background-color: #1d1d1d;
 }
 
 .sidebar .arrow {
@@ -173,7 +173,7 @@ body {
 .btn-info.btn-outline:hover,
 .btn-warning.btn-outline:hover,
 .btn-danger.btn-outline:hover {
-    color: #fff;
+    color: #000;
 }
 
 .chat {
@@ -185,7 +185,7 @@ body {
 .chat li {
     margin-bottom: 10px;
     padding-bottom: 5px;
-    border-bottom: 1px dotted #999;
+    border-bottom: 1px dotted #303030;
 }
 
 .chat li.left .chat-body {
@@ -323,7 +323,7 @@ table.dataTable thead .sorting:after {
 
 .panel-red .panel-heading {
     border-color: #d9534f;
-    color: #fff;
+    color: #000;
     background-color: #d9534f;
 }
 
@@ -341,7 +341,7 @@ table.dataTable thead .sorting:after {
 
 .panel-yellow .panel-heading {
     border-color: #f0ad4e;
-    color: #fff;
+    color: #000;
     background-color: #f0ad4e;
 }
 

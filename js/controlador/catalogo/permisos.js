@@ -1,8 +1,8 @@
 $(function() {
     cargarTabla();
     function cargarTabla() {
-       // var arregloConInputs = {};
-       // arregloConInputs['idTransaccion']='permisos/obtener';
+        var arregloConInputs = {};
+        arregloConInputs['idTransaccion']='permisos/obtener';
         var $resultados =  $("#resultados");
         $resultados.hide();
         var tbody = $resultados.find("tbody").empty();
@@ -12,9 +12,7 @@ $(function() {
             result.forEach( function(element, index) {
                 find = true;
                 var tr = $("<tr></tr>");
-
                 var descripcion = element['descripcion'];
-
                 var editar = $("<button></button>",{class:'btn btn-primary'});
                 var icono_editar = $("<i></i>",{class:'fa fa-pencil-square-o'});
                 editar.append(icono_editar);
@@ -92,10 +90,18 @@ $(function() {
         var div= $("<div></div>",{class:'btn-group-vertical','data-toggle':'buttons'});
         permisos.forEach(function(el,index){
             var claseActivo = el.activo?'active':'';
-            var label= $("<label></label>",{class:'btn btn-primary '+claseActivo });
+            var claseDefinida = el.activo?'btn btn-success ':'btn btn-danger ';
+            var label= $("<label></label>",{class:claseDefinida +claseActivo });
             var checkbox= $("<input>",{type:'checkbox',autocomplete:'off',value:el.id_permiso,checked:el.activo});
             label.click(function(){
                 console.log(element);
+                if($(this).children().attr("checked")){
+                    $(this ).removeClass( "btn btn-success" );
+                    $( this ).addClass( "btn btn-danger" );
+                }else{
+                    $(this ).removeClass( "btn btn-danger" );
+                    $( this ).addClass( "btn btn-success" );
+                }
                 $(this).children().attr("checked", !$(this).children().attr("checked"));
                 el.activo=!el.activo;
                 console.log(element);
@@ -140,7 +146,7 @@ $(function() {
                     fallo = function(datos){
                         notificacionError(datos.error);
                     };
-                    peticionAjax('data/test-actualizar.php',datos,exitoso,fallo);
+                    peticionAjax(API_SYS_PATH+'permisos/actualizar',datos,exitoso,fallo);
                 }
             }]
         });
