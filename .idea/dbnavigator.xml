@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DataExportManager">
@@ -25,13 +25,13 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="15a1d2c5-43d9-4dd6-8d65-6de39ed03ec5">
-        <schema name="mercatto_mstock" object-types="column, function, table, view" />
+        <schema name="mercatto_mstock" object-types="table, view" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="15a1d2c5-43d9-4dd6-8d65-6de39ed03ec5">
-      <console name="APIMercatto" type="STANDARD"><![CDATA[SELECT mp.valor from ms_opcion mp inner join ms_permiso mo on (mo.idOpcion = mp.idOpcion) where mo.idNivelAutorizacion='1' and mp.idEstado='A' order by mo.idOpcion]]></console>
+      <console name="APIMercatto" type="STANDARD"><![CDATA[select * from ms_opcion;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.EditorStateManager">

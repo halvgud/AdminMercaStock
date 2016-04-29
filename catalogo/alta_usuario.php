@@ -91,46 +91,16 @@ else
                  <div class="col-md-6 col-md-offset-3">
                        <h3>Buscar y Modificar Usuario</h3>
                        </br>
-                     <form id="buscarUsuario">
-                       <div class="form-group">
-                         <label for="usuario">Nombre de Usuario:</label>
-                         <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Nombre de Usuario" required autocomplete="off">
-                       </div>
-                       <div class="form-group">
-                         <label for="password">Password</label>
-                         <input type="password" class="form-control" id="password" name="password" placeholder="Password" required autocomplete="off">
-                       </div>
-                       <div class="form-group">
-                         <label for="password2">Repetir Password</label>
-                         <input type="password" class="form-control" id="password2" name="password2" placeholder="Repetir Password" required autocomplete="off">
-                       </div>
-                       <div class="form-group">
-                         <label for="nombre">Nombre:</label>
-                         <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required autocomplete="off">
-                       </div>
-                       <div class="form-group">
-                         <label for="apellido">Apellido:</label>
-                         <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido" required autocomplete="off">
-                       </div>
-                       <div class="form-group">
-                         <label for="apellido">Contacto:</label>
-                         <input type="text" class="form-control" id="contacto" name="contacto" placeholder="Contacto" required autocomplete="off">
-                       </div>
-                        <div class="form-group">
-                         <label for="sexo">Sexo</label>
-                         <select class="form-control" id="sexo" name="sexo" >
-                             <option value="-1">Seleccione el Sexo</option>
-                         </select>
-                       </div>
-                       <div class="form-group">
-                         <label for="rol">Nivel Autorizaci&oacute;n</label>
-                         <select class="form-control" id="idNivelAutorizacion" name="idNivelAutorizacion" >
-                             <option value="1">Seleccione un Nivel</option>
-                         </select>
-                       </div>
-                       
-                       <button type="submit" class="btn btn-outline btn-success"><i class="fa fa-search"></i> Guardar</button>
-                     </form>
+                     <table id="resultados" class="table table-condensed" style="display:none;">
+                         <thead>
+                         <tr>
+                             <th class="text-center">USUARIO</th>
+                             <th class="text-center">ROL</th>
+                             <th class="text-center">EDICION</th>
+                         </tr>
+                         </thead>
+                         <tbody></tbody>
+                     </table>
                  </div>
                <!--//mm-->
                </div>

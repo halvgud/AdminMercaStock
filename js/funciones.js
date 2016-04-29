@@ -141,6 +141,7 @@ function notificacionSuccess(mensaje){
 		};
 		fallo = function(datos){
 			resulta = datos;
+			console.log(datos);
 		};
 		peticionAjax(transaccion,arreglo,exitoso,fallo);
 	}
