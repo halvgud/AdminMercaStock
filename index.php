@@ -1,13 +1,22 @@
-
-<?php session_start();
-$path = "";
-if(!isset($_SESSION['idUsuario'])){
-
-   require_once('login.php');
-}
-else
-{
-  ?>
+<?php
+   if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+   }
+   $path = "";
+   if(!isset($_SESSION['idUsuario'])){        
+      if (strpos( $_SERVER['HTTP_USER_AGENT'],'Trident')){
+         //echo 'no valido';
+          require_once('login.php');
+      }
+      else{
+        // echo $_SERVER['HTTP_USER_AGENT'];
+         require_once('login.php');
+      }
+   }
+   else{
+         
+   
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +26,7 @@ else
 
 </head>
 
-<body>
+<body onload="detectBrowser();">
 
     <div id="wrapper">
     <?php require_once($path.'/menu.php'); ?> 
