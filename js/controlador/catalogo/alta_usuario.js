@@ -7,7 +7,8 @@
             });
            // datosTabla1['fecha_alta'] = moment().format("YYYY/MM/DD HH:mm:ss");
             exitoso = function(datos){
-                notificacionSuccess(datos.mensaje);
+                console.log(datos);
+                notificacionSuccess(datos.success);
                 $("#guardarUsuario")[0].reset();
                 contador = 0;
             };
@@ -20,8 +21,8 @@
             return false;
         });
 
-       /* $(function() {
-            $.datetimepicker.setLocale('es');
+        $(function() {
+       /*     $.datetimepicker.setLocale('es');
             $("#inicio").datetimepicker({
                 timepicker:false,
                 format:'Y/m/d'
@@ -46,6 +47,7 @@
                 });
                 console.warn(datosTabla1);
                 cargarInputs(datosTabla1,5,$("#id_empleado").val())
-            }
-            cargarDropDownList(("#rol"),'id_rol','descripcion',12);
-        });*/
+            }*/
+            cargarDropDownList(("#sexo"),'idSexo','descripcion',API_SYS_PATH+'usuario/sexo/seleccionar',12);
+            cargarDropDownList(("#nivelAutorizacion"),'idNivelAutorizacion','descripcion',API_SYS_PATH+'usuario/nivel_autorizacion/seleccionar',$("#idUsuario").val());
+        });

@@ -26,7 +26,7 @@
 
 </head>
 
-<body onload="detectBrowser();">
+<body>
 
     <div id="wrapper">
     <?php require_once($path.'/menu.php'); ?> 

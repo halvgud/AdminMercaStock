@@ -5,6 +5,9 @@
     }
     else
     {
+        require_once "../data/PrivilegiosUsuario.php";
+        $decoded = PrivilegiosUsuario::traerPrivilegios();
+        if (PrivilegiosUsuario::tienePrivilegio($decoded,"ALTA_SUCURSAL")) {
   ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -84,4 +87,7 @@
         <script type="text/javascript" src="../js/controlador/catalogo/alta_usuario.js" />
     </body>
 </html>
-<?php } ?>
+<?php }else{
+    header('Location: '.'../index.php');
+}
+} ?>

@@ -5,7 +5,10 @@ require_once "data/PrivilegiosUsuario.php";
 $decoded = PrivilegiosUsuario::traerPrivilegios();
 
      $path = "/ADMINMERCASTOCK";
-
+if(!isset($_SESSION['idUsuario'])){
+    //require_once('../index.php');
+    header('Location: '.'index.php');
+}else{
 ?>
     <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -45,22 +48,27 @@ $decoded = PrivilegiosUsuario::traerPrivilegios();
                         <li>
                             <a href="#"><i class="fa fa-th-list fa-fw"></i> Catálogo<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
+                                <?php if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
                                 <li>
                                     <a href="<?php echo $path;?>/catalogo/general.php"><i class="fa fa-plus fa-fw"></i>General</a>       
                              </li>
+                                 <?php  } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                  <li>
-                                    <a href="<?php echo $path;?>/catalogo/alta_usuario.php"><i class="fa fa-user-plus fa-fw"></i>Registrar Usuario</a>
+                                    <a href="<?php echo $path;?>/catalogo/alta_usuario.php"><i class="fa fa-user-plus fa-fw"></i>Alta de Usuario</a>
                                 </li>
-                            
+                                <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="<?php echo $path;?>/catalogo/alta_sucursal.php"><i class="fa fa-building fa-fw"></i>Registrar Sucursal</a>
+                                    <a href="<?php echo $path;?>/catalogo/alta_sucursal.php"><i class="fa fa-building fa-fw"></i>Alta de Sucursal</a>
                                 </li>
+                                <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
                                     <a href="<?php echo $path;?>/catalogo/permisos.php"><i class="fa fa-lock fa-fw"></i> Permisos</a>
                                 </li>
+                                <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                  <li>
                                     <a href="<?php echo $path;?>/catalogo/parametros.php"><i class="fa fa-wrench fa-fw"></i> Parametros</a>
                                 </li>
+                                 <?php } ?>
                             </ul>
                         </li>
                             <!-- /.nav-second-level -->
@@ -70,10 +78,11 @@ $decoded = PrivilegiosUsuario::traerPrivilegios();
                             <a href="#"><i class="fa fa-cogs fa-fw"></i> Proceso<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                
-                                
+                                <?php if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="proceso/_generar_inventario.php"><i class="fa fa-file-text-o fa-fw"></i>Generar Inventario</a>
+                                    <a href="<?php echo $path;?>/proceso/generar_inventario.php"><i class="fa fa-file-text-o fa-fw"></i>Generar Inventario</a>
                                 </li>
+                                <?php }?>
                                 <!--<li>
                                     <a href="#"><i class="fa fa-plus-square fa-fw"></i> Medicamento <span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
@@ -96,18 +105,23 @@ $decoded = PrivilegiosUsuario::traerPrivilegios();
                             <!-- <i class="fa fa-bar-chart-o fa-fw"></i> -->
                             <a href="#"><i class="fa fa-database fa-fw"></i> Reportes<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
+                                <?php if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="reportes/estadisticas_venta.php"><i class="fa fa-area-chart fa-fw"></i>Estadísiticas por Venta</a>
+                                    <a href="<?php echo $path;?>/reportes/estadisticas_venta.php"><i class="fa fa-area-chart fa-fw"></i>Estadísiticas por Venta</a>
                                 </li>
+                                <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="reportes/movimiento_articulos.php"><i class="fa fa-exchange fa-fw"></i>Movimiento de Artículos</a>
+                                    <a href="<?php echo $path;?>/reportes/movimiento_articulos.php"><i class="fa fa-exchange fa-fw"></i>Movimiento de Artículos</a>
                                 </li>
+                                <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="reportes/existencias.php"><i class="fa fa-calendar-check-o fa-fw"></i>Existencias</a>
+                                    <a href="<?php echo $path;?>/reportes/existencias.php"><i class="fa fa-calendar-check-o fa-fw"></i>Existencias</a>
                                 </li>
+                                <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                   <li>
-                                    <a href="reportes/inventario_sucursal_articulos.php"><i class="fa fa-industry fa-fw"></i>Inventario por Sucursal / por Artículo</a>
+                                    <a href="<?php echo $path;?>/reportes/inventario_sucursal_articulos.php"><i class="fa fa-industry fa-fw"></i>Inventario por Sucursal / por Artículo</a>
                                 </li>
+                                  <?php }  ?>
                                 <!--<li>
                                     <a href="#"><i class="fa fa-plus-square fa-fw"></i> Medicamento <span class="fa arrow"></span></a>
                                     <ul class="nav nav-third-level">
@@ -201,7 +215,7 @@ $decoded = PrivilegiosUsuario::traerPrivilegios();
                             <!-- /.nav-second-level -->
                         <!--</li>-->
                         
-<?php } ?>
+<?php } }?>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

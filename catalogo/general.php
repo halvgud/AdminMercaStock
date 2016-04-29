@@ -1,62 +1,46 @@
-
-<?php session_start(); 
+<?php session_start();
+$path = "/ADMINMERCASTOCK";
 if(!isset($_SESSION['idUsuario'])){
-  //require_once('../index.php');
-   header('Location: '.'../index.php');
+    //require_once('../index.php');
+    header('Location: '.'../index.php');
 }
 else
 {
-  ?>
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
+    require_once "../data/PrivilegiosUsuario.php";
+    $decoded = PrivilegiosUsuario::traerPrivilegios();
+    if (PrivilegiosUsuario::tienePrivilegio($decoded,"GENERAL")) {
+        ?>
+        <!DOCTYPE html>
+        <html lang="en">
 
-    <?php require_once('../header-comun-carpeta.html'); ?> 
+        <head>
 
-</head>
+            <?php require_once('../header-comun-carpeta.html'); ?>
 
-<body>
+        </head>
 
-    <div id="wrapper">
-    <?php require_once('../menu.php'); ?> 
-        <div id="page-wrapper">
-            <br/>
-            <h1>Alta Usuario</h1>
-            <hr>
-            <div class="col-md-6 col-md-offset-3">
-                
-                <form id="guardarUsuario">
-                    <input type="hidden" name="tabla" id="tabla" value="usuario">
-                    <input type="hidden" name="id_usuario_creacion"  value="N">
-                    <input type="hidden" name="estado"  value="A">
-                    <input type="hidden" name="tipo_transaccion"  value="1">
-                  <div class="form-group">
-                    <label for="usuario">Nombre de Usuario:</label>
-                    <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Id" required autocomplete="off">
-                  </div>
-                  <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required autocomplete="off">
-                  </div>
-                  <div class="form-group">
-                    <label for="rol">Rol</label>
-                    <select class="form-control" id="rol" name="rol" required>
-                        <option value="">Seleccione un Rol</option>
-                    </select>
-                  </div>
-                  <button type="submit" class="btn btn-outline btn-success"><i class="fa fa-floppy-o"></i> Guardar</button>
-                </form>
+        <body>
+
+        <div id="wrapper">
+            <?php require_once('../menu.php'); ?>
+            <div id="page-wrapper">
+                <br/>
+                <h1>General</h1>
+<hr>
             </div>
+            <!-- /#page-wrapper -->
         </div>
-        <!-- /#page-wrapper -->
+        <!-- /#wrapper -->
 
-    </div>
-    <!-- /#wrapper -->
+        <?php require_once('../footer-comun-carpeta.html'); ?>
+        <script type="text/javascript" src="../js/controlador/catalogo/permisos.js">
 
-    <?php require_once('../footer-comun.html'); ?>
-    <script type="text/javascript" src="../js/controlador/catalogo/general.js" />
-</body>
+        </script>
+        </body>
 
-</html>
-<?php } ?>
+        </html>
+    <?php } else{
+        header('Location: '.'../index.php');
+    }
+} ?>

@@ -13,6 +13,7 @@
 			}
 		})
 		.fail(function(jqXHR, status, thrownError) {
+			console.log(jqXHR.responseText);
 			resulta = jqXHR.responseJSON;
 			if(resulta!=undefined){
 				console.log(resulta);
@@ -129,7 +130,8 @@ function notificacionSuccess(mensaje){
 
 	function cargarDropDownList(nameattr,id,value,transaccion,tipo) {
 		arreglo={};
-		arreglo['tipo']=tipo;
+		console.log(tipo);
+		arreglo['idGenerico']=tipo;
 		arreglo['idTransaccion']=transaccion;
 		exitoso = function(result){
 			var options = '';
@@ -140,7 +142,7 @@ function notificacionSuccess(mensaje){
 		fallo = function(datos){
 			resulta = datos;
 		};
-		peticionAjax('data/testselect.php',arreglo,exitoso,fallo);
+		peticionAjax(transaccion,arreglo,exitoso,fallo);
 	}
     $.fn.enterKey = function (fnc) {
         return this.each(function () {

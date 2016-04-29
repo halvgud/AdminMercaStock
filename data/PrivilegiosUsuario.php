@@ -30,6 +30,7 @@ class PrivilegiosUsuario
     }
    public static function tienePrivilegio($obj, $field) {
        $obj = json_decode($obj);
+       //var_dump($obj);
         foreach($obj as $item) {
                 if(isset($item->$field)) {
                     return $item->$field;

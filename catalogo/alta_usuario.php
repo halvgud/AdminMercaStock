@@ -6,6 +6,11 @@ if(!isset($_SESSION['idUsuario'])){
 }
 else
 {
+    require_once "../data/Roles.php";
+    require_once "../data/PrivilegiosUsuario.php";
+   $decoded = PrivilegiosUsuario::traerPrivilegios();
+    //var_dump($decoded);
+   if (PrivilegiosUsuario::tienePrivilegio($decoded,"ALTA_USUARIO")) {
   ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,8 +38,8 @@ else
                    <h3>Registrar Usuario</h3>
                    </br>
                      <form id="guardarUsuario">
-                         <!--<input type="hidden" name="tabla" id="tabla" value="usuario">
-                         <input type="hidden" name="id_usuario_creacion"  value="N">
+                         <input type="hidden" name="idUsuario" id="idUsuario" value="<?php echo $_SESSION['idUsuario']?>">
+                         <!--<input type="hidden" name="id_usuario_creacion"  value="N">
                          <input type="hidden" name="estado"  value="A">
                          <input type="hidden" name="tipo_transaccion"  value="1">-->
                        <div class="form-group">
@@ -63,16 +68,14 @@ else
                        </div>
                         <div class="form-group">
                          <label for="sexo">Sexo</label>
-                         <select class="form-control" id="sexo" name="sexo" >
-                             <option value="1">Seleccione el Sexo</option>
-                             <option value="2">Seleccione el Sexo</option>
+                         <select class="form-control"  id="sexo" name="sexo" REQUIRED  >
+                             <option value="">Seleccione el Sexo</option>
                          </select>
                        </div>
                        <div class="form-group">
                          <label for="rol">Nivel Autorizaci&oacute;n</label>
-                         <select class="form-control" id="idNivelAutorizacion" name="idNivelAutorizacion" >
-                             <option value="1">Seleccione un Nivel</option>
-                             <option value="2">Seleccione un Nivel</option>
+                         <select class="form-control" id="nivelAutorizacion" name="nivelAutorizacion" REQUIRED>
+                             <option value="">Seleccione un Nivel</option>
                          </select>
                        </div>
                        <button type="submit" class="btn btn-outline btn-success"><i class="fa fa-floppy-o"></i> Guardar</button>
@@ -116,15 +119,13 @@ else
                         <div class="form-group">
                          <label for="sexo">Sexo</label>
                          <select class="form-control" id="sexo" name="sexo" >
-                             <option value="1">Seleccione el Sexo</option>
-                             <option value="2">Seleccione el Sexo</option>
+                             <option value="-1">Seleccione el Sexo</option>
                          </select>
                        </div>
                        <div class="form-group">
                          <label for="rol">Nivel Autorizaci&oacute;n</label>
                          <select class="form-control" id="idNivelAutorizacion" name="idNivelAutorizacion" >
                              <option value="1">Seleccione un Nivel</option>
-                             <option value="2">Seleccione un Nivel</option>
                          </select>
                        </div>
                        
@@ -146,4 +147,8 @@ else
 </body>
 
 </html>
-<?php } ?>
+<?php }else{
+    header('Location: '.'../index.php');
+}
+}
+?>

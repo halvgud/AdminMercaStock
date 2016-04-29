@@ -6,6 +6,10 @@ if(!isset($_SESSION['idUsuario'])){
 }
 else
 {
+
+    require_once "../data/PrivilegiosUsuario.php";
+    $decoded = PrivilegiosUsuario::traerPrivilegios();
+    if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -45,4 +49,7 @@ else
     </body>
 
     </html>
-<?php } ?>
+<?php } else{
+    header('Location: '.'../index.php');
+}
+} ?>

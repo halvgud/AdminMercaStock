@@ -9,7 +9,7 @@ else
 
     require_once "../data/PrivilegiosUsuario.php";
     $decoded = PrivilegiosUsuario::traerPrivilegios();
-    if (PrivilegiosUsuario::tienePrivilegio($decoded,"EXISTENCIAS")) {
+    if (PrivilegiosUsuario::tienePrivilegio($decoded,"GENERAR_INVENTARIO")) {
         ?>
         <!DOCTYPE html>
         <html lang="en">
@@ -26,7 +26,7 @@ else
             <?php require_once('../menu.php'); ?>
             <div id="page-wrapper">
                 <br/>
-                <h1>Existencias de Artículos</h1>
+                <h1>Generar Inventario</h1>
                 <hr>
 
             </div>

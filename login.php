@@ -6,23 +6,23 @@
     $access = 'my_value';
     
     
-    require_once('header-comun.html'); ?> 
+    require_once('header-comun.html'); ?>
 
 </head>
 
 <body>
 
     <div class="fluid-container">
-        <div class="row">
+        <div class="">
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
-                    
+
                     <?php
                         if (strpos( $_SERVER['HTTP_USER_AGENT'],'Trident')){ ?>
                             <div class="panel-heading">
                                 <center><h3><i class="fa fa-edge"></i> Usted esta utilizando un Navegador no soportado.</br></br> Favor de utilizar otro navegador como <i class="fa fa-firefox"></i>  FireFox, <i class="fa fa-chrome"></i>  Chrome, <i class="fa fa-opera"></i>  Opera, etc.</h3></center>
                             </div>
-                           
+
                         <?php
                         }
                         else{
@@ -58,6 +58,6 @@
 </body>
 
 </html>
-<?php  
+<?php
 
 ?>
