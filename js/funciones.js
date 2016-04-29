@@ -1,6 +1,6 @@
 
 	function peticionAjax (URL,datos,successCallBack,errorCallBack){
-		//console.log(datos);
+		console.log(JSON.stringify(datos));
         $.ajax({
         type: "POST",
         url: URL,

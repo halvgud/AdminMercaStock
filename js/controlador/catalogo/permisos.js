@@ -134,8 +134,8 @@ $(function() {
                 cssClass: 'btn-success',
                 action: function(dialog) {
                     var datos = {};
-                    datos.idTransaccion = 6;
-                    datos.rol = element;
+                    datos = element;
+
                     exitoso = function(datos){
                         notificacionSuccess(datos.success);
                         dialog.close();
