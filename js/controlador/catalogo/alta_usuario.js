@@ -136,7 +136,7 @@
                 var usuario = $("<input>",{name:'usuario',value:element['usuario'],type:'text',class:'form-control'});
                 $form_group.append(label);
                 $form_group.append(usuario);
-                $contenido.append($form_group);
+                $contenido.append($form_group); 
                 var $form_group = $("<div></div>",{class:'form-group'});
                 var label = $("<label></label>",{for:'password',text:'Password'});
                 var password = $("<input>",{name:'password',value:'',type:'password',class:'form-control'});
