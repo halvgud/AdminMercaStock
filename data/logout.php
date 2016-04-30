@@ -1,6 +1,7 @@
 <?php
 session_start();
 session_destroy();
-	$resArray['mensaje'] = 'Ha cerrado la sesion';
-	return json_encode($resArray);
+	$resArray = array();
+	$resArray['success'] = 'Ha cerrado la sesion';
+	echo json_encode($resArray);
 ?>
