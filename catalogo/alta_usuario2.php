@@ -74,7 +74,7 @@ else
                        </div>
                        <div class="form-group">
                          <label for="rol">Nivel Autorizaci&oacute;n</label>
-                         <select class="form-control" id="idNivelAutorizacion" name="idNivelAutorizacion" REQUIRED>
+                         <select class="form-control" id="nivelAutorizacion" name="nivelAutorizacion" REQUIRED>
                              <option value="">Seleccione un Nivel</option>
                          </select>
                        </div>

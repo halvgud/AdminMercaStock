@@ -7,14 +7,14 @@
             });
            // datosTabla1['fecha_alta'] = moment().format("YYYY/MM/DD HH:mm:ss");
             exitoso = function(datos){
-                console.log(datos);
+
                 notificacionSuccess(datos.success);
                 $("#guardarUsuario")[0].reset();
                 contador = 0;
             };
             fallo = function(datos){
-                console.log(datos);
-                notificacionError(datos.error);
+              //  console.log(datos);
+               // notificacionError(datos.error);
             };
             peticionAjax(API_SYS_PATH+'usuario/insertar',datosTabla1,exitoso,fallo);
 
@@ -23,7 +23,7 @@
 
         $(function() {
             cargarDropDownList(("#sexo"),'idSexo','descripcion',API_SYS_PATH+'usuario/sexo/seleccionar',12);
-            cargarDropDownList(("#nivelAutorizacion"),'idNivelAutorizacion','descripcion',API_SYS_PATH+'usuario/nivel_autorizacion/seleccionar',$("#idUsuario").val());
+            cargarDropDownList(("#idNivelAutorizacion"),'idNivelAutorizacion','descripcion',API_SYS_PATH+'usuario/nivel_autorizacion/seleccionar',$("#idUsuario").val());
             $("#descripcion").enterKey(function(){
                 e.preventDefault();
                 buscar();
@@ -49,6 +49,12 @@
                 var tbody = $("#resultados tbody").empty();
                 exitoso = function(result){
                     console.log(result);
+                    if(result.estado!=undefined){
+                        if(result.estado =='warning'){
+                            notificacionWarning(result.success);
+                            return;
+                        }
+                    }
                     var find = false;
                     result.forEach( function(element, index) {
                         find = true;
