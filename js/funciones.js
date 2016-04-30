@@ -1,4 +1,14 @@
-
+$(document).ready(function(){
+	jQuery('#wrapper').ajaxify(/*{previewoff: false, menu: ".menu-item a", idleTime: 60000, slideTime: 5000,
+		aniTime: 200,
+		aniParams: {
+//    backgroundColor: "#0F0",     color: "#FFF",
+			opacity: 0,
+			width: 0
+		},
+		toggleSlide: { parentEl: 'article:first' }
+	});
+}*/)});
 	function peticionAjax (URL,datos,successCallBack,errorCallBack){
 		console.log(JSON.stringify(datos));
         $.ajax({
@@ -13,26 +23,18 @@
 			}
 		})
 		.fail(function(jqXHR, status, thrownError) {
-			if(jqXHR!=undefined){
-				resulta = jqXHR.responseJSON;
-				if(resulta!=undefined){
-					console.log(resulta);
-					$mensaje = (resulta['error']!=undefined?
-							$resulta['error']:
-							(resulta['exception'][0]['message']!=undefined?
-									resulta['message']:
-									'Error al traer mensaje de error'));
-					notificacionError($mensaje);
-				}else{
+			console.log(jqXHR.responseText);
+			resulta = jqXHR.responseJSON;
+			if(resulta!=undefined){
+				console.log(resulta);
+				notificacionError(resulta['mensaje']);
+			}else{
 
-					notificacionError('Error de conexión al servicio API');
-				}
+				notificacionError('Error de conexión al servicio API');
+			}
 
-				if(errorCallBack){
-					errorCallBack(resulta);
-				}
-			}else {
-				notificacionError('Error de conexión general al servicio API');
+			if(errorCallBack){
+				errorCallBack(resulta);
 			}
 		});
 	}
@@ -103,35 +105,34 @@ function notificacionError(mensaje){
 
 	}
 
-	function notificacionSuccess(mensaje){
-		$.notify({
-			// options
-			icon: 'fa fa-thumbs-o-up',
-			title: '<strong>Correcto</strong><br>',
-			message: mensaje,
-		},{
-			// settings
-			element: 'body',
-			position: null,
-			type: "success",
-			allow_dismiss: true,
-			newest_on_top: true,
-			showProgressbar: false,
-			placement: {
-				from: "top",
-				align: "right"
-			},
-			z_index: 2000,
-			delay: 5000,
-			timer: 1000,
-			animate: {
-				enter: 'animated fadeInDown',
-				exit: 'animated fadeOutUp'
-			}
-		});
-
+function notificacionSuccess(mensaje){
+	$.notify({
+	// options
+	icon: 'fa fa-thumbs-o-up',
+	title: '<strong>Correcto</strong><br>',
+	message: mensaje,
+},{
+	// settings
+	element: 'body',
+	position: null,
+	type: "success",
+	allow_dismiss: true,
+	newest_on_top: true,
+	showProgressbar: false,
+	placement: {
+		from: "top",
+		align: "right"
+	},
+	z_index: 2000,
+	delay: 5000,
+	timer: 1000,
+	animate: {
+		enter: 'animated fadeInDown',
+		exit: 'animated fadeOutUp'
 	}
+});
 
+}
 
 	function cargarDropDownListDescripcion(nameattr,tipo) {
 		cargarDropDownList(nameattr,'id_descripcion','descripcion',1,tipo);
