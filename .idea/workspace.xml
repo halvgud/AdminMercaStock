@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f80d840f-dee7-44ef-9728-e2fbec87752f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/catalogo/alta_usuario.php" afterPath="$PROJECT_DIR$/catalogo/alta_usuario.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/controlador/catalogo/alta_usuario.js" afterPath="$PROJECT_DIR$/js/controlador/catalogo/alta_usuario.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/funciones.js" afterPath="$PROJECT_DIR$/js/funciones.js" />
     </list>
     <ignored path="AdminMercaStock.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,8 +37,8 @@
       <file leaf-file-name="alta_usuario.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/controlador/catalogo/alta_usuario.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.52512157">
-              <caret line="155" column="0" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.056726094">
+              <caret line="138" column="48" selection-start-line="138" selection-start-column="48" selection-end-line="138" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -642,6 +638,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -821,8 +818,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/controlador/catalogo/alta_usuario.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.52512157">
-          <caret line="155" column="0" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.056726094">
+          <caret line="138" column="48" selection-start-line="138" selection-start-column="48" selection-end-line="138" selection-end-column="48" />
           <folding />
         </state>
       </provider>
