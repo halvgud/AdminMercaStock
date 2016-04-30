@@ -82,13 +82,21 @@
                         $(tbody).append(tr);
                     });
                     console.log(find);
-                    if(find)
+                    if(find){
+                        //$('#resultados').DataTable();
                         $('#resultados').show();
+
+                    }
+
                 };
                 fallo = function(datos){
                     console.log(datos);
                 };
                 peticionAjax(API_SYS_PATH+'usuario/seleccionar',arregloConInputs,exitoso,fallo);
+
+                //$(document).ready(function() {
+
+              //  } );
             }
             function agregarTDaTR (tr,element){
                 var td = $("<td></td>");
@@ -130,24 +138,68 @@
                 });
             }
             function editarUsuario(element,tr){
+
                 var $contenido = $("<div></div>");
                 var $form_group = $("<div></div>",{class:'form-group'});
+
+                /********USUARIO********/
                 var label = $("<label></label>",{for:'usuario',text:'Usuario'});
                 var usuario = $("<input>",{name:'usuario',value:element['usuario'],type:'text',class:'form-control'});
                 $form_group.append(label);
                 $form_group.append(usuario);
-                $contenido.append($form_group); 
-                var $form_group = $("<div></div>",{class:'form-group'});
-                var label = $("<label></label>",{for:'password',text:'Password'});
+                $contenido.append($form_group);
+                /********CONTRASEÑA********/
+                $form_group = $("<div></div>",{class:'form-group'});
+                label = $("<label></label>",{for:'password',text:'Password'});
                 var password = $("<input>",{name:'password',value:'',type:'password',class:'form-control'});
                 $form_group.append(label);
                 $form_group.append(password);
                 $contenido.append($form_group);
-                var $form_group = $("<div></div>",{class:'form-group'});
-                var label = $("<label></label>",{for:'nivelAutorizacion',text:'nivel de Autorización'});
-                var option = $("<option></option>",{name:'empty',text:'Seleccione un nivel de autorización',value:''});
+                /********REPETIR CONTRASEÑA********/
+                $form_group = $("<div></div>",{class:'form-group'});
+                label = $("<label></label>",{for:'repetirpassword',text:'repetir password'});
+                var repetirpassword = $("<input>",{name:'repetirpassword',value:'',type:'password',class:'form-control'});
+                $form_group.append(label);
+                $form_group.append(repetirpassword);
+                $contenido.append($form_group);
+                /********NOMBRE********/
+                $form_group = $("<div></div>",{class:'form-group'});
+                label = $("<label></label>",{for:'nombre',text:'Nombre'});
+                var nombre = $("<input>",{name:'nombre',value:element['nombre'],type:'text',class:'form-control'});
+                $form_group.append(label);
+                $form_group.append(nombre);
+                $contenido.append($form_group);
+                /********APELLIDO********/
+                $form_group = $("<div></div>",{class:'form-group'});
+                label = $("<label></label>",{for:'apellido',text:'Apellido'});
+                var apellido = $("<input>",{name:'apellido',value:element['apellido'],type:'text',class:'form-control'});
+                $form_group.append(label);
+                $form_group.append(apellido);
+                $contenido.append($form_group);
+                /********CONTACTO********/
+                $form_group = $("<div></div>",{class:'form-group'});
+                label = $("<label></label>",{for:'contacto',text:'Contacto'});
+                var contacto = $("<input>",{name:'contacto',value:element['contacto'],type:'text',class:'form-control'});
+                $form_group.append(label);
+                $form_group.append(contacto);
+                $contenido.append($form_group);
+                /********SEXO********/
+                $form_group = $("<div></div>",{class:'form-group'});
+                label = $("<label></label>",{for:'nivelAutorizacion',text:'nivel de Autorización'});
+                var optionSexo = $("<option></option>",{name:'empty',text:'Seleccione sexo',value:''});
+                var sexo = $("<select></select>",{name:'nivelAutorizacion',id:'nivelAutorizacion',class:'form-control'});
+                $(sexo).append(optionSexo);
+                $(sexo).val('');
+                $form_group.append(label);
+                $form_group.append(sexo);
+                $contenido.append($form_group);
+                cargarDropDownList((sexo),'idSexo','descripcion',API_SYS_PATH+'usuario/sexo/seleccionar',12);
+                /********NIVEL AUTORIZACION********/
+                $form_group = $("<div></div>",{class:'form-group'});
+                label = $("<label></label>",{for:'nivelAutorizacion',text:'nivel de Autorización'});
+                var optionAutorizacion = $("<option></option>",{name:'empty',text:'Seleccione un nivel de autorización',value:''});
                 var rol = $("<select></select>",{name:'nivelAutorizacion',id:'nivelAutorizacion',class:'form-control'});
-                $(rol).append(option);
+                $(rol).append(optionAutorizacion);
                 $(rol).val('');
                 $form_group.append(label);
                 $form_group.append(rol);
