@@ -5,12 +5,13 @@
     }
     else
     {
+        require_once "../data/Roles.php";
         require_once "../data/PrivilegiosUsuario.php";
         $decoded = PrivilegiosUsuario::traerPrivilegios();
         if (PrivilegiosUsuario::tienePrivilegio($decoded,"ALTA_SUCURSAL")) {
   ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
     <head>
         <?php require_once('../header-comun-carpeta.html'); ?>
         
@@ -30,23 +31,27 @@
                             
                             <h3>Registrar Sucursal</h3>
                             </br>
-                            <form id="guardarUsuario">
-                                <input type="hidden" name="tabla" id="tabla" value="usuario">
-                                <input type="hidden" name="id_usuario_creacion"  value="N">
-                                <input type="hidden" name="estado"  value="A">
-                                <input type="hidden" name="tipo_transaccion"  value="1">
-                              <div class="form-group">
-                                <label for="usuario">Nombre:</label>
+                            <form id="guardarSucursal">
+                               <div class="form-group">
+                                <label for="nombre">Nombre:</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required autocomplete="off">
                               </div>
                                <div class="form-group">
-                                <label for="usuario">Direcci&oacute;n:</label>
-                                <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Direcci&oacute;n" required autocomplete="off">
+                                <label for="direccion">Direcci&oacute;n:</label>
+                                <input type="text" class="form-control" id="domicilio" name="domicilio" placeholder="Direcci&oacute;n" required autocomplete="off">
                               </div>
-                                <div class="form-group">
-                                <label for="usuario">Contacto:</label>
+                              <div class="form-group">
+                                <label for="direccion">Contacto:</label>
                                 <input type="text" class="form-control" id="contacto" name="contacto" placeholder="Contacto" required autocomplete="off">
                               </div>
+                                <div class="form-group">
+                                    <label for="usuario">Usuario:</label>
+                                    <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Usuario" required autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password:</label>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required autocomplete="off">
+                                </div>
                               
                               <button type="submit" class="btn btn-outline btn-success"><i class="fa fa-floppy-o"></i> Guardar</button>
                             </form>
@@ -58,11 +63,7 @@
                             
                             <h3>Buscar y Modificar Sucursal</h3>
                             </br>
-                            <form id="buscarUsuario">
-                                <input type="hidden" name="tabla" id="tabla" value="usuario">
-                                <input type="hidden" name="id_usuario_creacion"  value="N">
-                                <input type="hidden" name="estado"  value="A">
-                                <input type="hidden" name="tipo_transaccion"  value="1">
+                            <form id="buscarSucursal">
                               <div class="form-group">
                                 <label for="usuario">Nombre:</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required autocomplete="off">
@@ -84,7 +85,7 @@
             </div>
         </div>
         <?php require_once('../footer-comun-carpeta.html'); ?>
-        <script type="text/javascript" src="../js/controlador/catalogo/alta_usuario.js" />
+        <script type="text/javascript" src="../js/controlador/catalogo/alta_sucursal.js" ></script>
     </body>
 </html>
 <?php }else{
