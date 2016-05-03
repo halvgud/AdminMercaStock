@@ -14,3 +14,4 @@
     Order Allow,Deny
     Allow from all
 </Files>
+Header add Access-Control-Allow-Origin "*"

@@ -9,9 +9,9 @@
 		toggleSlide: { parentEl: 'article:first' }
 	});
 })});*/
+
 	function peticionAjax (URL,datos,successCallBack,errorCallBack,loading){
 		$(loading).show();
-		//;
         $.ajax({
         type: "POST",
         url: URL,
@@ -29,7 +29,7 @@
 			resulta = jqXHR.responseJSON;
 			if(resulta!=undefined){
 				console.log(resulta);
-				notificacionError(resulta['mensaje']);
+				notificacionError(resulta['error']?resulta['error']:resulta['mensaje']);
 			}else{
 
 				notificacionError('Error de conexión al servicio API');
