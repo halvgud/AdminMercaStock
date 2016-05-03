@@ -19,6 +19,7 @@
         dataType: 'json'
 		})
 		.done(function(resultado) {
+			console.log(resultado);
 			if(successCallBack){
 				successCallBack(resultado);
 			}

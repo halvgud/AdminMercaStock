@@ -38,6 +38,16 @@ else
                     <button type="submit" class="btn btn-outline btn-success"><i class="fa fa-search"></i> Buscar</button>
                 </form>
                 <table id="test" class="table table-condensed">
+                    <thead>
+                    <tr>
+                        <th>idBitacora</th>
+                        <th>idError</th>
+                        <th>descripcion</th>
+                        <th>usuario</th>
+                        <th>fecha</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
                 </table>
             </div>
             <!-- /#wrapper -->
