@@ -1,4 +1,4 @@
-$(document).ready(function(){
+/*$(document).ready(function(){
 	jQuery('#wrapper').ajaxify(/*{previewoff: false, menu: ".menu-item a", idleTime: 60000, slideTime: 5000,
 		aniTime: 200,
 		aniParams: {
@@ -8,9 +8,10 @@ $(document).ready(function(){
 		},
 		toggleSlide: { parentEl: 'article:first' }
 	});
-}*/)});
-	function peticionAjax (URL,datos,successCallBack,errorCallBack){
-		console.log(JSON.stringify(datos));
+})});*/
+	function peticionAjax (URL,datos,successCallBack,errorCallBack,loading){
+		$(loading).show();
+		//;
         $.ajax({
         type: "POST",
         url: URL,
@@ -21,6 +22,7 @@ $(document).ready(function(){
 			if(successCallBack){
 				successCallBack(resultado);
 			}
+			$(loading).hide();
 		})
 		.fail(function(jqXHR, status, thrownError) {
 			console.log(jqXHR.responseText);
@@ -36,6 +38,7 @@ $(document).ready(function(){
 			if(errorCallBack){
 				errorCallBack(resulta);
 			}
+			$(loading).hide();
 		});
 	}
 	function logout(){

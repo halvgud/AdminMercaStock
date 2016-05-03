@@ -1,6 +1,8 @@
         var contador = 0;
         $("#guardarUsuario").submit(function(){
-            var form1 = $("#guardarUsuario").find("select,input").serializeArray();
+            var guardarUsuario = $("#guardarUsuario");
+            guardarUsuario.enable(false);
+            var form1 = guardarUsuario.find("select,input").serializeArray();
             var datosTabla1 = {};
             form1.forEach(function(input) {
                 datosTabla1[input.name] = input.value;
@@ -11,38 +13,23 @@
                 notificacionSuccess(datos.success);
                 $("#guardarUsuario")[0].reset();
                 contador = 0;
+                guardarUsuario.enable(true);
             };
             fallo = function(datos){
               //  console.log(datos);
                // notificacionError(datos.error);
+                guardarUsuario.enable(true);
             };
-            peticionAjax(API_SYS_PATH+'usuario/insertar',datosTabla1,exitoso,fallo);
+            peticionAjax(API_SYS_PATH+'usuario/insertar',datosTabla1,exitoso,fallo,('#cover'));
 
             return false;
         });
 
-        $(function() {
-            cargarDropDownList(("#sexo"),'idSexo','descripcion',API_SYS_PATH+'usuario/sexo/seleccionar',12);
-            cargarDropDownList(("#idNivelAutorizacion"),'idNivelAutorizacion','descripcion',API_SYS_PATH+'usuario/nivel_autorizacion/seleccionar',$("#idUsuario").val());
-            $("#descripcion").enterKey(function(){
-                e.preventDefault();
-                buscar();
-            });
-            $("#clave").enterKey(function(e){
-                e.preventDefault();
-                buscar();
-            });
-            $("#buscarUsuario").submit(function(e){
-                e.preventDefault();
-                buscar();
-            });
-           // function buscar(){
+        $('#buscarYModificar').click(function(){
             var datosTabla1 = {};
-                    datosTabla1['usuario'] = usuario;
-                    console.warn(datosTabla1);
-                    cargarTabla(datosTabla1,10);
-            //}
-            //funcion engargada de cargar informacion en los lugares donde se mete informacion del empleado
+            datosTabla1['usuario'] = usuario;
+            console.warn(datosTabla1);
+            cargarTabla(datosTabla1,10);
             function cargarTabla(arregloConInputs,idTransaccion) {
                 arregloConInputs['idTransaccion']=idTransaccion;
                 $("#resultados").hide();
@@ -62,7 +49,7 @@
 
                         var id_usuario = element['idUsuario'];
                         var usuario = element['usuario'];
-                      //  var password = element['password'];
+                        //  var password = element['password'];
                         var descripcionRol = element['descripcion'];
 
                         var editar = $("<button></button>",{class:'btn btn-primary'});
@@ -81,7 +68,7 @@
                         })
 
                         agregarTDaTR(tr,usuario);
-                       // agregarTDaTR(tr,password);
+                        // agregarTDaTR(tr,password);
                         agregarTDaTR(tr,descripcionRol);
                         agregarTDaTR(tr,editar);
                         agregarTDaTR(tr,eliminar);
@@ -102,13 +89,37 @@
 
                 //$(document).ready(function() {
 
-              //  } );
+                //  } );
             }
             function agregarTDaTR (tr,element){
                 var td = $("<td></td>");
                 $(td).append(element);
                 $(tr).append(td);
             }
+
+        });
+        //}
+        //funcion engargada de cargar informacion en los lugares donde se mete informacion del empleado
+
+
+        $(function() {
+
+            cargarDropDownList(("#sexo"),'idSexo','descripcion',API_SYS_PATH+'usuario/sexo/seleccionar',12);
+            cargarDropDownList(("#idNivelAutorizacion"),'idNivelAutorizacion','descripcion',API_SYS_PATH+'usuario/nivel_autorizacion/seleccionar',$("#idUsuario").val());
+            $("#descripcion").enterKey(function(){
+                e.preventDefault();
+                buscar();
+            });
+            $("#clave").enterKey(function(e){
+                e.preventDefault();
+                buscar();
+            });
+            $("#buscarUsuario").submit(function(e){
+                e.preventDefault();
+                buscar();
+            });
+           // function buscar(){
+
             function eliminarUsuario(element,tr){
                 BootstrapDialog.show({
                     title: 'Peligro',

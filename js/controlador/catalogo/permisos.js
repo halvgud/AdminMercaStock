@@ -41,7 +41,7 @@ $(function() {
         fallo = function(datos){
             console.log(datos);
         };
-        peticionAjax(API_SYS_PATH+'permisos/obtener',arregloConInputs,exitoso,fallo);
+        peticionAjax(API_SYS_PATH+'permisos/obtener',arregloConInputs,exitoso,fallo,('#cover'));
     }
     function agregarTDaTR (tr,element,CSSclass){
         var td = $("<td></td>",{class:CSSclass});
