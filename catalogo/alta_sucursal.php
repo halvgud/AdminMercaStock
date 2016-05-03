@@ -63,22 +63,16 @@
                             
                             <h3>Buscar y Modificar Sucursal</h3>
                             </br>
-                            <form id="buscarSucursal">
-                              <div class="form-group">
-                                <label for="usuario">Nombre:</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required autocomplete="off">
-                              </div>
-                               <div class="form-group">
-                                <label for="usuario">Direcci&oacute;n:</label>
-                                <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Direcci&oacute;n" required autocomplete="off">
-                              </div>
-                                <div class="form-group">
-                                <label for="usuario">Contacto:</label>
-                                <input type="text" class="form-control" id="contacto" name="contacto" placeholder="Contacto" required autocomplete="off">
-                              </div>
-                              
-                              <button type="submit" class="btn btn-outline btn-success"><i class="fa fa-search"></i> Buscar</button>
-                            </form></p>
+                            <table id="resultadosSucursal" class="table table-condensed" style="display:none; " align="center">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">ID SUCURSAL</th>
+                                    <th class="text-center">NOMBRE</th>
+                                    <th class="text-center" colspan="2">EDICION</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

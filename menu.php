@@ -52,6 +52,18 @@ if(!isset($_SESSION['idUsuario'])){
                                 <li>
                                     <a href="<?php echo $path;?>/catalogo/general.php"><i class="fa fa-plus fa-fw"></i>General</a>       
                              </li>
+                                <?php  } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
+                                 <li>
+                                    <a href="<?php echo $path;?>/catalogo/categoria.php"><i class="fa fa-tags fa-fw"></i>Categorias</a>
+                                 </li>
+                                <?php  } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
+                                    <li>
+                                        <a href="<?php echo $path;?>/catalogo/articulo.php"><i class="fa fa-cart-plus fa-fw"></i>Art&iacute;culos</a>
+                                    </li>
+                                <?php  } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
+                                    <li>
+                                        <a href="<?php echo $path;?>/catalogo/departamento.php"><i class="fa fa-tasks fa-fw"></i>Departamentos</a>
+                                    </li>
                                  <?php  } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                  <li>
                                     <a href="<?php echo $path;?>/catalogo/alta_usuario.php"><i class="fa fa-user-plus fa-fw"></i>Alta de Usuario</a>
@@ -83,20 +95,7 @@ if(!isset($_SESSION['idUsuario'])){
                                     <a href="<?php echo $path;?>/proceso/generar_inventario.php"><i class="fa fa-file-text-o fa-fw"></i>Generar Inventario</a>
                                 </li>
                                 <?php }?>
-                                <!--<li>
-                                    <a href="#"><i class="fa fa-plus-square fa-fw"></i> Medicamento <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="medicamento-nuevo.php"><i class="fa fa-plus fa-fw"></i> Nuevo</a>
-                                        </li>
-                                        <li>
-                                            <a href="medicamento-edicion.php"><i class="fa fa-pencil-square-o fa-fw"></i> Edicion</a>
-                                        </li>
-                                    </ul>
-                                    <!-- /.nav-third-level 
-                                </li>-->
-                          <!--  </ul>-->
-                            <!-- /.nav-second-level -->
+
                             </ul>
                         </li>
 <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
@@ -121,100 +120,21 @@ if(!isset($_SESSION['idUsuario'])){
                                   <li>
                                     <a href="<?php echo $path;?>/reportes/inventario_sucursal_articulos.php"><i class="fa fa-industry fa-fw"></i>Inventario por Sucursal / por Artículo</a>
                                 </li>
+                                <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
+                                    <li>
+                                        <a href="<?php echo $path;?>/reportes/bitacora.php"><i class="fa fa-calendar fa-fw"></i>Bit&aacute;cora</a>
+                                    </li>
                                   <?php }  ?>
-                                <!--<li>
-                                    <a href="#"><i class="fa fa-plus-square fa-fw"></i> Medicamento <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="medicamento-nuevo.php"><i class="fa fa-plus fa-fw"></i> Nuevo</a>
-                                        </li>
-                                        <li>
-                                            <a href="medicamento-edicion.php"><i class="fa fa-pencil-square-o fa-fw"></i> Edicion</a>
-                                        </li>
-                                    </ul>
-                                    <!-- /.nav-third-level 
-                                </li>-->
-                           <!-- </ul>-->
-                            <!-- /.nav-second-level -->
+
                             </ul>
                         </li>
 
 <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
-                        <!--<li>-->
-                            <!-- <i class="fa fa-bar-chart-o fa-fw"></i> -->
-                            <!--<a href="#"><i class="fa fa-file-text fa-fw"></i> Expediente M&eacute;dico<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="expediente-revisar-consulta.php"><i class="fa fa-calendar fa-fw"></i> Revisar Consultas</a>
-                                </li>
-                                <li>
-                                    <a href="expediente-guardar.php"><i class="fa fa-file-text fa-fw"></i> Guardar Expediente</a>
-                                </li>
-                                <li>
-                                    <a href="pase-salida.php"><i class="fa fa-file-text-o fa-fw"></i> Pase de Salida</a>
-                                </li>
-                            </ul>-->
-                            <!-- /.nav-second-level -->
-                       <!-- </li>-->
+
 <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
-                        <!--<li>-->
-                            <!-- <i class="fa fa-bar-chart-o fa-fw"></i> -->
-                            <!--<a href="#"><i class="fa fa-ambulance fa-fw"></i> Incapacidades<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="incapacidad-guardar.php"><i class="fa fa-file-o fa-fw"></i> Guardar Incapacidad</a>
-                                </li>
-                                <li>
-                                    <a href="memo-guardar.php"><i class="fa fa-file fa-fw"></i> Guardar Memo</a>
-                                </li>
-                            </ul>-->
-                            <!-- /.nav-second-level -->
-                       <!-- </li>-->
+
 <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
-                       <!-- <li>-->
-                            <!-- <i class="fa fa-bar-chart-o fa-fw"></i> -->
-                            <!--<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i></i> Reportes<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="reportes-inventario.php"><i class="fa fa-list fa-fw"></i> Inventario de Comida</a>
-                                </li>
-                                <li>
-                                    <a href="reportes-consulta-rango-fecha.php"><i class="fa fa-calendar-check-o fa-fw"></i> Consultas Agendadas</a>
-                                </li>
-                                <li>
-                                    <a href="reportes-visita-rango-fecha.php"><i class="fa fa-calendar-check-o fa-fw"></i> Visitas Agendadas</a>
-                                </li>
-                                <li>
-                                    <a href="reportes-pase-por-fecha.php"><i class="fa fa-calendar-check-o fa-fw"></i> Pases de Salida Agendados</a>
-                                </li>
-                                <li>
-                                    <a href="reportes-expediente-por-fecha.php"><i class="fa fa-calendar-check-o fa-fw"></i> Expedientes Agendados</a>
-                                </li>
-                                <li>
-                                    <a href="reportes-incapacidad-por-fecha.php"><i class="fa fa-calendar fa-fw"></i> Incapacidades por Fecha</a>
-                                </li>
-                                <li>
-                                    <a href="reportes-memo-por-fecha.php"><i class="fa fa-calendar fa-fw"></i> Memos por Fecha</a>
-                                </li>
-                                <li>
-                                    <a href="reportes-Comida-rank.php"><i class="fa fa-list-ol fa-fw"></i> Rango de Uso de Medicamento</a>
-                                </li>
-                                <li>
-                                    <a href="reportes-diagnosticos-rank.php"><i class="fa fa-list-ol fa-fw"></i> Rango de Diagnosticos</a>
-                                </li>
-                                <li>
-                                    <a href="reportes-empleados-consultas.php"><i class="fa fa-list-alt fa-fw"></i> Consultas Empleados</a>
-                                </li>
-                                <li>
-                                    <a href="reportes-empleados-visitas.php"><i class="fa fa-list-alt fa-fw"></i> Visitas Emmpleados</a>
-                                </li>
-                                <li>
-                                    <a href="reportes-empleados-pases.php"><i class="fa fa-list-alt fa-fw"></i> Pases de Salida Emmpleados</a>
-                                </li>
-                            </ul>-->
-                            <!-- /.nav-second-level -->
-                        <!--</li>-->
-                        
+
 <?php } }?>
                     </ul>
                 </div>

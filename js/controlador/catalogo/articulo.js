@@ -1,36 +1,15 @@
-var contador = 0;
-$("#guardarSucursal").submit(function(){
-    var form1 = $("#guardarSucursal").find("select,input").serializeArray();
-    var datosTabla1 = {};
-    form1.forEach(function(input) {
-        datosTabla1[input.name] = input.value;
-    });
-    // datosTabla1['fecha_alta'] = moment().format("YYYY/MM/DD HH:mm:ss");
-    exitoso = function(datos){
-        console.log(datos);
-        notificacionSuccess(datos.success);
-        $("#guardarSucursal")[0].reset();
-        contador = 0;
-    };
-    fallo = function(datos){
-        console.log(datos);
-        notificacionError(datos.error);
-    };
-    peticionAjax(API_SYS_PATH+'sucursal/insertar',datosTabla1,exitoso,fallo);
-
-    return false;
-});
 $(function() {
     var datosTabla1 = {};
-    //datosTabla1['nombre'] = usuario;
-    datosTabla1['nombre']=nombre;
+    //datosTabla1['descripcion'] = descripcion;
+    //datosTabla1['nombre']=nombre2;
+    //datosTabla1['nombre']=Nombre;
     console.warn(datosTabla1);
     cargarTabla(datosTabla1, 10);
 
     function cargarTabla(arregloConInputs, idTransaccion) {
         arregloConInputs['idTransaccion'] = idTransaccion;
-        $("#resultadosSucursal").hide();
-        var tbody = $("#resultadosSucursal tbody").empty();
+        $("#resultadosArticulo").hide();
+        var tbody = $("#resultadosArticulo tbody").empty();
         exitoso = function (result) {
             console.log(result);
             if (result.estado != undefined) {
@@ -44,10 +23,10 @@ $(function() {
                 find = true;
                 var tr = $("<tr></tr>");
 
-                var idSucursal = element['idSucursal'];
-                var nombre = element['nombre'];
+                var idArticulo = element['art_id'];
+                var descripcion = element['descripcion'];
                 //  var password = element['password'];
-               // var descripcionRol = element['domicilio'];
+                // var descripcionRol = element['domicilio'];
 
                 var editar = $("<button></button>", {class: 'btn btn-primary'});
                 var icono_editar = $("<i></i>", {class: 'fa fa-pencil-square-o'});
@@ -61,24 +40,24 @@ $(function() {
                 eliminar.append(icono_eliminar);
                 eliminar.append(" Eliminar");
                 $(eliminar).click(function () {
-                    eliminarSucursal(element,tr);
+                    eliminarArticulo(element,tr);
                 })
 
-                agregarTDaTR(tr, idSucursal);
+                agregarTDaTR(tr, idArticulo);
                 // agregarTDaTR(tr,password);
-                agregarTDaTR(tr, nombre);
+                agregarTDaTR(tr, descripcion);
                 agregarTDaTR(tr, editar);
                 agregarTDaTR(tr, eliminar);
                 $(tbody).append(tr);
             });
             console.log(find);
             if (find)
-                $('#resultadosSucursal').show();
+                $('#resultadosArticulo').show();
         };
         fallo = function (datos) {
             console.log(datos);
         };
-        peticionAjax(API_SYS_PATH + 'sucursal/seleccionar', arregloConInputs, exitoso, fallo);
+        peticionAjax(API_SYS_PATH + 'categoria/articulo/seleccionar', arregloConInputs, exitoso, fallo);
     }
 
     function agregarTDaTR(tr, element) {
@@ -86,10 +65,10 @@ $(function() {
         $(td).append(element);
         $(tr).append(td);
     }
-    function eliminarSucursal(element,tr){
+    function eliminarArticulo(element,tr){
         BootstrapDialog.show({
             title: 'Peligro',
-            message:'Realmente desea eliminar a '+element.nombre,
+            message:'Realmente desea eliminar a '+element.descripcion,
             type: BootstrapDialog.TYPE_DANGER,
             buttons: [{
                 id: 'btn-1',
@@ -146,7 +125,7 @@ $(function() {
         cargarDropDownList((rol),'idNivelAutorizacion','descripcion',API_SYS_PATH+'usuario/nivel_autorizacion/seleccionar',$("#idUsuario").val());
 
         BootstrapDialog.show({
-            title: 'Esta a punto de modificat los siguientes datos',
+            title: 'Esta a punto de modificar los siguientes datos',
             message:function(dialog) {
                 return $contenido;
             },

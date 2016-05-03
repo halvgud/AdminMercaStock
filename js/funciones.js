@@ -1,4 +1,4 @@
-$(document).ready(function(){
+/*$(document).ready(function(){
 	jQuery('#wrapper').ajaxify(/*{previewoff: false, menu: ".menu-item a", idleTime: 60000, slideTime: 5000,
 		aniTime: 200,
 		aniParams: {
@@ -8,7 +8,7 @@ $(document).ready(function(){
 		},
 		toggleSlide: { parentEl: 'article:first' }
 	});
-}*/)});
+})});*/
 	function peticionAjax (URL,datos,successCallBack,errorCallBack){
 		console.log(JSON.stringify(datos));
         $.ajax({
@@ -27,7 +27,7 @@ $(document).ready(function(){
 			resulta = jqXHR.responseJSON;
 			if(resulta!=undefined){
 				console.log(resulta);
-				notificacionError(resulta['mensaje']);
+				notificacionError(resulta['error']?resulta['error']:resulta['mensaje']);
 			}else{
 
 				notificacionError('Error de conexión al servicio API');
