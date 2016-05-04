@@ -21,11 +21,10 @@
 		var $cubo7 = $("<div></div>",{class:'sk-cube sk-cube7'});
 		var $cubo8 = $("<div></div>",{class:'sk-cube sk-cube8'});
 		var $cubo9 = $("<div></div>",{class:'sk-cube sk-cube9'});
-		var $cargando = $("<div></div>");
-		var $h3 = $("<h3></h3>");
-		var $valorh3 = $dialogo;
-		$h3.append($valorh3);
-		$cargando.append($h3);
+	//	var $cargando = $("<div><p></p></div>");
+		//var $h3 = $("<h5></h5>");
+		//$h3.append($dialogo);
+		//$cargando.append($h3);
 		$form_group.append($cubo1);
 		$form_group.append($cubo2);
 		$form_group.append($cubo3);
@@ -35,12 +34,13 @@
 		$form_group.append($cubo7);
 		$form_group.append($cubo8);
 		$form_group.append($cubo9);
-		$form_group.append($cargando);
+		//$form_group.append($cargando);
 		$contenido.append($form_group);
 		$contenido.append("<br><br><br><br><br><br><br><br><br><br>");
 		BootstrapDialog.show({
 			title: 'Espere por favor...',
 			closable: false,
+			footer:$dialogo,
 			message:function(dialog) {
 				return $contenido;
 			},

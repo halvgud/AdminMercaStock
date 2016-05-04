@@ -83,7 +83,7 @@ $(function() {
         fallo = function (datos) {
             console.log(datos);
         };
-        peticionAjax(API_SYS_PATH + 'categoria/categoria/seleccionar', arregloConInputs, exitoso, fallo);
+        peticionAjax(API_SYS_PATH + 'categoria/categoria/seleccionar', arregloConInputs, exitoso, fallo,"cargando categorias...");
     }
 
     function agregarTDaTR(tr, element) {

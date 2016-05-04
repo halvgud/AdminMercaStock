@@ -87,7 +87,7 @@
                 fallo = function(datos){
                     console.log(datos);
                 };
-                peticionAjax(API_SYS_PATH+'usuario/seleccionar',arregloConInputs,exitoso,fallo);
+                peticionAjax(API_SYS_PATH+'usuario/seleccionar',arregloConInputs,exitoso,fallo,'Cargando lista de usuarios');
 
                 //$(document).ready(function() {
 
