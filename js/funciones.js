@@ -9,9 +9,97 @@
 		toggleSlide: { parentEl: 'article:first' }
 	});
 })});*/
+	function mostrarDialogoDeEspera($dialogo){
+		var $contenido = $("<div></div>");
+		var $form_group = $("<div></div>",{class:'sk-cube-grid',id:'cover'});
+		var $cubo1 = $("<div></div>",{class:'sk-cube sk-cube1'});
+		var $cubo2 = $("<div></div>",{class:'sk-cube sk-cube2'});
+		var $cubo3 = $("<div></div>",{class:'sk-cube sk-cube3'});
+		var $cubo4 = $("<div></div>",{class:'sk-cube sk-cube4'});
+		var $cubo5 = $("<div></div>",{class:'sk-cube sk-cube5'});
+		var $cubo6 = $("<div></div>",{class:'sk-cube sk-cube6'});
+		var $cubo7 = $("<div></div>",{class:'sk-cube sk-cube7'});
+		var $cubo8 = $("<div></div>",{class:'sk-cube sk-cube8'});
+		var $cubo9 = $("<div></div>",{class:'sk-cube sk-cube9'});
+		var $cargando = $("<div></div>");
+		var $h3 = $("<h3></h3>");
+		var $valorh3 = $dialogo;
+		$h3.append($valorh3);
+		$cargando.append($h3);
+		$form_group.append($cubo1);
+		$form_group.append($cubo2);
+		$form_group.append($cubo3);
+		$form_group.append($cubo4);
+		$form_group.append($cubo5);
+		$form_group.append($cubo6);
+		$form_group.append($cubo7);
+		$form_group.append($cubo8);
+		$form_group.append($cubo9);
+		$form_group.append($cargando);
+		$contenido.append($form_group);
+		$contenido.append("<br><br><br><br><br><br><br><br><br><br>");
+		BootstrapDialog.show({
+			title: 'Espere por favor...',
+			closable: false,
+			message:function(dialog) {
+				return $contenido;
+			},
+			type: BootstrapDialog.TYPE_WARNING,
+			size: BootstrapDialog.SIZE_SMALL
+		});
 
+	}
+
+	function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading){
+		if($(loading)!=undefined){
+			$(loading).show();
+		}
+		$(DT).dataTable( {
+			"bDestroy": true,
+			"language": {
+				"lengthMenu": "mostrar _MENU_ records por hoja",
+				"zeroRecords": "no se encontró ningún registro :(",
+				"info": "Mostrando página _PAGE_ de _PAGES_",
+				"infoEmpty": "Ningún registro disponible para la solicitud",
+				"infoFiltered": "(filtrado de _MAX_ registros totales)"
+			},
+			ajax:{
+				'url': API_SYS_PATH + URL,
+				'dataSrc':function(json){
+					if(json.estado =="warning"){
+						notificacionWarning(json.success);
+						return null;
+					}
+					else{
+						notificacionSuccess(json.success);
+						return json.data;
+					}
+				},
+				'type': "POST",
+				data: function ( d ) {
+					return  JSON.stringify( datos ) ;
+				},
+				dataType: 'json'
+				,error:(function(jqXHR, status, thrownError) {
+					console.log(jqXHR.responseText);
+					resulta = jqXHR.responseJSON;
+					if(resulta!=undefined){
+						console.log(resulta);
+						notificacionError(resulta['error']?resulta['error']:resulta['mensaje']);
+					}else{
+
+						notificacionError('Error de conexión al servicio API');
+					}
+				})
+			},
+			columns: arregloColumnas
+		});
+
+	}
 	function peticionAjax (URL,datos,successCallBack,errorCallBack,loading){
-		$(loading).show();
+		if((loading)!=undefined){
+			mostrarDialogoDeEspera(loading);
+		}
         $.ajax({
         type: "POST",
         url: URL,
@@ -23,11 +111,17 @@
 			if(successCallBack){
 				successCallBack(resultado);
 			}
-			$(loading).hide();
+			if((loading)!=undefined){
+				BootstrapDialog.closeAll();
+			}
+
 		})
 		.fail(function(jqXHR, status, thrownError) {
 			console.log(jqXHR.responseText);
 			resulta = jqXHR.responseJSON;
+			if((loading)!=undefined){
+				BootstrapDialog.closeAll();
+			}
 			if(resulta!=undefined){
 				console.log(resulta);
 				notificacionError(resulta['error']?resulta['error']:resulta['mensaje']);
@@ -39,7 +133,6 @@
 			if(errorCallBack){
 				errorCallBack(resulta);
 			}
-			$(loading).hide();
 		});
 	}
 	function logout(){
