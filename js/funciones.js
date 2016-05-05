@@ -11,7 +11,9 @@
 })});*/
 
 	function peticionAjax (URL,datos,successCallBack,errorCallBack,loading){
-		$(loading).show();
+		if($(loading!=undefined)) {
+			$(loading).show();
+		}
         $.ajax({
         type: "POST",
         url: URL,
@@ -142,15 +144,19 @@ function notificacionSuccess(mensaje){
 		cargarDropDownList(nameattr,'id_descripcion','descripcion',1,tipo);
 	}
 
-	function cargarDropDownList(nameattr,id,value,transaccion,tipo) {
+	function cargarDropDownList(nameattr,id,value,transaccion,tipo,cargarTodos) {
 		arreglo={};
-		console.log(tipo);
 		arreglo['idGenerico']=tipo;
 		arreglo['idTransaccion']=transaccion;
 		exitoso = function(result){
 			var options = '';
-			for (var i = 0; i < result.length; i++) {
-				$(nameattr).append($("<option></option>",{value:result[i][id],text:result[i][value]}));
+			resultados = result.data[0];
+			console.log(resultados);
+			for (var i = 0; i < resultados.length; i++) {
+				$(nameattr).append($("<option></option>",{value:resultados[i][id],text:resultados[i][value]}));
+			}
+			if(cargarTodos!=undefined&&cargarTodos==true){
+				$(nameattr).append($("<option></option>",{value:'TODOS',text:'MOSTRAR TODOS'}));
 			}
 		};
 		fallo = function(datos){
