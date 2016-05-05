@@ -1,7 +1,7 @@
         var contador = 0;
         $("#guardarUsuario").submit(function(){
-            var guardarUsuario = $("#guardarUsuario");
-            guardarUsuario.enable(false);
+            var guardarUsuario = $('#guardarUsuario');
+            $( "#btnGuardar" ).prop( "disabled", true );
             var form1 = guardarUsuario.find("select,input").serializeArray();
             var datosTabla1 = {};
             form1.forEach(function(input) {
@@ -13,14 +13,16 @@
                 notificacionSuccess(datos.success);
                 $("#guardarUsuario")[0].reset();
                 contador = 0;
-                guardarUsuario.enable(true);
+                $( "#btnGuardar" ).prop( "disabled", false );
+                return false;
             };
             fallo = function(datos){
               //  console.log(datos);
                // notificacionError(datos.error);
-                guardarUsuario.enable(true);
+                $( "#btnGuardar" ).prop( "disabled", false );
+                return false;
             };
-            peticionAjax(API_SYS_PATH+'usuario/insertar',datosTabla1,exitoso,fallo,('#cover'));
+            peticionAjax(API_SYS_PATH+'usuario/insertar',datosTabla1,exitoso,fallo,"Guardando usuario...");
 
             return false;
         });
@@ -85,7 +87,7 @@
                 fallo = function(datos){
                     console.log(datos);
                 };
-                peticionAjax(API_SYS_PATH+'usuario/seleccionar',arregloConInputs,exitoso,fallo);
+                peticionAjax(API_SYS_PATH+'usuario/seleccionar',arregloConInputs,exitoso,fallo,'Cargando lista de usuarios');
 
                 //$(document).ready(function() {
 

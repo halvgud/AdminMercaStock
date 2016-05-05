@@ -17,9 +17,6 @@ else
         <head>
 
             <?php require_once('../header-comun-carpeta.html'); ?>
-
-        </head>
-
         <body>
 
         <div id="wrapper">

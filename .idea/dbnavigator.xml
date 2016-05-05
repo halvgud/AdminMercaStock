@@ -31,7 +31,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="15a1d2c5-43d9-4dd6-8d65-6de39ed03ec5">
-      <console name="APIMercatto" type="STANDARD"><![CDATA[select * from ms_opcion;]]></console>
+      <console name="APIMercatto" type="STANDARD"><![CDATA[select * from ms_bitacora;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.EditorStateManager">

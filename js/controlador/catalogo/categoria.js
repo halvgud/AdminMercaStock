@@ -5,17 +5,17 @@ $(function() {
 function buscarDepartamento(){
     var id=document.getElementById('sucursal').value;
     document.getElementById('oculto').value=id;
-    alert(id);
-    $.ajax({
-        url : ".php",
+    //alert(id);
+   /* $.ajax({
+        url : "C:/GitHub/APIMercaStock/public/categoria.php",
         type: "POST",
-        data : "name=Denniss",
+        data : "valor="+id,
         success: function(data)
         {
             //data - response from server
-            $('#response_div').html(data);
+            //$('#response_div').html(data);
         }
-    });
+    });*/
     cargarDropDownList(("#departamento"), 'dep_id', 'nombre', API_SYS_PATH + 'categoria/departamento/seleccionar2', 12, true);
 }
 
@@ -70,6 +70,7 @@ $("#categoria").submit(function(){
             console.log(datos);
         };
         peticionAjax(API_SYS_PATH + 'categoria/categoria/seleccionar', datosTabla1, exitoso, fallo);
+        peticionAjax(API_SYS_PATH + 'categoria/categoria/seleccionar', arregloConInputs, exitoso, fallo,"cargando categorias...");
     }
 
     function agregarTDaTR(tr, element) {

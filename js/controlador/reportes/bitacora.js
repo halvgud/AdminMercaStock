@@ -24,32 +24,19 @@ jQuery(function(){
     });
 });
 $("#fecha").submit(function(){
+    //$("#test").dataTable().fnDestroy();
     var form1 = $("#fecha").find("select,input").serializeArray();
     var datosTabla1 = {};
     form1.forEach(function(input) {
         datosTabla1[input.name] = input.value;
     });
-            $('#test').dataTable( {
-
-                ajax:{
-                    "url": API_SYS_PATH + 'reporte/bitacora/seleccionar',
-                    /*"dataSrc": "datos",*/
-                    "type": "POST",
-
-                    "data":JSON.stringify(datosTabla1),
-                    dataType: 'json'
-             /* function(){
-                    peticionAjax(API_SYS_PATH + 'reporte/bitacora/seleccionar',datosTabla1,exitoso,fallo);
-                    }*/
-                },
-                columns: [
-                    { data : "idBitacora" },
-                    { data : "idError" },
-                    { data : "descripcion" },
-                    { data : "usuario" },
-                    { data : "fecha" }
-                ]
-            });
+    var datos= (datosTabla1);
+    var columnas = [{ data : "idBitacora" },
+        { data : "idError" },
+        { data : "descripcion" },
+        { data : "usuario" },
+        { data : "fecha" }];
+    peticionAjaxDT('reporte/bitacora/seleccionar',('#test'),datosTabla1,columnas,null);
 return false;
 
 });
