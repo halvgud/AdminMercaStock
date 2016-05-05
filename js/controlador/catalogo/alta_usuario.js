@@ -266,7 +266,7 @@
                             fallo = function(datos){
                                 notificacionError(datos.error);
                             };
-                            peticionAjax('data/test-actualizar.php',datos,exitoso,fallo);
+                            peticionAjax('usuario/actualizar.php',datos,exitoso,fallo);
                         }
                     }]
                 });

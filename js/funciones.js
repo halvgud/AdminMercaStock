@@ -38,9 +38,8 @@
 		$contenido.append($form_group);
 		$contenido.append("<br><br><br><br><br><br><br><br><br><br>");
 		BootstrapDialog.show({
-			title: 'Espere por favor...',
+			title: $dialogo,
 			closable: false,
-			footer:$dialogo,
 			message:function(dialog) {
 				return $contenido;
 			},
@@ -51,7 +50,7 @@
 	}
 
 	function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading){
-		if($(loading)!=undefined){
+		if($(loading)!=null){
 			$(loading).show();
 		}
 		$(DT).dataTable( {
@@ -97,8 +96,9 @@
 
 	}
 	function peticionAjax (URL,datos,successCallBack,errorCallBack,loading){
-		if((loading)!=undefined){
+		if((loading)!=null){
 			mostrarDialogoDeEspera(loading);
+			console.log(loading);
 		}
         $.ajax({
         type: "POST",
@@ -111,7 +111,7 @@
 			if(successCallBack){
 				successCallBack(resultado);
 			}
-			if((loading)!=undefined){
+			if((loading)!=null){
 				BootstrapDialog.closeAll();
 			}
 

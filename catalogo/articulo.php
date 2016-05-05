@@ -43,7 +43,6 @@ else
             <!-- /#wrapper -->
 
             <?php require_once('../footer-comun-carpeta.html'); ?>
-            <script type="text/javascript" src="../js/controlador/catalogo/permisos.js"></script>
             <script type="text/javascript" src="../js/controlador/catalogo/articulo.js"></script>
         </body>
 
