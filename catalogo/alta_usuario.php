@@ -56,35 +56,30 @@ else
                        <div class="form-group">
                          <label for="usuario">Nombre de Usuario:</label>
                          <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Nombre de Usuario" required autocomplete="off">
-                       </div>
-                       <div class="form-group">
                          <label for="password">Password</label>
                          <input type="password" class="form-control" id="password" name="password" placeholder="Password" required autocomplete="off">
-                       </div>
-                       <div class="form-group">
-                         <label for="password2">Repetir Password</label>
-                         <input type="password" class="form-control" id="password2" name="password2" placeholder="Repetir Password" required autocomplete="off">
-                       </div>
-                       <div class="form-group">
+
+                         <label for="repetirpassword">Repetir Password</label>
+                         <input type="password" class="form-control" id="repetirpassword" name="repetirpassword" placeholder="Repetir Password" required autocomplete="off">
+
                          <label for="nombre">Nombre:</label>
                          <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required autocomplete="off">
-                       </div>
-                       <div class="form-group">
+
                          <label for="apellido">Apellido:</label>
                          <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido" required autocomplete="off">
-                       </div>
-                       <div class="form-group">
+
                          <label for="apellido">Contacto:</label>
                          <input type="text" class="form-control" id="contacto" name="contacto" placeholder="Contacto" required autocomplete="off">
-                       </div>
-                        <div class="form-group">
                          <label for="sexo">Sexo</label>
                          <select class="form-control"  id="sexo" name="sexo" REQUIRED  >
                              <option value="">Seleccione el Sexo</option>
                          </select>
-                       </div>
-                       <div class="form-group">
-                         <label for="rol">Nivel Autorizaci&oacute;n</label>
+                             <label for="idSucursal">Sucursal</label>
+                             <select class="form-control"  name="idSucursal" id="idSucursal" required>
+                                 <option value="">Seleccione una Sucursal</option>
+                             </select>
+
+                         <label for="idNivelAutorizacion">Nivel Autorizaci&oacute;n</label>
                          <select class="form-control" id="idNivelAutorizacion" name="idNivelAutorizacion" REQUIRED>
                              <option value="">Seleccione un Nivel</option>
                          </select>
@@ -96,9 +91,9 @@ else
            
          
                <div id="menu1" class="tab-pane fade">
-                 
-                     
-               
+
+
+
                  <div class="col-md-6 col-md-offset-3">
                        <h3>Buscar y Modificar Usuario</h3>
                        </br>
@@ -107,6 +102,7 @@ else
                          <tr>
                              <th class="text-center">USUARIO</th>
                              <th class="text-center">ROL</th>
+                             <th class="text-center">ESTADO</th>
                              <th class="text-center">EDICION</th>
                          </tr>
                          </thead>
