@@ -42,9 +42,22 @@
     </div>
     <!-- /#wrapper -->
 
-    <?php require_once('/footer-comun.html'); ?> 
+    <?php require_once('/footer-comun.html'); ?>
+    <script>
+    function cambiarUrl(pagina,bandera){
+        mostrarDialogoDeEspera("Cargando página");
+    $.get("<?php echo $path;?>"+pagina, function(data) {
 
+    $("#page-wrapper").replaceWith(data);
+        if(bandera==undefined){
+            BootstrapDialog.closeAll();
+        }
+        console.log('entro');
+    });
+    }
+    </script>
 </body>
+
 
 </html>
 <?php } ?>

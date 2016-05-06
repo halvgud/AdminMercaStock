@@ -11,19 +11,6 @@ else
     $decoded = PrivilegiosUsuario::traerPrivilegios();
     if (PrivilegiosUsuario::tienePrivilegio($decoded,"BITACORA")) {
         ?>
-        <!DOCTYPE html>
-        <html lang="en">
-
-        <head>
-
-            <?php require_once('../header-comun-carpeta.html'); ?>
-
-        </head>
-
-        <body>
-
-        <div id="wrapper">
-            <?php require_once('../menu.php'); ?>
             <div id="page-wrapper">
                 <br/>
                 <h1>Bit&aacute;cora</h1>
@@ -49,14 +36,9 @@ else
                     </thead>
                     <tbody></tbody>
                 </table>
+                <script type="text/javascript" src="js/controlador/reportes/bitacora.js" ></script>
             </div>
             <!-- /#wrapper -->
-
-            <?php require_once('../footer-comun-carpeta.html'); ?>
-            <script type="text/javascript" src="../js/controlador/reportes/bitacora.js" ></script>
-        </body>
-
-        </html>
     <?php } else{
         header('Location: '.'../index.php');
     }

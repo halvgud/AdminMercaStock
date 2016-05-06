@@ -12,31 +12,6 @@ else
     //var_dump($decoded);
    if (PrivilegiosUsuario::tienePrivilegio($decoded,"ALTA_USUARIO")) {
   ?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-   <?php require_once('../header-comun-carpeta.html'); ?>
-        
-
-</head>
-
-<body>
-<div class="sk-cube-grid" id="cover" style="display:none;">
-    <div class="sk-cube sk-cube1"></div>
-    <div class="sk-cube sk-cube2"></div>
-    <div class="sk-cube sk-cube3"></div>
-    <div class="sk-cube sk-cube4"></div>
-    <div class="sk-cube sk-cube5"></div>
-    <div class="sk-cube sk-cube6"></div>
-    <div class="sk-cube sk-cube7"></div>
-    <div class="sk-cube sk-cube8"></div>
-    <div class="sk-cube sk-cube9"></div>
-    <div><h3>Cargando...</h3></div>
-</div>
-    <div id="wrapper">
-        <?php require_once('../menu.php'); ?> 
             <div id="page-wrapper">   
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#home">Registrar</a></li>
@@ -47,7 +22,7 @@ else
                 
                  <div class="col-md-6 col-md-offset-3">
                    <h3>Registrar Usuario</h3>
-                   </br>
+                   <br>
                      <form id="guardarUsuario">
                          <input type="hidden" name="idUsuario" id="idUsuario" value="<?php echo $_SESSION['idUsuario']?>">
                          <!--<input type="hidden" name="id_usuario_creacion"  value="N">
@@ -96,7 +71,7 @@ else
 
                  <div class="col-md-6 col-md-offset-3">
                        <h3>Buscar y Modificar Usuario</h3>
-                       </br>
+                       <br>
                      <table id="resultados" class="table table-condensed" style="display:none;">
                          <thead>
                          <tr>
@@ -112,18 +87,9 @@ else
                <!--//mm-->
                </div>
            </div>
-         </div>
-        <!-- /#page-wrapper -->
-
-    </div>
-    <!-- /#wrapper -->
-
-     <?php require_once('../footer-comun-carpeta.html'); ?>
-    <script type="text/javascript" src="<?php echo $path;?>/js/controlador/catalogo/alta_usuario.js">
+    <script type="text/javascript" src="js/controlador/catalogo/alta_usuario.js">
     </script>
-</body>
-
-</html>
+         </div>
 <?php }else{
     header('Location: '.'../index.php');
 }

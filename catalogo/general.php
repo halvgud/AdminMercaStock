@@ -11,19 +11,7 @@ else
     $decoded = PrivilegiosUsuario::traerPrivilegios();
     if (PrivilegiosUsuario::tienePrivilegio($decoded,"GENERAL")) {
         ?>
-        <!DOCTYPE html>
-        <html lang="en">
 
-        <head>
-
-            <?php require_once('../header-comun-carpeta.html'); ?>
-
-        </head>
-
-        <body>
-
-        <div id="wrapper">
-            <?php require_once('../menu.php'); ?>
             <div id="page-wrapper">
                 <br/>
                 <h1>General</h1>
@@ -56,15 +44,11 @@ else
                     <tbody></tbody>
                 </table>
             <!-- /#page-wrapper -->
+                <script type="text/javascript" src="js/controlador/catalogo/permisos.js"></script>
+                <script type="text/javascript" src="js/controlador/catalogo/ms_inventario.js" ></script>
         </div>
         <!-- /#wrapper -->
 
-        <?php require_once('../footer-comun-carpeta.html'); ?>
-        <script type="text/javascript" src="../js/controlador/catalogo/permisos.js"></script>
-            <script type="text/javascript" src="../js/controlador/catalogo/ms_inventario.js" ></script>
-        </body>
-
-        </html>
     <?php } else{
         header('Location: '.'../index.php');
     }
