@@ -38,8 +38,9 @@
 		$contenido.append($form_group);
 		$contenido.append("<br><br><br><br><br><br><br><br><br><br>");
 		BootstrapDialog.show({
-			title: $dialogo,
+			title: 'Espere por favor...',
 			closable: false,
+			footer:$dialogo,
 			message:function(dialog) {
 				return $contenido;
 			},
@@ -49,13 +50,11 @@
 
 	}
 
-function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading){
-	if ((loading) != undefined) {
-		mostrarDialogoDeEspera(loading);
-	}
-    console.log(datos);
+	function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading){
+		if($(loading)!=undefined){
+			$(loading).show();
+		}
 		$(DT).dataTable( {
-
 			"bDestroy": true,
 			"language": {
 				"lengthMenu": "mostrar _MENU_ records por hoja",
@@ -67,31 +66,21 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading){
 			ajax:{
 				'url': API_SYS_PATH + URL,
 				'dataSrc':function(json){
-					console.log(json);
-					console.log(json.data);
-					if ((loading) != undefined) {
-						BootstrapDialog.closeAll();
-					}
 					if(json.estado =="warning"){
 						notificacionWarning(json.success);
-						return json.data;
+						return null;
 					}
 					else{
 						notificacionSuccess(json.success);
-                        console.log(json.data);
 						return json.data;
 					}
 				},
 				'type': "POST",
 				data: function ( d ) {
-					console.log(datos);
 					return  JSON.stringify( datos ) ;
 				},
 				dataType: 'json'
 				,error:(function(jqXHR, status, thrownError) {
-					if ((loading) != undefined) {
-						BootstrapDialog.closeAll();
-					}
 					console.log(jqXHR.responseText);
 					resulta = jqXHR.responseJSON;
 					if(resulta!=undefined){
@@ -107,11 +96,13 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading){
 		});
 
 	}
-
-
 	function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
+
+		if ($(loading != undefined)) {
+			$(loading).show();
 			if ((loading) != undefined) {
 				mostrarDialogoDeEspera(loading);
+
 			}
 			$.ajax({
 						type: "POST",
@@ -120,13 +111,9 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading){
 						dataType: 'json'
 					})
 					.done(function (resultado) {
-
 						console.log(resultado);
-
 						if (successCallBack) {
 							successCallBack(resultado);
-							console.log('done!');
-
 						}
 						if ((loading) != undefined) {
 							BootstrapDialog.closeAll();
@@ -151,7 +138,7 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading){
 							errorCallBack(resulta);
 						}
 					});
-
+		}
 	}
 		function logout() {
 			exitoso = function (datos) {
@@ -253,41 +240,26 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading){
 			cargarDropDownList(nameattr, 'id_descripcion', 'descripcion', 1, tipo);
 		}
 
-		function cargarDropDownList(nameattr, id, value, transaccion, tipo, cargarTodos,mensaje,itemS) {
+		function cargarDropDownList(nameattr, id, value, transaccion, tipo, cargarTodos) {
 			arreglo = {};
-			console.log(typeof tipo);
 			arreglo['idGenerico'] = tipo;
-            arreglo['item']=itemS;
-            console.log(itemS);
-
 			arreglo['idTransaccion'] = transaccion;
 			exitoso = function (result) {
 				var options = '';
-                if (result.estado!="warning"){
-                    var resultados = result.data[0];
-                    console.log(result);
-
-                    if(itemS!=null){
-                        $(nameattr).append($("<option></option>", {value: '', text: itemS}));
-                    }
-
-                    for (var i = 0; i < resultados.length; i++) {
-                        $(nameattr).append($("<option></option>", {value: resultados[i][id], text: resultados[i][value]}));
-                    }
-                    if (cargarTodos != undefined && cargarTodos == true) {
-                        $(nameattr).append($("<option></option>", {value: 'TODOS', text: 'MOSTRAR TODOS'}));
-                    }
-                }
-                else{
-                        notificacionWarning("Error al traer el listado");
-                }
-
+				resultados = result.data[0];
+				console.log(resultados);
+				for (var i = 0; i < resultados.length; i++) {
+					$(nameattr).append($("<option></option>", {value: resultados[i][id], text: resultados[i][value]}));
+				}
+				if (cargarTodos != undefined && cargarTodos == true) {
+					$(nameattr).append($("<option></option>", {value: 'TODOS', text: 'MOSTRAR TODOS'}));
+				}
 			};
 			fallo = function (datos) {
 				resulta = datos;
-				console.log('fallo');
+				console.log(datos);
 			};
-			peticionAjax(transaccion, arreglo, exitoso, fallo,mensaje);
+			peticionAjax(transaccion, arreglo, exitoso, fallo);
 		}
 
 		$.fn.enterKey = function (fnc) {

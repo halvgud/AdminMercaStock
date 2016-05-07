@@ -1,26 +1,45 @@
 $(function() {
-    cargarDropDownList(("#sucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12,true);
+    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12,true,'Cargando...','Seleccione una Sucursal');
 });
 
 function buscarDepartamento(){
-    var id=document.getElementById('sucursal').value;
+ /*   var id=document.getElementById('sucursal').value;
     document.getElementById('oculto').value=id;
     //alert(id);
-   /* $.ajax({
-        url : "C:/GitHub/APIMercaStock/public/categoria.php",
+    $.ajax({
+        url : "http://localhost/APIMercaStock/public/categoria.php",
         type: "POST",
         data : "valor="+id,
+        //dataType:'json',
         success: function(data)
         {
+            alert("si se envio"+data.valor.value);
+            cargarDropDownList(("#departamento"), 'dep_id', 'nombre', API_SYS_PATH + 'categoria/departamento/seleccionar2', 12, true);
             //data - response from server
             //$('#response_div').html(data);
         }
-    });*/
-    cargarDropDownList(("#departamento"), 'dep_id', 'nombre', API_SYS_PATH + 'categoria/departamento/seleccionar2', 12, true);
+    });
+*/  $("#dep_id").empty();
+    cargarDropDownList(("#dep_id"),'dep_id','nombre',API_SYS_PATH+'categoria/departamento/seleccionar',$("#idSucursal").val(),false,'Cargando...','Seleccione un Departamento');
+
 }
 
 
 $("#categoria").submit(function(){
+    var form1 = $("#categoria").find("select,input").serializeArray();
+    var datosTabla1 = {};
+    form1.forEach(function(input) {
+        datosTabla1[input.name] = input.value;
+    });
+    var datos= (datosTabla1);
+    var columnas = [{ data : "cat_id" },
+        { data : "cat_id_Local" },
+        { data : "idSucursal" },
+        { data : "nombre" },
+        { data : "dep_id" }];
+    peticionAjaxDT('categoria/categoria/seleccionar',('#resultadosCategoria'),datosTabla1,columnas,'cargando');
+    return false;
+    /*
     var datosTabla1 = {};
     console.warn(datosTabla1);
     cargarTabla(datosTabla1, 10);
@@ -34,7 +53,7 @@ $("#categoria").submit(function(){
         form1.forEach(function(input) {
             datosTabla1[input.name] = input.value;
         });
-
+        console.log(datosTabla1);
         var tbody = $("#resultadosCategoria tbody").empty();
         exitoso = function (result) {
 
@@ -69,8 +88,8 @@ $("#categoria").submit(function(){
         fallo = function (datos) {
             console.log(datos);
         };
-        peticionAjax(API_SYS_PATH + 'categoria/categoria/seleccionar', datosTabla1, exitoso, fallo);
-        peticionAjax(API_SYS_PATH + 'categoria/categoria/seleccionar', arregloConInputs, exitoso, fallo,"cargando categorias...");
+      //  peticionAjax(API_SYS_PATH + 'categoria/categoria/seleccionar', datosTabla1, exitoso, fallo);
+        peticionAjax(API_SYS_PATH + 'categoria/categoria/seleccionar', datosTabla1, exitoso, fallo,"cargando categorias...");
     }
 
     function agregarTDaTR(tr, element) {
@@ -79,4 +98,5 @@ $("#categoria").submit(function(){
         $(tr).append(td);
     }
     return false;
+    */
 });

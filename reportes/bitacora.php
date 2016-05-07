@@ -52,10 +52,10 @@ else
             </div>
             <!-- /#wrapper -->
 
-            <?php require_once('../footer-comun-carpeta.html'); ?>
-            <script type="text/javascript" src="../js/controlador/reportes/bitacora.js" ></script>
-        </body>
 
+        </body>
+        <?php require_once('../footer-comun-carpeta.html'); ?>
+        <script type="text/javascript" src="../js/controlador/reportes/bitacora.js" ></script>
         </html>
     <?php } else{
         header('Location: '.'../index.php');

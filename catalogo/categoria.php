@@ -25,38 +25,48 @@ else
                 <br/>
                 <h1>Categorias</h1>
                 <hr>
-                <input type="text" id="oculto">
                 <form class="form-inline" id="categoria" method="post">
                     <label for="sucursal">Filtrar por Sucursal: </label>
-                    <select id="sucursal" name="sucursal" class="form-control" style="width: 25%;" onchange="buscarDepartamento();" required>
-                        <option value="">Seleccione una Sucursal</option>
+                    <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;" onchange="buscarDepartamento();" required>
+                       <!-- <option value="">Seleccione una Sucursal</option>-->
                     </select>&nbsp;&nbsp;&nbsp;
                     <label  class="form-inline" id="lDepartamento" style="">Filtrar por Departamento</label>
-                    <select id="departamento" name="departamento" class="form-control" style="width: 25%;" >
-                        <option value="">Seleccione un Departamento</option>
+                    <select id="dep_id" name="dep_id" class="form-control" style="width: 25%;" >
+                       <!-- <option value="">Seleccione un Departamento</option>-->
                     </select>&nbsp;&nbsp;&nbsp;
                     <button type="submit" class="btn btn-outline btn-success"><i class="fa fa-search"></i> Buscar</button>
                 </form>
                 </br></br>
-                <table id="resultadosCategoria" class="table table-condensed" style="display:none; " align="center">
+                <table id="resultadosCategoria" class="table table-condensed text-center"  align="center">
                     <thead>
+
                     <tr>
                         <th class="text-center">ID CATEGORIA</th>
                         <th class="text-center">ID LOCAL</th>
                         <th class="text-center">ID SUCURSAL</th>
                         <th class="text-center">NOMBRE</th>
                         <th class="text-center">ID DEPARTAMENTO</th>
+
+
                     </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
+
             </div>
 
             <!-- /#wrapper -->
 
             <?php require_once('../footer-comun-carpeta.html'); ?>
-            <script type="text/javascript" src="../js/controlador/catalogo/permisos.js"></script>
             <script type="text/javascript" src="../js/controlador/catalogo/categoria.js"></script>
+
+            <!--<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>-->
+            <!--<script src='build/pdfmake.min.js'></script>
+            <script src='build/vfs_fonts.js'></script>
+            <script src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.8/js/dataTables.bootstrap.min.js"></script>
+            <script src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+            <script src="https://cdn.datatables.net/tabletools/2.2.4/js/dataTables.tableTools.js"></script>-->
         </body>
 
         </html>

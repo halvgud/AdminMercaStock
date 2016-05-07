@@ -1,8 +1,9 @@
 $(function() {
-    cargarDropDownList(("#sucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12,true);
+    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12,true);
 });
 
 $("#departamento").submit(function(){
+    /*
     var datosTabla1 = {};
     console.warn(datosTabla1);
     cargarTabla(datosTabla1, 10);
@@ -61,5 +62,20 @@ $("#departamento").submit(function(){
         $(td).append(element);
         $(tr).append(td);
     }
+    return false;*/
+    var form1 = $("#departamento").find("select,input").serializeArray();
+    var datosTabla1 = {};
+    form1.forEach(function(input) {
+        datosTabla1[input.name] = input.value;
+    });
+    var datos= (datosTabla1);
+    var columnas = [{ data : "dep_id" },
+        { data : "dep_idLocal" },
+        { data : "idSucursal" },
+        { data : "nombre" },
+        { data : "restringido" },
+        { data : "porcentaje" }];
+    console.log(datosTabla1);
+    peticionAjaxDT('categoria/departamento/seleccionar  ',('#resultadosSucursal'),datosTabla1,columnas,'cargando');
     return false;
 });
