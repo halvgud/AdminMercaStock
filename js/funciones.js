@@ -49,11 +49,18 @@
 
 	}
 
+<<<<<<< HEAD
 function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading){
 	if ((loading) != undefined) {
 		mostrarDialogoDeEspera(loading);
 	}
     console.log(datos);
+=======
+	function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading){
+		if($(loading)!=null){
+			$(loading).show();
+		}
+>>>>>>> origin/master
 		$(DT).dataTable( {
 
 			"bDestroy": true,
@@ -126,7 +133,10 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading){
 						if (successCallBack) {
 							successCallBack(resultado);
 							console.log('done!');
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 						}
 						if ((loading) != undefined) {
 							BootstrapDialog.closeAll();
@@ -141,7 +151,7 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading){
 						}
 						if (resulta != undefined) {
 							console.log(resulta);
-							notificacionError(resulta['error'] ? resulta['error'] : resulta['mensaje']);
+							notificacionError(resulta['error'] ? resulta['error'] : resulta['mensaje']?resulta['mensaje']:resulta['message']);
 						} else {
 
 							notificacionError('Error de conexión al servicio API');
@@ -253,7 +263,11 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading){
 			cargarDropDownList(nameattr, 'id_descripcion', 'descripcion', 1, tipo);
 		}
 
+<<<<<<< HEAD
 		function cargarDropDownList(nameattr, id, value, transaccion, tipo, cargarTodos,mensaje,itemS) {
+=======
+		function cargarDropDownList(nameattr, id, value, transaccion, tipo, cargarTodos,valorDefault) {
+>>>>>>> origin/master
 			arreglo = {};
 			console.log(typeof tipo);
 			arreglo['idGenerico'] = tipo;
@@ -263,6 +277,7 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading){
 			arreglo['idTransaccion'] = transaccion;
 			exitoso = function (result) {
 				var options = '';
+<<<<<<< HEAD
                 if (result.estado!="warning"){
                     var resultados = result.data[0];
                     console.log(result);
@@ -282,12 +297,31 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading){
                         notificacionWarning("Error al traer el listado");
                 }
 
+=======
+				var resultados = result.data;
+			console.log(result);
+				for (var i = 0; i < resultados.length; i++) {
+					if(valorDefault!=undefined&&valorDefault==resultados[i][id]){
+						$(nameattr).append($("<option></option>", {value: resultados[i][id], text: resultados[i][value],selected:'selected'}));
+					}else{
+						$(nameattr).append($("<option></option>", {value: resultados[i][id], text: resultados[i][value]}));
+					}
+
+				}
+				if (cargarTodos != undefined && cargarTodos == true) {
+					$(nameattr).append($("<option></option>", {value: 'TODOS', text: 'MOSTRAR TODOS'}));
+				}
+>>>>>>> origin/master
 			};
 			fallo = function (datos) {
 				resulta = datos;
 				console.log('fallo');
 			};
+<<<<<<< HEAD
 			peticionAjax(transaccion, arreglo, exitoso, fallo,mensaje);
+=======
+			peticionAjax(transaccion, arreglo, exitoso, fallo,null);
+>>>>>>> origin/master
 		}
 
 		$.fn.enterKey = function (fnc) {

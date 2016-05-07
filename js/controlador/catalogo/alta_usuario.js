@@ -7,7 +7,12 @@
             form1.forEach(function(input) {
                 datosTabla1[input.name] = input.value;
             });
-           // datosTabla1['fecha_alta'] = moment().format("YYYY/MM/DD HH:mm:ss");
+            if ($("#password").val()!=$("#repetirpassword").val()){
+                notificacionWarning('Las contraseñas no concuerdan');
+                $("#password").val('');
+                $("#repetirpassword").val('');
+                return false;
+            }
             exitoso = function(datos){
 
                 notificacionSuccess(datos.success);
@@ -17,7 +22,7 @@
                 return false;
             };
             fallo = function(datos){
-              //  console.log(datos);
+
                // notificacionError(datos.error);
                 $( "#btnGuardar" ).prop( "disabled", false );
                 return false;
@@ -27,101 +32,100 @@
             return false;
         });
 
-        $('#buscarYModificar').click(function(){
+        function inicializarTabla(){
             var datosTabla1 = {};
             datosTabla1['usuario'] = usuario;
             console.warn(datosTabla1);
             cargarTabla(datosTabla1,10);
-            function cargarTabla(arregloConInputs,idTransaccion) {
-                arregloConInputs['idTransaccion']=idTransaccion;
-                $("#resultados").hide();
-                var tbody = $("#resultados tbody").empty();
-                exitoso = function(result){
-                    console.log(result);
-                    if(result.estado!=undefined){
-                        if(result.estado =='warning'){
-                            notificacionWarning(result.success);
-                            return;
-                        }
-                    }
-                    var find = false;
-                    result.forEach( function(element, index) {
-                        find = true;
-                        var tr = $("<tr></tr>");
-
-                        var id_usuario = element['idUsuario'];
-                        var usuario = element['usuario'];
-                        //  var password = element['password'];
-                        var descripcionRol = element['descripcion'];
-
-                        var editar = $("<button></button>",{class:'btn btn-primary'});
-                        var icono_editar = $("<i></i>",{class:'fa fa-pencil-square-o'});
-                        editar.append(icono_editar);
-                        editar.append(" Editar");
-                        $(editar).click(function(){
-                            editarUsuario(element,tr);
-                        })
-                        var eliminar = $("<button></button>",{class:'btn btn-danger'});
-                        var icono_eliminar = $("<i></i>",{class:'fa fa-trash-o'});
-                        eliminar.append(icono_eliminar);
-                        eliminar.append(" Eliminar");
-                        $(eliminar).click(function(){
-                            eliminarUsuario(element,tr);
-                        })
-
-                        agregarTDaTR(tr,usuario);
-                        // agregarTDaTR(tr,password);
-                        agregarTDaTR(tr,descripcionRol);
-                        agregarTDaTR(tr,editar);
-                        agregarTDaTR(tr,eliminar);
-                        $(tbody).append(tr);
-                    });
-                    console.log(find);
-                    if(find){
-                        //$('#resultados').DataTable();
-                        $('#resultados').show();
-
-                    }
-
-                };
-                fallo = function(datos){
-                    console.log(datos);
-                };
-                peticionAjax(API_SYS_PATH+'usuario/seleccionar',arregloConInputs,exitoso,fallo,'Cargando lista de usuarios');
-
-                //$(document).ready(function() {
-
-                //  } );
-            }
-            function agregarTDaTR (tr,element){
-                var td = $("<td></td>");
-                $(td).append(element);
-                $(tr).append(td);
-            }
-
+        }
+        $('#buscarYModificar').click(function(){
+            inicializarTabla();
         });
-        //}
-        //funcion engargada de cargar informacion en los lugares donde se mete informacion del empleado
 
+        function agregarTDaTR (tr,element){
+            var td = $("<td></td>");
+            $(td).append(element);
+            $(tr).append(td);
+        }
+        function cargarTabla(arregloConInputs,idTransaccion) {
+            arregloConInputs['idTransaccion']=idTransaccion;
+            $("#resultados").hide();
+            var tbody = $("#resultados tbody").empty();
+            exitoso = function(result){
+                if(result.estado!=undefined){
+                    if(result.estado =='warning'){
+                        notificacionWarning(result.success);
+                        return;
+                    }
+                }
+                var find = false;
+                result.forEach( function(element, index) {
+                    find = true;
+                    var tr = $("<tr></tr>");
+
+                    var usuario = element['usuario'];
+                    var descripcionRol = element['descripcion'];
+                    var estado = element['idEstado']=='1'?'ACTIVO':'INACTIVO';
+
+
+                    var editar = $("<button></button>",{class:'btn btn-primary'});
+                    var icono_editar = $("<i></i>",{class:'fa fa-pencil-square-o'});
+                    editar.append(icono_editar);
+                    editar.append(" Editar");
+                    $(editar).click(function(){
+                        editarUsuario(element,tr);
+                    })
+                    /*var eliminar = $("<button></button>",{class:'btn btn-danger'});
+                    var icono_eliminar = $("<i></i>",{class:'fa fa-trash-o'});
+                    eliminar.append(icono_eliminar);
+                    eliminar.append(" Eliminar");
+                    $(eliminar).click(function(){
+                        eliminarUsuario(element,tr);
+                    })*/
+
+                    agregarTDaTR(tr,usuario);
+                    // agregarTDaTR(tr,password);
+                    agregarTDaTR(tr,descripcionRol);
+                    agregarTDaTR(tr,estado);
+                    agregarTDaTR(tr,editar);
+                    $(tbody).append(tr);
+                });
+
+                if(find){
+                    //$('#resultados').DataTable();
+                    $('#resultados').show();
+
+                }
+
+            };
+            fallo = function(datos){
+                console.log(datos);
+            };
+            peticionAjax(API_SYS_PATH+'usuario/seleccionar',arregloConInputs,exitoso,fallo,'Cargando lista de usuarios');
+
+            //$(document).ready(function() {
+
+            //  } );
+        }
 
         $(function() {
-
-            cargarDropDownList(("#sexo"),'idSexo','descripcion',API_SYS_PATH+'usuario/sexo/seleccionar',12);
-            cargarDropDownList(("#idNivelAutorizacion"),'idNivelAutorizacion','descripcion',API_SYS_PATH+'usuario/nivel_autorizacion/seleccionar',$("#idUsuario").val());
-            $("#descripcion").enterKey(function(){
+            cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12);
+            cargarDropDownList(("#sexo"), 'idSexo', 'descripcion', API_SYS_PATH + 'usuario/sexo/seleccionar', 12);
+            cargarDropDownList(("#idNivelAutorizacion"), 'idNivelAutorizacion', 'descripcion', API_SYS_PATH + 'usuario/nivel_autorizacion/seleccionar', $("#idUsuario").val());
+            $("#descripcion").enterKey(function () {
                 e.preventDefault();
                 buscar();
             });
-            $("#clave").enterKey(function(e){
+            $("#clave").enterKey(function (e) {
                 e.preventDefault();
                 buscar();
             });
-            $("#buscarUsuario").submit(function(e){
+            $("#buscarUsuario").submit(function (e) {
                 e.preventDefault();
                 buscar();
             });
-           // function buscar(){
-
+            // function buscar(){
+        });
             function eliminarUsuario(element,tr){
                 BootstrapDialog.show({
                     title: 'Peligro',
@@ -156,6 +160,8 @@
                     }]
                 });
             }
+
+
             function editarUsuario(element,tr){
 
                 var $contenido = $("<div></div>");
@@ -163,81 +169,107 @@
 
                 /********USUARIO********/
                 var label = $("<label></label>",{for:'usuario',text:'Usuario'});
-                var usuario = $("<input>",{name:'usuario',value:element['usuario'],type:'text',class:'form-control'});
+                var usuario = $("<input>",{name:'usuario',value:element['usuario'],type:'text',class:'form-control',readonly:'readonly'});
                 $form_group.append(label);
                 $form_group.append(usuario);
                 $contenido.append($form_group);
                 /********CONTRASEÑA********/
-                $form_group = $("<div></div>",{class:'form-group'});
+                //$form_group = $("<div></div>",{class:'form-group'});
                 label = $("<label></label>",{for:'password',text:'Password'});
-                var password = $("<input>",{name:'password',value:'',type:'password',class:'form-control'});
+                var password = $("<input>",{name:'password',value:element['password'],type:'password',class:'form-control', required:'required'});
                 $form_group.append(label);
                 $form_group.append(password);
                 $contenido.append($form_group);
                 /********REPETIR CONTRASEÑA********/
-                $form_group = $("<div></div>",{class:'form-group'});
+                //$form_group = $("<div></div>",{class:'form-group'});
                 label = $("<label></label>",{for:'repetirpassword',text:'repetir password'});
-                var repetirpassword = $("<input>",{name:'repetirpassword',value:'',type:'password',class:'form-control'});
+                var repetirpassword = $("<input>",{name:'repetirpassword',value:element['password'],type:'password',class:'form-control', required:'required'});
                 $form_group.append(label);
                 $form_group.append(repetirpassword);
                 $contenido.append($form_group);
                 /********NOMBRE********/
-                $form_group = $("<div></div>",{class:'form-group'});
+                //$form_group = $("<div></div>",{class:'form-group'});
                 label = $("<label></label>",{for:'nombre',text:'Nombre'});
-                var nombre = $("<input>",{name:'nombre',value:element['nombre'],type:'text',class:'form-control'});
+                var nombre = $("<input>",{name:'nombre',value:element['nombre'],type:'text',class:'form-control', required:'required'});
                 $form_group.append(label);
                 $form_group.append(nombre);
                 $contenido.append($form_group);
                 /********APELLIDO********/
-                $form_group = $("<div></div>",{class:'form-group'});
+                //$form_group = $("<div></div>",{class:'form-group'});
                 label = $("<label></label>",{for:'apellido',text:'Apellido'});
-                var apellido = $("<input>",{name:'apellido',value:element['apellido'],type:'text',class:'form-control'});
+                var apellido = $("<input>",{name:'apellido',value:element['apellido'],type:'text',class:'form-control', required:'required'});
                 $form_group.append(label);
                 $form_group.append(apellido);
                 $contenido.append($form_group);
                 /********CONTACTO********/
-                $form_group = $("<div></div>",{class:'form-group'});
+                //$form_group = $("<div></div>",{class:'form-group'});
                 label = $("<label></label>",{for:'contacto',text:'Contacto'});
-                var contacto = $("<input>",{name:'contacto',value:element['contacto'],type:'text',class:'form-control'});
+                var contacto = $("<input>",{name:'contacto',value:element['contacto'],type:'text',class:'form-control', required:'required'});
                 $form_group.append(label);
                 $form_group.append(contacto);
                 $contenido.append($form_group);
                 /********SEXO********/
-                $form_group = $("<div></div>",{class:'form-group'});
-                label = $("<label></label>",{for:'nivelAutorizacion',text:'nivel de Autorización'});
-                var optionSexo = $("<option></option>",{name:'empty',text:'Seleccione sexo',value:''});
-                var sexo = $("<select></select>",{name:'nivelAutorizacion',id:'nivelAutorizacion',class:'form-control'});
+               // $form_group = $("<div></div>",{class:'form-group'});
+                label = $("<label></label>",{for:'sexo',text:'Sexo'});
+                var optionSexo = $("<option></option>",{name:'empty',text:'Seleccione sexo',value:'', required:'required'});
+                var sexo = $("<select></select>",{name:'sexo',id:'sexo',class:'form-control'});
                 $(sexo).append(optionSexo);
                 $(sexo).val('');
                 $form_group.append(label);
                 $form_group.append(sexo);
                 $contenido.append($form_group);
-                cargarDropDownList((sexo),'idSexo','descripcion',API_SYS_PATH+'usuario/sexo/seleccionar',12);
-                /********NIVEL AUTORIZACION********/
-                $form_group = $("<div></div>",{class:'form-group'});
-                label = $("<label></label>",{for:'nivelAutorizacion',text:'nivel de Autorización'});
-                var optionAutorizacion = $("<option></option>",{name:'empty',text:'Seleccione un nivel de autorización',value:''});
-                var rol = $("<select></select>",{name:'nivelAutorizacion',id:'nivelAutorizacion',class:'form-control'});
-                $(rol).append(optionAutorizacion);
-                $(rol).val('');
+
+                /********SUCURSAL********/
+                label = $("<label></label>",{for:'idSucursal',text:'Sucursal'});
+                var optionSucursal = $("<option></option>",{name:'empty',text:'Seleccione Sucursal',value:'', required:'required'});
+                var sucursal = $("<select></select>",{name:'idSucursal',id:'idSucursal',class:'form-control'});
+                $(sucursal).append(optionSucursal);
+                $(sucursal).val('');
                 $form_group.append(label);
-                $form_group.append(rol);
+                $form_group.append(sucursal);
                 $contenido.append($form_group);
-                cargarDropDownList((rol),'idNivelAutorizacion','descripcion',API_SYS_PATH+'usuario/nivel_autorizacion/seleccionar',$("#idUsuario").val());
+
+                /********NIVEL AUTORIZACION********/
+                //$form_group = $("<div></div>",{class:'form-group'});
+                label = $("<label></label>",{for:'idnivelAutorizacion',text:'nivel de Autorización'});
+                var optionAutorizacion = $("<option></option>",{name:'empty',text:'Seleccione un nivel de autorización',value:'' , required:'required'});
+                var idNivelAutorizacion = $("<select></select>",{name:'idnivelAutorizacion',id:'idnivelAutorizacion',class:'form-control'});
+                $(idNivelAutorizacion).append(optionAutorizacion);
+                $(idNivelAutorizacion).val('');
+                $form_group.append(label);
+                $form_group.append(idNivelAutorizacion);
+                $contenido.append($form_group);
+                /*********ESTADO**********/
+                $form_group = $("<div></div>",{class:'form-group'});
+                label = $("<label></label>",{for:'myonoffswitch',text:'Estado'});
+                var divcontenedor = $("<div></div>",{class:'onoffswitch'});
+                var inputEstado="";
+                if(element['idEstado']=='1'){
+                    inputEstado = $("<input>",{type:'checkbox',checked:'checked',name:'onoffswitch',class:'onoffswitch-checkbox',id:'myonoffswitch'});
+                }else{
+                    inputEstado = $("<input>",{type:'checkbox',name:'onoffswitch',class:'onoffswitch-checkbox',id:'myonoffswitch'});
+                }
+                var labelEstado = $("<label></label>",{class:'onoffswitch-label',for:'myonoffswitch'});
+                var span1=$("<span></span>",{class:'onoffswitch-inner'});
+                var span2=$("<span></span>",{class:'onoffswitch-switch'});
+                $(labelEstado).append(span1);
+                $(labelEstado).append(span2);
+                $($form_group).append(label);
+                $(divcontenedor).append(inputEstado);
+                $(divcontenedor).append(labelEstado);
+                $form_group.append(divcontenedor);
+                $contenido.append($form_group);
 
                 BootstrapDialog.show({
-                    title: 'Esta a punto de modificat los siguientes datos',
+                    title: 'Esta a punto de modificar los siguientes datos',
                     message:function(dialog) {
                         return $contenido;
                     },
                     type: BootstrapDialog.TYPE_WARNING,
                     onshown:function(){
-                        console.log($(rol).val());
-                        $(rol).val(element['rol']);
-                        //$(rol).val(2);
-                        //$(rol).find('option[value='+element['rol']+']').attr('selected','selected');
-                        console.log(element['rol'],rol);
-                        console.log($(rol).val());
+                        cargarDropDownList((idNivelAutorizacion),'idNivelAutorizacion','descripcion',API_SYS_PATH+'usuario/nivel_autorizacion/seleccionar',$("#idUsuario").val(),null,element['idNivelAutorizacion']);
+                        cargarDropDownList((sucursal),'idSucursal','nombre',API_SYS_PATH+'sucursal/seleccionar',null,null,element['idSucursal']);
+                        cargarDropDownList((sexo),'idSexo','descripcion',API_SYS_PATH+'usuario/sexo/seleccionar',null,null,element['sexo']);
                     },
                     buttons: [{
                         id: 'btn-1',
@@ -252,24 +284,34 @@
                         cssClass: 'btn-danger',
                         action: function(dialog) {
                             var datos = {};
-                            datos.id_usuario = element.id_usuario;
+                            if ($(password).val()!=$(repetirpassword).val()){
+                               notificacionWarning('Las contraseñas no concuerdan');
+                                $(password).val('');
+                                $(repetirpassword).val('');
+                                return false;
+                            }
                             datos.usuario = $(usuario).val();
-                            datos.password = $(password).val();
-                            datos.rol = $(rol).val();
-                            datos.idTransaccion = 5;
+                            datos.password= $(password).val();
+                            datos.nombre=$(nombre).val();
+                            datos.apellido=$(apellido).val();
+                            datos.sexo=$(sexo).val();
+                            datos.contacto=$(contacto).val();
+                            datos.idSucursal=$(sucursal).val();
+                            datos.idEstado=($(inputEstado).prop('checked')==true?'1':'0');
+                            datos.idNivelAutorizacion=$(idNivelAutorizacion).val();
                             exitoso = function(datos){
                                 notificacionSuccess(datos.success);
                                 $(tr).remove();
-                                buscar();
                                 dialog.close();
+                                inicializarTabla();
                             };
                             fallo = function(datos){
-                                notificacionError(datos.error);
+                               // notificacionError(datos.error);
                             };
-                            peticionAjax('data/test-actualizar.php',datos,exitoso,fallo);
+                            peticionAjax(API_SYS_PATH+'usuario/actualizar',datos,exitoso,fallo,'Guardando cambios...');
+
                         }
                     }]
                 });
-            }
-        });
+        }
 
