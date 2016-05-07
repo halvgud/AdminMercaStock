@@ -30,7 +30,7 @@ else
                 <hr>
                 <form class="form-inline" id="departamento" method="post">
                     <label for="sucursal">Filtrar por Sucursal: </label>
-                    <select id="sucursal" name="sucursal" class="form-control" style="width: 25%;" required>
+                    <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;" required>
                         <option value="">Seleccione una Sucursal</option>
                     </select>
                     <button type="submit" class="btn btn-outline btn-success"><i class="fa fa-search"></i> Buscar</button>
@@ -38,7 +38,7 @@ else
                 </br></br>
                 <!--<form id="seleccionarDepartamento">
                 </form>-->
-                <table id="resultadosSucursal" class="table table-condensed" style="display:none; " align="center">
+                <table id="resultadosSucursal" class="table table-condensed text-center"  align="center">
                     <thead>
                     <tr>
                         <th class="text-center">ID DEPARTAMENTO</th>

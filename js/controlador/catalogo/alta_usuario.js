@@ -267,7 +267,7 @@
                     },
                     type: BootstrapDialog.TYPE_WARNING,
                     onshown:function(){
-                        cargarDropDownList((idNivelAutorizacion),'idNivelAutorizacion','descripcion',API_SYS_PATH+'usuario/nivel_autorizacion/seleccionar',$("#idUsuario").val(),null,element['idNivelAutorizacion']);
+                        cargarDropDownList((idNivelAutorizacion),'idNivelAutorizacion','descripcion',API_SYS_PATH+'usuario/nivel_autorizacion/seleccionar',$("#idUsuario").val(),null,null,null,element['idNivelAutorizacion']);
                         cargarDropDownList((sucursal),'idSucursal','nombre',API_SYS_PATH+'sucursal/seleccionar',null,null,element['idSucursal']);
                         cargarDropDownList((sexo),'idSexo','descripcion',API_SYS_PATH+'usuario/sexo/seleccionar',null,null,element['sexo']);
                     },
