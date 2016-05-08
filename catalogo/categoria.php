@@ -11,16 +11,6 @@ else
     $decoded = PrivilegiosUsuario::traerPrivilegios();
     if (PrivilegiosUsuario::tienePrivilegio($decoded,"CATEGORIA")) {
         ?>
-        <!DOCTYPE html>
-        <html lang="en">
-
-        <head>
-
-            <?php require_once('../header-comun-carpeta.html'); ?>
-        <body>
-
-        <div id="wrapper">
-            <?php require_once('../menu.php'); ?>
             <div id="page-wrapper">
                 <br/>
                 <h1>Categorias</h1>
@@ -52,24 +42,8 @@ else
                     </thead>
                     <tbody></tbody>
                 </table>
-
+                <script type="text/javascript" src="js/controlador/catalogo/categoria.js"></script>
             </div>
-
-            <!-- /#wrapper -->
-
-            <?php require_once('../footer-comun-carpeta.html'); ?>
-            <script type="text/javascript" src="../js/controlador/catalogo/categoria.js"></script>
-
-            <!--<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>-->
-            <!--<script src='build/pdfmake.min.js'></script>
-            <script src='build/vfs_fonts.js'></script>
-            <script src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script>
-            <script src="https://cdn.datatables.net/1.10.8/js/dataTables.bootstrap.min.js"></script>
-            <script src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
-            <script src="https://cdn.datatables.net/tabletools/2.2.4/js/dataTables.tableTools.js"></script>-->
-        </body>
-
-        </html>
     <?php } else{
         header('Location: '.'../index.php');
     }

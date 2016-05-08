@@ -44,7 +44,6 @@ else
                     <tbody></tbody>
                 </table>
             <!-- /#page-wrapper -->
-                <script type="text/javascript" src="js/controlador/catalogo/permisos.js"></script>
                 <script type="text/javascript" src="js/controlador/catalogo/ms_inventario.js" ></script>
         </div>
         <!-- /#wrapper -->

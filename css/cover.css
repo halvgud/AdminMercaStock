@@ -10,10 +10,12 @@
     bottom: 0;
 }
 .sk-cube-grid {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     margin: auto;
     position: absolute;
+    background-image: url('../img/mstockicon2.png');
+    background-size: 100% 100%;
     left: 0;
     right: 0;
     top: 0;
@@ -21,12 +23,12 @@
 }
 
 .sk-cube-grid .sk-cube {
-    width: 33%;
-    height: 33%;
-    background-color: #c5cace;
+    width: 33.3%;
+    height: 33.3%;
+    background-color: #303030;
     float: left;
-    -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
-    animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+    -webkit-animation: sk-cubeGridScaleDelay 1.5s infinite ease-in-out;
+    animation: sk-cubeGridScaleDelay 1.5s infinite ease-in-out;
 }
 .sk-cube-grid .sk-cube1 {
     -webkit-animation-delay: 0.2s;

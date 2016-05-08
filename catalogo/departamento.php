@@ -11,19 +11,6 @@ else
     $decoded = PrivilegiosUsuario::traerPrivilegios();
     if (PrivilegiosUsuario::tienePrivilegio($decoded,"DEPARTAMENTO")) {
         ?>
-        <!DOCTYPE html>
-        <html lang="en">
-
-        <head>
-
-            <?php require_once('../header-comun-carpeta.html'); ?>
-
-        </head>
-
-        <body>
-
-        <div id="wrapper">
-            <?php require_once('../menu.php'); ?>
             <div id="page-wrapper">
                 <br/>
                 <h1>Departamentos</h1>
@@ -52,14 +39,10 @@ else
                     <tbody></tbody>
                 </table>
                 <!-- /#page-wrapper -->
+                <script type="text/javascript" src="../js/controlador/catalogo/departamento.js"></script>
             </div>
             <!-- /#wrapper -->
 
-            <?php require_once('../footer-comun-carpeta.html'); ?>
-            <script type="text/javascript" src="../js/controlador/catalogo/departamento.js"></script>
-        </body>
-
-        </html>
     <?php } else{
         header('Location: '.'../index.php');
     }

@@ -11,16 +11,6 @@ else
     $decoded = PrivilegiosUsuario::traerPrivilegios();
     if (PrivilegiosUsuario::tienePrivilegio($decoded,"ESTADISTICAS_VENTA")) {
         ?>
-        <!DOCTYPE html>
-        <html lang="en">
-
-        <head>
-
-            <?php require_once('../header-comun-carpeta.html'); ?>
-
-        </head>
-
-        <body>
 
         <div id="wrapper">
             <?php require_once('../menu.php'); ?>
@@ -28,19 +18,8 @@ else
                 <br/>
                 <h1>Estadísticas por Venta</h1>
                 <hr>
-
             </div>
-            <!-- /#page-wrapper -->
-        </div>
-        <!-- /#wrapper -->
 
-        <?php require_once('../footer-comun-carpeta.html'); ?>
-        <script type="text/javascript" src="../js/controlador/catalogo/permisos.js">
-
-        </script>
-        </body>
-
-        </html>
     <?php } else{
         header('Location: '.'../index.php');
     }

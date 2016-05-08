@@ -39,15 +39,6 @@ else
                 <script type="text/javascript" src="js/controlador/reportes/bitacora.js" ></script>
             </div>
             <!-- /#wrapper -->
-<<<<<<< HEAD
-=======
-
-
-        </body>
-        <?php require_once('../footer-comun-carpeta.html'); ?>
-        <script type="text/javascript" src="../js/controlador/reportes/bitacora.js" ></script>
-        </html>
->>>>>>> origin/master
     <?php } else{
         header('Location: '.'../index.php');
     }

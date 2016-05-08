@@ -10,16 +10,6 @@
         $decoded = PrivilegiosUsuario::traerPrivilegios();
         if (PrivilegiosUsuario::tienePrivilegio($decoded,"ALTA_SUCURSAL")) {
   ?>
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
-    <head>
-        <?php require_once('../header-comun-carpeta.html'); ?>
-        
-    </head>
-    
-    <body>
-        <div id="wrapper">
-        <?php require_once('../menu.php'); ?> 
             <div id="page-wrapper">   
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#home">Registrar</a></li>
@@ -82,12 +72,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+
+            <script type="text/javascript" src="js/controlador/catalogo/alta_sucursal.js" ></script>
         </div>
-        <?php require_once('../footer-comun-carpeta.html'); ?>
-        <script type="text/javascript" src="../js/controlador/catalogo/alta_sucursal.js" ></script>
-    </body>
-</html>
 <?php }else{
     header('Location: '.'../index.php');
 }
