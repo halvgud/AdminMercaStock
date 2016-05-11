@@ -53,15 +53,37 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading) {
 		mostrarDialogoDeEspera(loading);
 	}
 	console.log(datos);
-	$(DT).dataTable({
-
+	return $(DT).DataTable({
+		dom: 'Bfrtip',
 		"bDestroy": true,
 		"language": {
-			"lengthMenu": "mostrar _MENU_ records por hoja",
-			"zeroRecords": "no se encontró ningún registro :(",
-			"info": "Mostrando página _PAGE_ de _PAGES_",
-			"infoEmpty": "Ningún registro disponible para la solicitud",
-			"infoFiltered": "(filtrado de _MAX_ registros totales)"
+			"sProcessing":     "Procesando...",
+			"sLengthMenu":     "Mostrar _MENU_ registros",
+			"sZeroRecords":    "No se encontraron resultados",
+			"sEmptyTable":     "Ningún dato disponible en esta tabla",
+			"sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+			"sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+			"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+			"sInfoPostFix":    "",
+			"sSearch":         "Buscar:",
+			"sUrl":            "",
+			"sInfoThousands":  ",",
+			"sLoadingRecords": "Cargando...",
+			"oPaginate": {
+				"sFirst":    "Primero",
+				"sLast":     "Último",
+				"sNext":     "Siguiente",
+				"sPrevious": "Anterior"
+			},
+			"oAria": {
+				"sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+				"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+			},buttons: {
+				copyTitle: 'Copiado al Portapapeles',
+				copySuccess: {
+					_: 'Se han copiado %d Registros'
+						}
+			}
 		},
 		ajax: {
 			'url': API_SYS_PATH + URL,
@@ -102,7 +124,16 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading) {
 				}
 			})
 		},
-		columns: arregloColumnas
+
+		columns: arregloColumnas,
+		buttons: [
+		{
+			extend: 'collection',
+			text: 'Exportar tabla',
+			buttons: ['pdfHtml5', 'csvHtml5', 'copyHtml5', 'excelHtml5']
+
+		}
+	]
 	});
 
 }
@@ -115,7 +146,8 @@ function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
 				type: "POST",
 				url: URL,
 				data: JSON.stringify(datos),
-				dataType: 'json'
+				dataType: 'json',
+				timeout: 15000
 			})
 			.done(function (resultado) {
 
@@ -261,7 +293,12 @@ function cargarDropDownList(nameattr, id, value, transaccion, tipo, cargarTodos,
 	exitoso = function (result) {
 		var options = '';
 		if (result.estado!="warning"){
-			var resultados = result.data[0];
+			if(id=='idSucursal') {
+				var resultados = result.data;
+			}
+			else{
+				var resultados = result.data[0];
+			}
 			console.log(result);
 
 			if(itemS!=null){

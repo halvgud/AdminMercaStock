@@ -5,12 +5,7 @@ if(!isset($_SESSION['idUsuario'])){
     header('Location: '.'../index.php');
 }
 else
-{
-
-    require_once "../data/PrivilegiosUsuario.php";
-    $decoded = PrivilegiosUsuario::traerPrivilegios();
-    if (PrivilegiosUsuario::tienePrivilegio($decoded,"ARTICULO")) {
-        ?>
+{?>
             <div id="page-wrapper">
                 </br>
                 <h1>Art&iacute;culos</h1>
@@ -50,7 +45,5 @@ else
 
 
 
-    <?php } else{
-        header('Location: '.'../index.php');
-    }
+    <?php
 } ?>

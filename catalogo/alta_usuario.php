@@ -35,7 +35,7 @@ else
                          <input type="password" class="form-control" id="password" name="password" placeholder="Password" required autocomplete="off">
 
                          <label for="repetirpassword">Repetir Password</label>
-                         <input type="password" class="form-control" id="repetirpassword" name="repetirpassword" placeholder="Repetir Password" required autocomplete="off">
+                         <input type="password" class="form-control" id="repetirpassword" name="repetirpassword" placeholder="Repetir Password" onkeydown="reactivarBtnU();" required autocomplete="off">
 
                          <label for="nombre">Nombre:</label>
                          <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required autocomplete="off">

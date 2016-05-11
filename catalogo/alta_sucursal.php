@@ -13,7 +13,7 @@
             <div id="page-wrapper">   
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#home">Registrar</a></li>
-                    <li><a data-toggle="tab" href="#menu1">Buscar y Modificar</a></li>
+                    <li><a data-toggle="tab" href="#menu1" id="buscarYModificar" name="buscarYModificar">Buscar y Modificar</a></li>
                 </ul>
                 <div class="tab-content">
                     <div id="home" class="tab-pane fade in active">
@@ -27,11 +27,11 @@
                                 <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required autocomplete="off">
                               </div>
                                <div class="form-group">
-                                <label for="direccion">Direcci&oacute;n:</label>
+                                <label for="domicilio">Domicilio:</label>
                                 <input type="text" class="form-control" id="domicilio" name="domicilio" placeholder="Direcci&oacute;n" required autocomplete="off">
                               </div>
                               <div class="form-group">
-                                <label for="direccion">Contacto:</label>
+                                <label for="contacto">Contacto:</label>
                                 <input type="text" class="form-control" id="contacto" name="contacto" placeholder="Contacto" required autocomplete="off">
                               </div>
                                 <div class="form-group">
@@ -40,10 +40,16 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password:</label>
-                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required autocomplete="off">
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" onkeydown="reactivarBtnS();" required autocomplete="off">
                                 </div>
-                              
-                              <button type="submit" class="btn btn-outline btn-success"><i class="fa fa-floppy-o"></i> Guardar</button>
+                                <div class="form-group">
+                                    <label for="repetirpassword">Repetir Password:</label>
+                                    <input type="password" class="form-control" id="repetirpassword" name="repetirpassword" placeholder="Repetir Password" required autocomplete="off">
+                                </div>
+                                <input type="hidden" id="claveAPI" name="claveAPI" value="default" />
+                                <input type="hidden" id="idEstado" name="idEstado" value="1" />
+                                <input type="hidden" id="idSucursal" name="idSucursal" value="0" />
+                              <button id="btnGuardar" type="submit" class="btn btn-outline btn-success"><i class="fa fa-floppy-o"></i> Guardar</button>
                             </form>
                         </div>
                     </div>
@@ -53,22 +59,20 @@
                             
                             <h3>Buscar y Modificar Sucursal</h3>
                             </br>
-                            <form id="buscarSucursal">
-                              <div class="form-group">
-                                <label for="usuario">Nombre:</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required autocomplete="off">
-                              </div>
-                               <div class="form-group">
-                                <label for="usuario">Direcci&oacute;n:</label>
-                                <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Direcci&oacute;n" required autocomplete="off">
-                              </div>
-                                <div class="form-group">
-                                <label for="usuario">Contacto:</label>
-                                <input type="text" class="form-control" id="contacto" name="contacto" placeholder="Contacto" required autocomplete="off">
-                              </div>
-                              
-                              <button type="submit" class="btn btn-outline btn-success"><i class="fa fa-search"></i> Buscar</button>
-                            </form></p>
+                            <table id="resultados" class="table table-condensed" style="">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">ID SUCURSAL</th>
+                                    <th class="text-center">NOMBRE</th>
+                                    <th class="text-center">USUARIO</th>
+                                    <th class="text-center">DOMICILIO</th>
+                                    <th class="text-center">CONTACTO</th>
+                                    <th class="text-center">ID ESTADO</th>
+                                    <th class="text-center">EDICI&Oacute;N</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

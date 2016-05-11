@@ -20,7 +20,7 @@ function buscarDepartamento(){
         }
     });
 */  $("#dep_id").empty();
-    cargarDropDownList(("#dep_id"),'dep_id','nombre',API_SYS_PATH+'categoria/departamento/seleccionar',$("#idSucursal").val(),false,'Cargando...','Seleccione un Departamento');
+    cargarDropDownList(("#dep_id"),'dep_id','nombre',API_SYS_PATH+'departamento/seleccionar',$("#idSucursal").val(),false,'Cargando...','Seleccione un Departamento');
 
 }
 
@@ -37,7 +37,7 @@ $("#categoria").submit(function(){
         { data : "idSucursal" },
         { data : "nombre" },
         { data : "dep_id" }];
-    peticionAjaxDT('categoria/categoria/seleccionar',('#resultadosCategoria'),datosTabla1,columnas,'cargando');
+    peticionAjaxDT('categoria/seleccionar',('#resultadosCategoria'),datosTabla1,columnas,'cargando');
     return false;
     /*
     var datosTabla1 = {};

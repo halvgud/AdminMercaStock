@@ -1,4 +1,4 @@
-<?php session_start();
+<<?php session_start();
 $path = "/ADMINMERCASTOCK";
 if(!isset($_SESSION['idUsuario'])){
     //require_once('../index.php');
@@ -28,18 +28,20 @@ else
                 <table id="resultadosSucursal" class="table table-condensed text-center"  align="center">
                     <thead>
                     <tr>
-                        <th class="text-center">ID DEPARTAMENTO</th>
-                        <th class="text-center">ID LOCAL</th>
-                        <th class="text-center">ID SUCURSAL</th>
+                        <th class="text-center">ID</th>
                         <th class="text-center">NOMBRE</th>
-                        <th class="text-center">RESTRINGIDO</th>
                         <th class="text-center">PORCENTAJE</th>
                     </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
+
                 <!-- /#page-wrapper -->
-                <script type="text/javascript" src="../js/controlador/catalogo/departamento.js"></script>
+
+
+                <!--<script src='https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css'></script>
+                <script src='https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css'></script>-->
+                <script type="text/javascript" src="http://localhost/AdminMercaStock/js/controlador/catalogo/departamento.js"></script>
             </div>
             <!-- /#wrapper -->
 

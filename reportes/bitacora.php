@@ -7,9 +7,6 @@ if(!isset($_SESSION['idUsuario'])){
 else
 {
 
-    require_once "../data/PrivilegiosUsuario.php";
-    $decoded = PrivilegiosUsuario::traerPrivilegios();
-    if (PrivilegiosUsuario::tienePrivilegio($decoded,"BITACORA")) {
         ?>
             <div id="page-wrapper">
                 <br/>
@@ -27,11 +24,11 @@ else
                 <table id="test" class="table table-condensed">
                     <thead>
                     <tr>
-                        <th>idBitacora</th>
-                        <th>idError</th>
-                        <th>descripcion</th>
-                        <th>usuario</th>
-                        <th>fecha</th>
+                        <th>ID Bit&aacute;cora</th>
+                        <th>ID Error</th>
+                        <th>Descripci&oacute;n</th>
+                        <th>Usuario</th>
+                        <th>Fecha</th>
                     </tr>
                     </thead>
                     <tbody></tbody>
@@ -39,7 +36,5 @@ else
                 <script type="text/javascript" src="js/controlador/reportes/bitacora.js" ></script>
             </div>
             <!-- /#wrapper -->
-    <?php } else{
-        header('Location: '.'../index.php');
-    }
+    <?php
 } ?>

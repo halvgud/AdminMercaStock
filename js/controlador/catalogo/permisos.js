@@ -2,7 +2,7 @@ $(function() {
     cargarTabla();
     function cargarTabla() {
         var arregloConInputs = {};
-        arregloConInputs['idTransaccion']='permisos/obtener';
+        arregloConInputs['idTransaccion']='permisos/seleccionar';
         var $resultados =  $("#resultados");
         $resultados.hide();
         var tbody = $resultados.find("tbody").empty();
@@ -41,7 +41,7 @@ $(function() {
         fallo = function(datos){
             console.log(datos);
         };
-        peticionAjax(API_SYS_PATH+'permisos/obtener',arregloConInputs,exitoso,fallo,"Cargando permisos...");
+        peticionAjax(API_SYS_PATH+'permisos/seleccionar',arregloConInputs,exitoso,fallo,"Cargando permisos...");
     }
     function agregarTDaTR (tr,element,CSSclass){
         var td = $("<td></td>",{class:CSSclass});

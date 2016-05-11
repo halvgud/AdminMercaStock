@@ -11,6 +11,5 @@ $("#loginForm").submit(function(){
         datos[input.name] = input.value;
     });
     peticionAjax(API_SYS_PATH+'usuario/login',datos,exitoso,fallo);
-    
     return false;
 });

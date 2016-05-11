@@ -90,7 +90,7 @@ $("#enviarSucursal").submit(function(){
         fallo = function (datos) {
             console.log(datos);
         };
-         peticionAjax(API_SYS_PATH + 'categoria/inventario/seleccionar', arregloConInputs, exitoso, fallo);
+         peticionAjax(API_SYS_PATH + 'inventario/seleccionar', arregloConInputs, exitoso, fallo);
 
     }
 

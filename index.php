@@ -21,8 +21,8 @@
 <html lang="en">
 
 <head>
-    <?php require_once($path.'/header-comun.html'); ?> 
-    
+    <?php require_once($path.'/header-comun.html'); ?>
+    <?php require_once('/footer-comun.html'); ?>
 
 </head>
 
@@ -42,7 +42,7 @@
     </div>
     <!-- /#wrapper -->
 
-    <?php require_once('/footer-comun.html'); ?>
+
     <script>
     function cambiarUrl(pagina,bandera){
         mostrarDialogoDeEspera("Cargando página");

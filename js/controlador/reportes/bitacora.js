@@ -24,7 +24,6 @@ jQuery(function(){
     });
 });
 $("#fecha").submit(function(){
-    //$("#test").dataTable().fnDestroy();
     var form1 = $("#fecha").find("select,input").serializeArray();
     var datosTabla1 = {};
     form1.forEach(function(input) {
@@ -36,7 +35,7 @@ $("#fecha").submit(function(){
         { data : "descripcion" },
         { data : "usuario" },
         { data : "fecha" }];
-    peticionAjaxDT('reporte/bitacora/seleccionar',('#test'),datosTabla1,columnas,null);
-return false;
+    peticionAjaxDT('bitacora/seleccionar',('#test'),datosTabla1,columnas,null);
+    return false;
 
 });

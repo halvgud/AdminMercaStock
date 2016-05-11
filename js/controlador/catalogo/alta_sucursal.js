@@ -1,194 +1,257 @@
+var contador2 =0;
+function reactivarBtnS(){
+    var boton =document.getElementById('btnGuardar');
+    if(contador2==1){
+        $( "#btnGuardar" ).prop( "disabled", false );
+        contador2=0;
+    }
+}
 var contador = 0;
-$("#guardarSucursal").submit(function(){
-    var form1 = $("#guardarSucursal").find("select,input").serializeArray();
-    var datosTabla1 = {};
+
+ $("#guardarSucursal").submit(function(){
+    var guardarSucursal = $('#guardarSucursal');
+    $("#btnGuardar").prop("disabled", true);
+    var form1 = guardarSucursal.find("select,input").serializeArray();
+    var datosTabla2 = {};
     form1.forEach(function(input) {
-        datosTabla1[input.name] = input.value;
+        datosTabla2[input.name] = input.value;
     });
-    // datosTabla1['fecha_alta'] = moment().format("YYYY/MM/DD HH:mm:ss");
+    if($("#password").val()!=$("#repetirpassword").val()){
+        notificacionWarning('Las contraseñas no concuerdan');
+        $("#password").val('');
+        $("#repetirpassword").val('');
+        contador2=1;
+        return false;
+    }
     exitoso = function(datos){
-        console.log(datos);
         notificacionSuccess(datos.success);
         $("#guardarSucursal")[0].reset();
         contador = 0;
+        $( "#btnGuardar" ).prop( "disabled", false );
+        return false;
     };
     fallo = function(datos){
-        console.log(datos);
-        notificacionError(datos.error);
+        $( "#btnGuardar" ).prop( "disabled", false );
+        return false;
     };
-    peticionAjax(API_SYS_PATH+'sucursal/insertar',datosTabla1,exitoso,fallo);
+    peticionAjax(API_SYS_PATH+'sucursal/insertar',datosTabla2,exitoso,fallo,"Guardando Sucursal...");
 
     return false;
 });
-$(function() {
-    var datosTabla1 = {};
-    //datosTabla1['nombre'] = usuario;
-    datosTabla1['nombre']=nombre;
-    console.warn(datosTabla1);
-    cargarTabla(datosTabla1, 10);
 
-    function cargarTabla(arregloConInputs, idTransaccion) {
-        arregloConInputs['idTransaccion'] = idTransaccion;
-        $("#resultadosSucursal").hide();
-        var tbody = $("#resultadosSucursal tbody").empty();
-        exitoso = function (result) {
-            console.log(result);
-            if (result.estado != undefined) {
-                if (result.estado == 'warning') {
-                    notificacionWarning(result.success);
-                    return;
-                }
-            }
-            var find = false;
-            result.forEach(function (element, index) {
-                find = true;
-                var tr = $("<tr></tr>");
-
-                var idSucursal = element['idSucursal'];
-                var nombre = element['nombre'];
-                //  var password = element['password'];
-               // var descripcionRol = element['domicilio'];
-
-                var editar = $("<button></button>", {class: 'btn btn-primary'});
-                var icono_editar = $("<i></i>", {class: 'fa fa-pencil-square-o'});
-                editar.append(icono_editar);
-                editar.append(" Editar");
-                $(editar).click(function () {
-                    //editarUsuario(element,tr);
-                })
-                var eliminar = $("<button></button>", {class: 'btn btn-danger'});
-                var icono_eliminar = $("<i></i>", {class: 'fa fa-trash-o'});
-                eliminar.append(icono_eliminar);
-                eliminar.append(" Eliminar");
-                $(eliminar).click(function () {
-                    eliminarSucursal(element,tr);
-                })
-
-                agregarTDaTR(tr, idSucursal);
-                // agregarTDaTR(tr,password);
-                agregarTDaTR(tr, nombre);
-                agregarTDaTR(tr, editar);
-                agregarTDaTR(tr, eliminar);
-                $(tbody).append(tr);
-            });
-            console.log(find);
-            if (find)
-                $('#resultadosSucursal').show();
-        };
-        fallo = function (datos) {
-            console.log(datos);
-        };
-        peticionAjax(API_SYS_PATH + 'sucursal/seleccionar', arregloConInputs, exitoso, fallo);
-    }
-
-    function agregarTDaTR(tr, element) {
-        var td = $("<td align='center'></td>");
-        $(td).append(element);
-        $(tr).append(td);
-    }
-    function eliminarSucursal(element,tr){
-        BootstrapDialog.show({
-            title: 'Peligro',
-            message:'Realmente desea eliminar a '+element.nombre,
-            type: BootstrapDialog.TYPE_DANGER,
-            buttons: [{
-                id: 'btn-1',
-                label: 'Cancelar',
-                cssClass: 'btn-primary',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            },{
-                id: 'btn-2',
-                label: 'Aceptar',
-                cssClass: 'btn-danger',
-                action: function(dialog) {
-                    var datos = {};
-                    datos.id_usuario = element.id_usuario;
-                    datos.idTransaccion = 4;
-                    exitoso = function(datos){
-                        notificacionSuccess(datos.success);
-                        $(tr).remove();
-                        buscar();
-                        dialog.close();
-                    };
-                    fallo = function(datos){
-                        notificacionError(datos.error);
-                    };
-                    peticionAjax('data/test-actualizar.php',datos,exitoso,fallo);
-                }
-            }]
-        });
-    }
-    function editarUsuario(element,tr){
-        var $contenido = $("<div></div>");
-        var $form_group = $("<div></div>",{class:'form-group'});
-        var label = $("<label></label>",{for:'usuario',text:'Usuario'});
-        var usuario = $("<input>",{name:'usuario',value:element['usuario'],type:'text',class:'form-control'});
-        $form_group.append(label);
-        $form_group.append(usuario);
-        $contenido.append($form_group);
-        var $form_group = $("<div></div>",{class:'form-group'});
-        var label = $("<label></label>",{for:'password',text:'Password'});
-        var password = $("<input>",{name:'password',value:'',type:'password',class:'form-control'});
-        $form_group.append(label);
-        $form_group.append(password);
-        $contenido.append($form_group);
-        var $form_group = $("<div></div>",{class:'form-group'});
-        var label = $("<label></label>",{for:'nivelAutorizacion',text:'nivel de Autorización'});
-        var option = $("<option></option>",{name:'empty',text:'Seleccione un nivel de autorización',value:''});
-        var rol = $("<select></select>",{name:'nivelAutorizacion',id:'nivelAutorizacion',class:'form-control'});
-        $(rol).append(option);
-        $(rol).val('');
-        $form_group.append(label);
-        $form_group.append(rol);
-        $contenido.append($form_group);
-        cargarDropDownList((rol),'idNivelAutorizacion','descripcion',API_SYS_PATH+'usuario/nivel_autorizacion/seleccionar',$("#idUsuario").val());
-
-        BootstrapDialog.show({
-            title: 'Esta a punto de modificat los siguientes datos',
-            message:function(dialog) {
-                return $contenido;
-            },
-            type: BootstrapDialog.TYPE_WARNING,
-            onshown:function(){
-                console.log($(rol).val());
-                $(rol).val(element['rol']);
-                //$(rol).val(2);
-                //$(rol).find('option[value='+element['rol']+']').attr('selected','selected');
-                console.log(element['rol'],rol);
-                console.log($(rol).val());
-            },
-            buttons: [{
-                id: 'btn-1',
-                label: 'Cancelar',
-                cssClass: 'btn-primary',
-                action: function(dialog) {
-                    dialog.close();
-                }
-            },{
-                id: 'btn-2',
-                label: 'Aceptar',
-                cssClass: 'btn-danger',
-                action: function(dialog) {
-                    var datos = {};
-                    datos.id_usuario = element.id_usuario;
-                    datos.usuario = $(usuario).val();
-                    datos.password = $(password).val();
-                    datos.rol = $(rol).val();
-                    datos.idTransaccion = 5;
-                    exitoso = function(datos){
-                        notificacionSuccess(datos.success);
-                        $(tr).remove();
-                        buscar();
-                        dialog.close();
-                    };
-                    fallo = function(datos){
-                        notificacionError(datos.error);
-                    };
-                    peticionAjax('data/test-actualizar.php',datos,exitoso,fallo);
-                }
-            }]
-        });
-    }
+function inicializarTabla2(){
+    var datosTabla2 = {};
+    datosTabla2['idSucursal'] = idSucursal;
+    console.warn(datosTabla2);
+    cargarTabla(datosTabla2,10);
+}
+$('#buscarYModificar').click(function(){
+    inicializarTabla2();
 });
+
+function agregarTDaTR (tr,element){
+    var td = $("<td class='text-center'></td>");
+    $(td).append(element);
+    $(tr).append(td);
+}
+function cargarTabla(arregloConInputs,idTransaccion) {
+    arregloConInputs['idTransaccion']=idTransaccion;
+    $("#resultados").hide();
+    var tbody = $("#resultados tbody").empty();
+    exitoso = function(result){
+        if(result.estado!=undefined){
+            if(result.estado =='warning'){
+                notificacionWarning(result.success);
+                return;
+            }
+        }
+        var find = false;
+        result.data.forEach( function(element, index) {
+            find = true;
+            var tr = $("<tr></tr>");
+
+            var idSucursal = element['idSucursal'];
+            var nombre = element['nombre'];
+            var usuario = element['usuario'];
+            var password = element['password'];
+            var domicilio = element['domicilio'];
+            var contacto = element['contacto'];
+            var estado = element['idEstado']=='1'?'ACTIVO':'INACTIVO';
+
+            var editar = $("<button></button>",{class:'btn btn-primary'});
+            var icono_editar = $("<i></i>",{class:'fa fa-pencil-square-o'});
+            editar.append(icono_editar);
+            editar.append(" Editar");
+            $(editar).click(function(){
+                editarSucursal(element,tr);
+            })
+            /*var eliminar = $("<button></button>",{class:'btn btn-danger'});
+             var icono_eliminar = $("<i></i>",{class:'fa fa-trash-o'});
+             eliminar.append(icono_eliminar);
+             eliminar.append(" Eliminar");
+             $(eliminar).click(function(){
+             eliminarUsuario(element,tr);
+             })*/
+
+            agregarTDaTR(tr,idSucursal);
+            // agregarTDaTR(tr,password);
+            agregarTDaTR(tr,nombre);
+            agregarTDaTR(tr,usuario);
+            agregarTDaTR(tr,domicilio);
+            agregarTDaTR(tr,contacto);
+            agregarTDaTR(tr,estado);
+            agregarTDaTR(tr,editar);
+            $(tbody).append(tr);
+        });
+
+        if(find){
+            //$('#resultados').DataTable();
+            $('#resultados').show();
+
+        }
+
+    };
+    fallo = function(datos){
+        console.log(datos);
+    };
+    peticionAjax(API_SYS_PATH+'sucursal/seleccionar',arregloConInputs,exitoso,fallo,'Cargando lista de Sucursales');
+
+    //$(document).ready(function() {
+
+    //  } );
+}
+function editarSucursal(element,tr){
+
+    var $contenido = $("<form></form>",{name:'formSucursal'});
+    var $form_group = $("<div></div>",{class:'form-group'});
+
+    label = $("<label></label>",{for:'idSucursal',text:'ID Sucursal'})
+    var idSucursal = $("<input>",{name:'idSucursal',value:element['idSucursal'],class:'form-control', required:'required', readonly:'readonly'});
+    $form_group.append(label);
+    $form_group.append(idSucursal);
+    $contenido.append($form_group);
+    /********NOMBRE********/
+        //$form_group = $("<div></div>",{class:'form-group'});
+    label = $("<label></label>",{for:'nombre',text:'Nombre'});
+    var nombre = $("<input>",{name:'nombre',value:element['nombre'],type:'text',class:'form-control', required:'required'});
+    $form_group.append(label);
+    $form_group.append(nombre);
+    $contenido.append($form_group);
+    /********USUARIO********/
+    var label = $("<label></label>",{for:'usuario',text:'Usuario'});
+    var usuario = $("<input>",{name:'usuario',value:element['usuario'],type:'text',class:'form-control', required: 'required'});
+    $form_group.append(label);
+    $form_group.append(usuario);
+    $contenido.append($form_group);
+    /********CONTRASEÑA********/
+        //$form_group = $("<div></div>",{class:'form-group'});
+    label = $("<label></label>",{for:'password',text:'Password'});
+    var password = $("<input>",{name:'password',value:element['password'],type:'password',class:'form-control', required:'required'});
+    $form_group.append(label);
+    $form_group.append(password);
+    $contenido.append($form_group);
+    /********REPETIR CONTRASEÑA********/
+        //$form_group = $("<div></div>",{class:'form-group'});
+    label = $("<label></label>",{for:'repetirpassword',text:'Repetir password'});
+    var repetirpassword = $("<input>",{name:'repetirpassword',value:element['password'],type:'password',class:'form-control', required:'required'});
+    $form_group.append(label);
+    $form_group.append(repetirpassword);
+    $contenido.append($form_group);
+
+    /********APELLIDO********/
+        //$form_group = $("<div></div>",{class:'form-group'});
+    label = $("<label></label>",{for:'domicilio',text:'Domicilio'});
+    var domicilio = $("<input>",{name:'domicilio',value:element['domicilio'],type:'text',class:'form-control', required:'required'});
+    $form_group.append(label);
+    $form_group.append(domicilio);
+    $contenido.append($form_group);
+    /********CONTACTO********/
+        //$form_group = $("<div></div>",{class:'form-group'});
+    label = $("<label></label>",{for:'contacto',text:'Contacto'});
+    var contacto = $("<input>",{name:'contacto',value:element['contacto'],type:'text',class:'form-control', required:'required'});
+    $form_group.append(label);
+    $form_group.append(contacto);
+    $contenido.append($form_group);
+    /*********ESTADO**********/
+    $form_group = $("<div></div>",{class:'form-group'});
+    label = $("<label></label>",{for:'myonoffswitch',text:'Estado'});
+    var divcontenedor = $("<div></div>",{class:'onoffswitch'});
+    var inputEstado="";
+    if(element['idEstado']=='1'){
+        inputEstado = $("<input>",{type:'checkbox',checked:'checked',name:'onoffswitch',class:'onoffswitch-checkbox',id:'myonoffswitch'});
+    }else{
+        inputEstado = $("<input>",{type:'checkbox',name:'onoffswitch',class:'onoffswitch-checkbox',id:'myonoffswitch'});
+    }
+    var labelEstado = $("<label></label>",{class:'onoffswitch-label',for:'myonoffswitch'});
+    var span1=$("<span></span>",{class:'onoffswitch-inner'});
+    var span2=$("<span></span>",{class:'onoffswitch-switch'});
+    //////////
+    $(labelEstado).append(span1);
+    $(labelEstado).append(span2);
+    $($form_group).append(label);
+    $(divcontenedor).append(inputEstado);
+    $(divcontenedor).append(labelEstado);
+    $form_group.append(divcontenedor);
+    $contenido.append($form_group);
+
+    BootstrapDialog.show({
+        title: 'Esta a punto de modificar los siguientes datos',
+        message:function(dialog) {
+            return $contenido;
+        },
+        type: BootstrapDialog.TYPE_WARNING,
+        onshown:function(){
+            },
+        buttons: [{
+            id: 'btn-1',
+            label: 'Cancelar',
+            cssClass: 'btn-primary',
+            action: function(dialog) {
+                dialog.close();
+            }
+        },{
+            id: 'btn-2',
+            label: 'Aceptar',
+            cssClass: 'btn-danger',
+            submit:function(dialog){
+
+                return false;
+            },
+            action: function(dialog) {
+                var datos = {};
+                if ($(password).val()!=$(repetirpassword).val()){
+
+                    notificacionWarning('Las contraseñas no concuerdan');
+                    $(password).val('');
+                    $(repetirpassword).val('');
+                    return false;
+                }
+                datos.idSucursal =$(idSucursal).val();
+                datos.usuario = $(usuario).val();
+                datos.password= $(password).val();
+                datos.nombre=$(nombre).val();
+                datos.domicilio=$(domicilio).val();
+                datos.contacto=$(contacto).val();
+                datos.idEstado=($(inputEstado).prop('checked')==true?'1':'0');
+                if(datos.usuario==''||datos.password==''||datos.nombre==''||datos.domicilio==''||datos.contacto==''
+                ||datos.idEstado==''){
+                    notificacionWarning('Ningún campo debe de ir vacío, favor de validar la información');
+                    return false;
+                }
+
+                console.log(datos);
+                exitoso = function(datos){
+                    notificacionSuccess(datos.success);
+                    $(tr).remove();
+                    dialog.close();
+                    inicializarTabla2();
+                };
+                fallo = function(datos){
+                    // notificacionError(datos.error);
+                };
+                peticionAjax(API_SYS_PATH+'sucursal/actualizar',datos,exitoso,fallo,'Guardando cambios...');
+return false;
+            }
+        }]
+    });
+}

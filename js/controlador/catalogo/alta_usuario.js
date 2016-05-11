@@ -1,4 +1,12 @@
-        var contador = 0;
+var contador2 =0;
+function reactivarBtnU(){
+    var boton =document.getElementById('btnGuardar');
+    if(contador2==1){
+        $( "#btnGuardar" ).prop( "disabled", false );
+        contador2=0;
+    }
+}
+var contador = 0;
         $("#guardarUsuario").submit(function(){
             var guardarUsuario = $('#guardarUsuario');
             $( "#btnGuardar" ).prop( "disabled", true );
@@ -11,10 +19,10 @@
                 notificacionWarning('Las contraseñas no concuerdan');
                 $("#password").val('');
                 $("#repetirpassword").val('');
+                contador2=1;
                 return false;
             }
             exitoso = function(datos){
-
                 notificacionSuccess(datos.success);
                 $("#guardarUsuario")[0].reset();
                 contador = 0;
@@ -22,12 +30,10 @@
                 return false;
             };
             fallo = function(datos){
-
-               // notificacionError(datos.error);
                 $( "#btnGuardar" ).prop( "disabled", false );
                 return false;
             };
-            peticionAjax(API_SYS_PATH+'usuario/insertar',datosTabla1,exitoso,fallo,"Guardando usuario...");
+            peticionAjax(API_SYS_PATH+'usuario/insertar',datosTabla1,exitoso,fallo,"Guardando Usuario...");
 
             return false;
         });
@@ -43,7 +49,7 @@
         });
 
         function agregarTDaTR (tr,element){
-            var td = $("<td></td>");
+            var td = $("<td class='text-center'></td>");
             $(td).append(element);
             $(tr).append(td);
         }
@@ -110,8 +116,8 @@
 
         $(function() {
             cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12);
-            cargarDropDownList(("#sexo"), 'idSexo', 'descripcion', API_SYS_PATH + 'usuario/sexo/seleccionar', 12);
-            cargarDropDownList(("#idNivelAutorizacion"), 'idNivelAutorizacion', 'descripcion', API_SYS_PATH + 'usuario/nivel_autorizacion/seleccionar', $("#idUsuario").val());
+            cargarDropDownList(("#sexo"), 'idSexo', 'descripcion', API_SYS_PATH + 'sexo/seleccionar', 12);
+            cargarDropDownList(("#idNivelAutorizacion"), 'idNivelAutorizacion', 'descripcion', API_SYS_PATH + 'nivel_autorizacion/seleccionar', $("#idUsuario").val());
             $("#descripcion").enterKey(function () {
                 e.preventDefault();
                 buscar();
@@ -267,9 +273,9 @@
                     },
                     type: BootstrapDialog.TYPE_WARNING,
                     onshown:function(){
-                        cargarDropDownList((idNivelAutorizacion),'idNivelAutorizacion','descripcion',API_SYS_PATH+'usuario/nivel_autorizacion/seleccionar',$("#idUsuario").val(),null,null,null,element['idNivelAutorizacion']);
-                        cargarDropDownList((sucursal),'idSucursal','nombre',API_SYS_PATH+'sucursal/seleccionar',null,null,element['idSucursal']);
-                        cargarDropDownList((sexo),'idSexo','descripcion',API_SYS_PATH+'usuario/sexo/seleccionar',null,null,element['sexo']);
+                        cargarDropDownList((idNivelAutorizacion),'idNivelAutorizacion','descripcion',API_SYS_PATH+'nivel_autorizacion/seleccionar',$("#idUsuario").val(),null,null,null,element['idNivelAutorizacion']);
+                        cargarDropDownList((sucursal),'idSucursal','nombre',API_SYS_PATH+'sucursal/seleccionar',null,null,null,null,element['idSucursal']);
+                        cargarDropDownList((sexo),'idSexo','descripcion',API_SYS_PATH+'sexo/seleccionar',null,null,null,null,element['sexo']);
                     },
                     buttons: [{
                         id: 'btn-1',
@@ -299,6 +305,12 @@
                             datos.idSucursal=$(sucursal).val();
                             datos.idEstado=($(inputEstado).prop('checked')==true?'1':'0');
                             datos.idNivelAutorizacion=$(idNivelAutorizacion).val();
+                            if(datos.usuario==''||datos.password==''||datos.nombre==''||datos.apellido==''||datos.sexo==''||datos.contacto==''
+                                ||datos.idSucursal==''||datos.idEstado==''||datos.idNivelAutorizacion==''){
+                                notificacionWarning('Ningún campo debe de ir vacío, favor de validar la información');
+                                return false;
+                            }
+
                             exitoso = function(datos){
                                 notificacionSuccess(datos.success);
                                 $(tr).remove();
