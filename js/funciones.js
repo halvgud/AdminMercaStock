@@ -293,11 +293,12 @@ function cargarDropDownList(nameattr, id, value, transaccion, tipo, cargarTodos,
 	exitoso = function (result) {
 		var options = '';
 		if (result.estado!="warning"){
-			if(id=='idSucursal') {
+			if(id=='idSucursal' ||id=='idConcepto') {
 				var resultados = result.data;
 			}
 			else{
-				var resultados = result.data[0];
+					var resultados = result.data[0];
+
 			}
 			console.log(result);
 

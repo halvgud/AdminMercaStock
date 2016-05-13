@@ -1,4 +1,4 @@
-<<?php session_start();
+<?php session_start();
 $path = "/ADMINMERCASTOCK";
 if(!isset($_SESSION['idUsuario'])){
     //require_once('../index.php');

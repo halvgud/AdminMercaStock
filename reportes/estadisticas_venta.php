@@ -6,21 +6,12 @@ if(!isset($_SESSION['idUsuario'])){
 }
 else
 {
-
-    require_once "../data/PrivilegiosUsuario.php";
-    $decoded = PrivilegiosUsuario::traerPrivilegios();
-    if (PrivilegiosUsuario::tienePrivilegio($decoded,"ESTADISTICAS_VENTA")) {
         ?>
-
-        <div id="wrapper">
-            <?php require_once('../menu.php'); ?>
             <div id="page-wrapper">
                 <br/>
                 <h1>Estadísticas por Venta</h1>
                 <hr>
             </div>
 
-    <?php } else{
-        header('Location: '.'../index.php');
-    }
+    <?php
 } ?>

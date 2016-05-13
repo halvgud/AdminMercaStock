@@ -7,7 +7,7 @@ $(function() {
             $online.fadeIn();
         });
     });
-    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12,true,'cargando','Seleccione una Sucursal');
+    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12,false,'cargando','Seleccione una Sucursal');
 });
 $("#articulo").submit(function() {
     var form1 = $("#articulo").find("select,input").serializeArray();
@@ -28,7 +28,7 @@ $("#articulo").submit(function() {
 function buscarDeparamento(){
     $("#dep_id").empty();
     $("#cat_id").empty();
-    cargarDropDownList(("#dep_id"),'dep_id','nombre',API_SYS_PATH+'departamento/seleccionar',$("#idSucursal").val(),false,'Cargando...','Seleccione un Departamento');
+    cargarDropDownList(("#dep_id"),'dep_id','nombre',API_SYS_PATH+'departamento/seleccionar',$("#idSucursal").val(),true,'Cargando...','Seleccione un Departamento');
 }
 function buscarCategoria(){
     $("#cat_id").empty();
@@ -36,5 +36,7 @@ function buscarCategoria(){
     var x1=$("#idSucursal").val();
     var x2=$("#dep_id").val();
      xa=[x1,x2];
-    cargarDropDownList(("#cat_id"),'cat_id','nombre',API_SYS_PATH+'categoria/seleccionar',xa,false,'Cargando...','Seleccione una Categoria');
+    var columnas = [{ idSucursal : x1 },
+        { idGenerico : x2 }];
+    cargarDropDownList(("#cat_id"),'cat_id','nombre',API_SYS_PATH+'categoria/seleccionar',columnas,false,'Cargando...','Seleccione una Categoria');
 }
