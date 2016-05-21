@@ -1,5 +1,5 @@
 $(function() {
-    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12,true,'Cargando...','Seleccione una Sucursal');
+    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12,false,'Cargando...','Seleccione una Sucursal');
 });
 
 function buscarDepartamento(){
@@ -20,7 +20,7 @@ function buscarDepartamento(){
         }
     });
 */  $("#dep_id").empty();
-    cargarDropDownList(("#dep_id"),'dep_id','nombre',API_SYS_PATH+'departamento/seleccionar',$("#idSucursal").val(),false,'Cargando...','Seleccione un Departamento');
+    cargarDropDownList(("#dep_id"),'dep_id','nombre',API_SYS_PATH+'departamento/seleccionar',$("#idSucursal").val(),true,'Cargando...','Seleccione un Departamento');
 
 }
 
@@ -37,7 +37,10 @@ $("#categoria").submit(function(){
         { data : "idSucursal" },
         { data : "nombre" },
         { data : "dep_id" }];
-    peticionAjaxDT('categoria/seleccionar',('#resultadosCategoria'),datosTabla1,columnas,'cargando');
+    var arreglo={};
+    arreglo['idGenerico']=datosTabla1;
+    arreglo['dt']=true;
+    peticionAjaxDT('categoria/seleccionar',('#resultadosCategoria'),arreglo,columnas,'cargando');
     return false;
     /*
     var datosTabla1 = {};
