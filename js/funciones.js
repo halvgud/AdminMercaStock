@@ -52,7 +52,6 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading) {
 	if ((loading) != undefined) {
 		mostrarDialogoDeEspera(loading);
 	}
-	console.log(datos);
 	return $(DT).DataTable({
 		dom: 'Bfrtip',
 		"bDestroy": true,
@@ -105,7 +104,7 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading) {
 			},
 			'type': "POST",
 			data: function (d) {
-				console.log(datos);
+				console.log(JSON.stringify(datos));
 				return JSON.stringify(datos);
 			},
 			dataType: 'json'
@@ -139,6 +138,7 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading) {
 }
 
 function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
+	console.log(JSON.stringify(datos));
 	if ((loading) != undefined) {
 		mostrarDialogoDeEspera(loading);
 	}
@@ -146,24 +146,21 @@ function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
 				type: "POST",
 				url: URL,
 				data: JSON.stringify(datos),
-				dataType: 'json',
-				timeout: 15000
+				dataType: 'json'
 			})
 			.done(function (resultado) {
 
-				console.log(resultado);
-
 				if (successCallBack) {
 					successCallBack(resultado);
-					console.log('done!');
 				}
 				if ((loading) != undefined) {
 					BootstrapDialog.closeAll();
 				}
 
+
 			})
 			.fail(function (jqXHR, status, thrownError) {
-				console.log(jqXHR.responseText);
+
 				resulta = jqXHR.responseJSON;
 				if ((loading) != undefined) {
 					BootstrapDialog.closeAll();
@@ -172,7 +169,7 @@ function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
 					console.log(resulta);
 					notificacionError(resulta['error'] ? resulta['error'] : resulta['mensaje']?resulta['mensaje']:resulta['message']);
 				} else {
-
+					console.log(jqXHR);
 					notificacionError('Error de conexión al servicio API');
 				}
 
@@ -282,40 +279,37 @@ function cargarDropDownListDescripcion(nameattr, tipo) {
 	cargarDropDownList(nameattr, 'id_descripcion', 'descripcion', 1, tipo);
 }
 
-function cargarDropDownList(nameattr, id, value, transaccion, tipo, cargarTodos,mensaje,itemS,valorDefault) {
+function cargarDropDownList(nombreJquery, idSql, descripcionSql, rutaRest, idGenerico, cargarTodos,mensaje,itemS,valorDefault) {
 	arreglo = {};
-	console.log(typeof tipo);
-	arreglo['idGenerico'] = tipo;
-	arreglo['item']=itemS;
-	console.log(itemS);
+	arreglo['idGenerico'] = idGenerico;
+	//arreglo['item']=itemS;
 
-	arreglo['idTransaccion'] = transaccion;
+	arreglo['idTransaccion'] = rutaRest;
 	exitoso = function (result) {
 		var options = '';
 		if (result.estado!="warning"){
-			if(id=='idSucursal' ||id=='idConcepto') {
+			if(idSql=='idSucursal' ||idSql=='idConcepto') {
 				var resultados = result.data;
 			}
 			else{
 					var resultados = result.data[0];
 
 			}
-			console.log(result);
 
 			if(itemS!=null){
-				$(nameattr).append($("<option></option>", {value: '', text: itemS}));
+				$(nombreJquery).append($("<option></option>", {value: '', text: itemS}));
 			}
 
 			for (var i = 0; i < resultados.length; i++) {
-				if(valorDefault!=undefined&&valorDefault==resultados[i][id]){
-					$(nameattr).append($("<option></option>", {value: resultados[i][id], text: resultados[i][value],selected:'selected'}));
+				if(valorDefault!=undefined&&valorDefault==resultados[i][idSql]){
+					$(nombreJquery).append($("<option></option>", {value: resultados[i][idSql], text: resultados[i][descripcionSql],selected:'selected'}));
 				}else{
-					$(nameattr).append($("<option></option>", {value: resultados[i][id], text: resultados[i][value]}));
+					$(nombreJquery).append($("<option></option>", {value: resultados[i][idSql], text: resultados[i][descripcionSql]}));
 				}
 
 			}
 			if (cargarTodos != undefined && cargarTodos == true) {
-				$(nameattr).append($("<option></option>", {value: 'TODOS', text: 'MOSTRAR TODOS'}));
+				$(nombreJquery).append($("<option></option>", {value: '%', text: 'MOSTRAR TODOS'}));
 			}
 		}
 		else{
@@ -328,7 +322,7 @@ function cargarDropDownList(nameattr, id, value, transaccion, tipo, cargarTodos,
 		resulta = datos;
 		console.log('fallo');
 	};
-	peticionAjax(transaccion, arreglo, exitoso, fallo,mensaje);
+	peticionAjax(rutaRest, arreglo, exitoso, fallo,mensaje);
 }
 
 $.fn.enterKey = function (fnc) {

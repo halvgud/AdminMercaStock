@@ -14,9 +14,9 @@ else
                 <form class="form-inline" id="fecha" name="fecha">
                     <div class="form-group">
                         <label for="hora_inicio">Fecha de Inicio</label>
-                        <input type="text" id="hora_inicio" name="hora_inicio" class="form-control" size="20" />
+                        <input type="text" id="hora_inicio" name="hora_inicio" class="form-control" size="20" autocomplete="off"/>
                         <label for="hora_fin">&nbsp;&nbsp;&nbsp;&nbsp;Fecha Final</label>
-                        <input type="text" id="hora_fin" name="hora_fin" class="form-control" size="20" />
+                        <input type="text" id="hora_fin" name="hora_fin" class="form-control" size="20" autocomplete="off" />
                     </div>
                     <label>&nbsp;&nbsp;&nbsp;</label>
                     <button type="submit" class="btn btn-outline btn-success"><i class="fa fa-search"></i> Buscar</button>

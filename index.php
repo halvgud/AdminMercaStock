@@ -14,7 +14,8 @@
       }
    }
    else{
-         
+
+
    
 ?>
 <!DOCTYPE html>
@@ -44,17 +45,47 @@
 
 
     <script>
-    function cambiarUrl(pagina,bandera){
-        mostrarDialogoDeEspera("Cargando página");
-    $.get("<?php echo $path;?>"+pagina, function(data) {
+    var seguridad=false;
+    function cambiarUrl(pagina,bandera,seguridad1){
+        if(seguridad==false) {
+            mostrarDialogo(pagina,bandera);
+        }else {
+            BootstrapDialog.confirm({
+                title: 'Advertencia',
+                message: 'Esta apunto de salir, se perderán los cambios. \n \n ¿Desea Continuar?',
+                size: BootstrapDialog.SIZE_LARGE,
+                type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                closable: false, // <-- Default value is false
+                draggable: true, // <-- Default value is false
+                btnCancelLabel: 'Regresar', // <-- Default value is 'Cancel',
+                btnOKLabel: 'Continuar', // <-- Default value is 'OK',
+                btnOKClass: 'btn-danger', // <-- If you didn't specify it, dialog type will be used,
+                callback: function(result) {
+                    // result will be true if button was click, while it will be false if users close the dialog directly.
+                    if(result) {
+                        mostrarDialogo(pagina,bandera);
+                        seguridad=false;
+                    }else {
 
-    $("#page-wrapper").replaceWith(data);
-        if(bandera==undefined){
-            BootstrapDialog.closeAll();
+                    }
+                }
+            });
+
         }
-        console.log('entro');
-    });
+        seguridad = seguridad1!=undefined?seguridad1:false;
     }
+        function mostrarDialogo(pagina,bandera){
+            mostrarDialogoDeEspera("Cargando página");
+            $.get("<?php echo $path;?>" + pagina, function (data) {
+
+                $("#page-wrapper").replaceWith(data);
+                if (bandera == undefined) {
+                    BootstrapDialog.closeAll();
+                }
+                console.log('entro');
+            });
+            seguridad=true;
+        }
     </script>
 </body>
 

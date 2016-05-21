@@ -1,5 +1,7 @@
 $(function() {
-    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12,false);
+    arreglo={};
+    arreglo['bandera']=true;
+    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar',arreglo, 12,false);
 
     });
 

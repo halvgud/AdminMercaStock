@@ -92,7 +92,11 @@ if(!isset($_SESSION['idUsuario'])){
 
                             <?php if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="#" onclick="cambiarUrl('/proceso/generar_inventario.php');"><i class="fa fa-file-text-o fa-fw"></i>Generar Inventario</a>
+                                    <a href="#" onclick="cambiarUrl('/proceso/generar_inventario.php',null,true);"><i class="fa fa-file-text-o fa-fw"></i>Generar Inventario</a>
+                                </li>
+                            <?php }if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
+                                <li>
+                                    <a href="#" onclick="cambiarUrl('/proceso/listado_fijo.php');"><i class="fa fa-link fa-fw"></i>Listado FIjo</a>
                                 </li>
                             <?php }?>
 

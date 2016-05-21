@@ -36,7 +36,7 @@ function buscarCategoria(){
     var x1=$("#idSucursal").val();
     var x2=$("#dep_id").val();
      xa=[x1,x2];
-    var columnas = [{ idSucursal : x1 },
-        { idGenerico : x2 }];
+    var columnas = { idSucursal : x1 ,
+         dep_id : x2 };
     cargarDropDownList(("#cat_id"),'cat_id','nombre',API_SYS_PATH+'categoria/seleccionar',columnas,false,'Cargando...','Seleccione una Categoria');
 }
