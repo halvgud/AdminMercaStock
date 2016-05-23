@@ -146,7 +146,8 @@ function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
 				type: "POST",
 				url: URL,
 				data: JSON.stringify(datos),
-				dataType: 'json'
+				dataType: 'json',
+				headers: { 'Authorization': '07f896862ab333e70ef66e4d57c1c3b2' }
 			})
 			.done(function (resultado) {
 
