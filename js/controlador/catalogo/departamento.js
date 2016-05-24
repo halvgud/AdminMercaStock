@@ -6,6 +6,7 @@ $(function() {
 $("#departamento").submit(function(){
     var form1 = $("#departamento").find("select,input").serializeArray();
     var datosTabla1 = {};
+    datosTabla1['dt']='true';
     form1.forEach(function(input) {
         datosTabla1[input.name] = input.value;
     });
@@ -14,7 +15,7 @@ $("#departamento").submit(function(){
         { data : "dep_idLocal" },
         { data : "nombre" },
         { data : "porcentaje" }];
-    peticionAjaxDT('departamento/seleccionar  ',('#resultadosSucursal'),datosTabla1,columnas,'cargando');
+    peticionAjaxDT('departamento/seleccionar',('#resultadosSucursal'),datosTabla1,columnas,'Buscando');
 
     return false;
 });

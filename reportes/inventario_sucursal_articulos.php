@@ -6,10 +6,6 @@ if(!isset($_SESSION['idUsuario'])){
 }
 else
 {
-
-    require_once "../data/PrivilegiosUsuario.php";
-    $decoded = PrivilegiosUsuario::traerPrivilegios();
-    if (PrivilegiosUsuario::tienePrivilegio($decoded,"INVENTARIO_SUCURSAL_ARTICULOS")) {
         ?>
             <div id="page-wrapper">
                 <br/>
@@ -18,7 +14,5 @@ else
 
             </div>
             <!-- /#page-wrapper -->
-    <?php } else{
-        header('Location: '.'../index.php');
-    }
+    <?php
 } ?>

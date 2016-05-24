@@ -6,11 +6,6 @@ if(!isset($_SESSION['idUsuario'])){
 }
 else
 {
-
-    require_once "../data/PrivilegiosUsuario.php";
-    $decoded = PrivilegiosUsuario::traerPrivilegios();
-    if (PrivilegiosUsuario::tienePrivilegio($decoded,"GENERAR_INVENTARIO")) {
-
         ?>
             <div id="page-wrapper">
                 <?php $_SESSION['bandera']=true;?>
@@ -51,7 +46,5 @@ else
                 <script type="text/javascript" src="http://lightswitch05.github.io/table-to-json/javascripts/jquery.tabletojson.min.js"></script>
             </div>
 
-    <?php } else{
-        header('Location: '.'../index.php');
-    }
+    <?php
 } ?>

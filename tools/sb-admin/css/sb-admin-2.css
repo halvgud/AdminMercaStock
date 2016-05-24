@@ -5,7 +5,7 @@
  */
 
 body {
-    background-color: #3c3f41;
+    background-color: #313335;
 }
 
 #wrapper {
@@ -23,7 +23,7 @@ body {
         position: inherit;
         margin: 0 0 0 250px;
         padding: 0 30px;
-        border-left: 1px solid #3c3f41;
+        border-left: 1px solid #313335;
     }
 }
 
@@ -96,6 +96,7 @@ body {
 
 .sidebar ul li {
     border-bottom: 1px solid #303030;
+    background-color: #1d1d1d;
 }
 
 .sidebar ul li a.active {

@@ -6,7 +6,6 @@ if(!isset($_SESSION['idUsuario'])){
 }
 else
 {
-
         ?>
             <div id="page-wrapper">
                 <br/>

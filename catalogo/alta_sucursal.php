@@ -7,8 +7,6 @@
     {
         require_once "../data/Roles.php";
         require_once "../data/PrivilegiosUsuario.php";
-        $decoded = PrivilegiosUsuario::traerPrivilegios();
-        if (PrivilegiosUsuario::tienePrivilegio($decoded,"ALTA_SUCURSAL")) {
   ?>
             <div id="page-wrapper">   
                 <ul class="nav nav-tabs">
@@ -79,7 +77,5 @@
 
             <script type="text/javascript" src="js/controlador/catalogo/alta_sucursal.js" ></script>
         </div>
-<?php }else{
-    header('Location: '.'../index.php');
-}
+<?php
 } ?>

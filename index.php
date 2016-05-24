@@ -78,7 +78,7 @@
         function mostrarDialogo(pagina,bandera){
             mostrarDialogoDeEspera("Cargando página");
             $.get("<?php echo $path;?>" + pagina, function (data) {
-
+                history.pushState("", document.title, window.location.pathname);
                 $("#page-wrapper").replaceWith(data);
                 if (bandera == undefined) {
                     BootstrapDialog.closeAll();

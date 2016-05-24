@@ -6,10 +6,6 @@ if(!isset($_SESSION['idUsuario'])){
 }
 else
 {
-
-    require_once "../data/PrivilegiosUsuario.php";
-    $decoded = PrivilegiosUsuario::traerPrivilegios();
-    if (PrivilegiosUsuario::tienePrivilegio($decoded,"PARAMETROS")) {
         ?>
             <div id="page-wrapper">
                 <br/>
@@ -43,7 +39,5 @@ else
 
         <!-- /#wrapper -->
         <script type="text/javascript" src="js/controlador/catalogo/parametro.js"></script>
-    <?php } else{
-        header('Location: '.'../index.php');
-    }
+    <?php
 } ?>

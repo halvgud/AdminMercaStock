@@ -6,10 +6,6 @@ if(!isset($_SESSION['idUsuario'])){
 }
 else
 {
-
-    require_once "../data/PrivilegiosUsuario.php";
-    $decoded = PrivilegiosUsuario::traerPrivilegios();
-    if (PrivilegiosUsuario::tienePrivilegio($decoded,"LISTADO_FIJO")) {
         ?>
 
         <div id="page-wrapper">
@@ -79,7 +75,5 @@ else
             <script type="text/javascript" src="js/controlador/proceso/listado_fijo.js" ></script>
         </div>        <!-- /#wrapper -->
 
-    <?php } else{
-        header('Location: '.'../index.php');
-    }
+    <?php
 } ?>

@@ -3,7 +3,6 @@ $( document ).ready(function() {
     cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12,false,'Cargando...','Seleccione una Sucursal');
 });
 $('#buscarYModificar').click(function(){
-    console.log("fthf");
     $("#idSucursal2").empty();
     cargarDropDownList(("#idSucursal2"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12,false,'Cargando...','Seleccione una Sucursal');
 });
@@ -128,7 +127,7 @@ function cargarTabla2(arregloConInputs,idTransaccion) {
                             arregloConInputs['parametro']=document.getElementById('idSucursal').value;
                             arregloConInputs['valor']=idSucursal;
                             arregloConInputs['usuario']=document.getElementById('usuario').value;
-                            peticionAjax(API_SYS_PATH + '/parametros/insertarListaFija', arregloConInputs, exitoso, fallo);
+                            peticionAjax(API_SYS_PATH + 'parametros/insertarListaFija', arregloConInputs, exitoso, fallo);
                         }else {
 
                         }

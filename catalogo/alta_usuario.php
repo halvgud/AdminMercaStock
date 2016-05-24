@@ -7,11 +7,6 @@ if(!isset($_SESSION['idUsuario'])){
 else
 {
     header('Authorization:07f896862ab333e70ef66e4d57c1c3b2');
-    require_once "../data/Roles.php";
-    require_once "../data/PrivilegiosUsuario.php";
-   $decoded = PrivilegiosUsuario::traerPrivilegios();
-    //var_dump($decoded);
-   if (PrivilegiosUsuario::tienePrivilegio($decoded,"ALTA_USUARIO")) {
   ?>
             <div id="page-wrapper">   
                 <ul class="nav nav-tabs">
@@ -91,8 +86,6 @@ else
     <script type="text/javascript" src="js/controlador/catalogo/alta_usuario.js">
     </script>
          </div>
-<?php }else{
-    header('Location: '.'../index.php');
-}
+<?php
 }
 ?>

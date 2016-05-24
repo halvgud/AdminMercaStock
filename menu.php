@@ -48,29 +48,25 @@ if(!isset($_SESSION['idUsuario'])){
                     <li>
                         <a href="#"><i class="fa fa-th-list fa-fw"></i> Catálogo<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <?php if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
+                            <?php  if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="#" onclick="cambiarUrl('/catalogo/general.php')"><i class="fa fa-plus fa-fw"></i>General</a>
+                                    <a href="#" onclick="cambiarUrl('/catalogo/categoria.php')"><i class="fa fa-tags fa-fw"></i> Categorias</a>
                                 </li>
                             <?php  } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="#" onclick="cambiarUrl('/catalogo/categoria.php')"><i class="fa fa-tags fa-fw"></i>Categorias</a>
+                                    <a href="#" onclick="cambiarUrl('/catalogo/articulo.php');"><i class="fa fa-cart-plus fa-fw"></i> Art&iacute;culos</a>
                                 </li>
                             <?php  } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="#" onclick="cambiarUrl('/catalogo/articulo.php');"><i class="fa fa-cart-plus fa-fw"></i>Art&iacute;culos</a>
+                                    <a href="#" onclick="cambiarUrl('/catalogo/departamento.php');"><i class="fa fa-tasks fa-fw"></i> Departamentos</a>
                                 </li>
                             <?php  } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="#" onclick="cambiarUrl('/catalogo/departamento.php');"><i class="fa fa-tasks fa-fw"></i>Departamentos</a>
-                                </li>
-                            <?php  } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
-                                <li>
-                                    <a href="#" onclick="cambiarUrl('/catalogo/alta_usuario.php');"><i class="fa fa-user-plus fa-fw"></i>Alta de Usuario</a>
+                                    <a href="#" onclick="cambiarUrl('/catalogo/alta_usuario.php');"><i class="fa fa-user-plus fa-fw"></i> Alta de Usuario</a>
                                 </li>
                             <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="#" onclick="cambiarUrl('/catalogo/alta_sucursal.php');"><i class="fa fa-building fa-fw"></i>Alta de Sucursal</a>
+                                    <a href="#" onclick="cambiarUrl('/catalogo/alta_sucursal.php');"><i class="fa fa-building fa-fw"></i> Alta de Sucursal</a>
                                 </li>
                             <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
@@ -92,11 +88,11 @@ if(!isset($_SESSION['idUsuario'])){
 
                             <?php if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="#" onclick="cambiarUrl('/proceso/generar_inventario.php',null,true);"><i class="fa fa-file-text-o fa-fw"></i>Generar Inventario</a>
+                                    <a href="#" onclick="cambiarUrl('/proceso/generar_inventario.php',null,true);"><i class="fa fa-file-text-o fa-fw"></i> Generar Inventario</a>
                                 </li>
                             <?php }if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="#" onclick="cambiarUrl('/proceso/listado_fijo.php');"><i class="fa fa-link fa-fw"></i>Listado Fijo</a>
+                                    <a href="#" onclick="cambiarUrl('/proceso/listado_fijo.php');"><i class="fa fa-link fa-fw"></i> Listado Fijo</a>
                                 </li>
                             <?php }?>
 
@@ -110,36 +106,28 @@ if(!isset($_SESSION['idUsuario'])){
                         <ul class="nav nav-second-level">
                             <?php if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="#" onclick="cambiarUrl('/reportes/estadisticas_venta.php');"><i class="fa fa-area-chart fa-fw"></i>Estadísiticas por Venta</a>
+                                    <a href="#" onclick="cambiarUrl('/reportes/estadisticas_venta.php');"><i class="fa fa-area-chart fa-fw"></i> Estadísiticas por Venta</a>
                                 </li>
                             <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="#" onclick="cambiarUrl('/reportes/movimiento_articulos.php');"><i class="fa fa-exchange fa-fw"></i>Movimiento de Artículos</a>
+                                    <a href="#" onclick="cambiarUrl('/reportes/movimiento_articulos.php');"><i class="fa fa-exchange fa-fw"></i> Movimiento de Artículos</a>
                                 </li>
                             <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="#" onclick="cambiarUrl('/reportes/existencias.php');"><i class="fa fa-calendar-check-o fa-fw"></i>Existencias</a>
+                                    <a href="#" onclick="cambiarUrl('/reportes/existencias.php');"><i class="fa fa-calendar-check-o fa-fw"></i> Existencias</a>
                                 </li>
                             <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="#" onclick="cambiarUrl('/reportes/inventario_sucursal_articulos.php');"><i class="fa fa-industry fa-fw"></i>Inventario por Sucursal / por Artículo</a>
+                                    <a href="#" onclick="cambiarUrl('/reportes/inventario_sucursal_articulos.php');"><i class="fa fa-industry fa-fw"></i> Inventario por Sucursal / por Artículo</a>
                                 </li>
                             <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="#" onclick="cambiarUrl('/reportes/bitacora.php');"><i class="fa fa-calendar fa-fw"></i>Bit&aacute;cora</a>
+                                    <a href="#" onclick="cambiarUrl('/reportes/bitacora.php');"><i class="fa fa-calendar fa-fw"></i> Bit&aacute;cora</a>
                                 </li>
                             <?php }  ?>
-
                         </ul>
                     </li>
-
-                <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
-
-                <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
-
-                <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
-
-                <?php } }?>
+                <?php }  }?>
             </ul>
         </div>
         <!-- /.sidebar-collapse -->

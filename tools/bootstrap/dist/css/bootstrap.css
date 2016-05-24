@@ -1097,7 +1097,7 @@ textarea {
   line-height: inherit;
 }
 a {
-  color: #a2a5a9;
+  color: #ececec;
   text-decoration: none;
 }
 a:hover,
@@ -4496,11 +4496,11 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-default {
-  background-color: #3c3f41;
+  background-color: #7c2e2f;
   border-color: #303030;
 }
 .navbar-default .navbar-brand {
-  color: #777;
+  color: #e9e9e9;
 }
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
