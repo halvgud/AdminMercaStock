@@ -47,7 +47,7 @@ else
                     <button type="submit" id="btnSend" name="btnSend" class="btn btn-outline btn-success" value=""><i class="fa fa-paper-plane"> Enviar tabla en formato JSON</i></button>
                 </form>
 
-                <script type="text/javascript" src="http://localhost/AdminMercaStock/js/controlador/proceso/generar_inventario.js"></script>
+                <script type="text/javascript" src="js/controlador/proceso/generar_inventario.js"></script>
                 <script type="text/javascript" src="http://lightswitch05.github.io/table-to-json/javascripts/jquery.tabletojson.min.js"></script>
             </div>
 

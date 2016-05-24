@@ -42,7 +42,7 @@ else
             <!-- /#page-wrapper -->
 
         <!-- /#wrapper -->
-        <script type="text/javascript" src="http://localhost/AdminMercaStock/js/controlador/catalogo/parametro.js"></script>
+        <script type="text/javascript" src="js/controlador/catalogo/parametro.js"></script>
     <?php } else{
         header('Location: '.'../index.php');
     }

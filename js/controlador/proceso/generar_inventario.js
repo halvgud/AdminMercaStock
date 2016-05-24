@@ -341,6 +341,64 @@ function configuracionIndividual(){
         }]
     });
 }
+function configuracionListaFija(){
+
+    var $contenido = $("<form></form>",{id:'formSucursal',name:'formSucursal'});
+    var $form_group = $("<div></div>",{class:'form-inline'});
+
+    tabla = $("<table></table>",{id:'tabla1',name:'tabla1',class:'table table-condensed',style:''});
+    $form_group.append(tabla);
+
+    var $thead = $("<thead></thead>",{name:'thead'});
+    tabla.append($thead);
+    var th1=$("<th>Clave</th>");
+    tabla.append(th1);
+    var th1=$("<th>Descripci&oacute;n</th>");
+    tabla.append(th1);
+    var th1=$("<th>Existencia</th>");
+    tabla.append(th1);
+    var th1=$("<th>Edici&oacute;n</th>");
+    tabla.append(th1);
+
+    $contenido.append($form_group);
+
+    inicializarTabla4();
+
+
+
+    BootstrapDialog.show({
+        title: 'Configuración de Búsqueda Individual',
+        message:function(dialog) {
+            return $contenido;
+        },width:'200%',
+        closable: false,
+        type: BootstrapDialog.TYPE_WARNING,
+        onshown:function(){
+        },
+
+        buttons: [{
+            id: 'btn-1',
+            label: 'Cancelar',
+            cssClass: 'btn-primary',
+            action: function(dialog) {
+                dialog.close();
+            }
+        },{
+            id: 'btn-2',
+            label: 'Terminar',
+            cssClass: 'btn-danger',
+            submit:function(dialog){
+
+                return false;
+            },
+            action: function(dialog) {
+                dialog.close();
+                tabla2=tabla;
+                tabla.clone().find('tr').appendTo($("#resultados tbody"));
+            }
+        }]
+    });
+}
 function inicializarTabla4(){
     if(document.getElementById('concepto').value==1) {
         var idSucursalf = document.getElementById('idSucursal').value;
@@ -384,6 +442,11 @@ function inicializarTabla4(){
         var datosTabla4 = {};
         var input = document.getElementById('input').value;
         datosTabla4['input']= input;
+        cargarTabla2(datosTabla4, 10);
+    }else if(document.getElementById('concepto').value==5) {
+        var datosTabla4 = {};
+        var parametro = document.getElementById('idSucursal').value;
+        datosTabla4['parametro']= parametro;
         cargarTabla2(datosTabla4, 10);
     }
 }
@@ -430,6 +493,14 @@ function cargarTabla2(arregloConInputs,idTransaccion) {
             datosTabla1[input.name] = input.value;
         });
     }
+    if(document.getElementById('concepto').value==5) {
+        var form1 = $("#resultados").find('input[data1]').serializeArray();
+        //var form2 = $("#formSucursal").find('input').serializeArray();
+        form1.forEach(function(input) {
+            datosTabla1[input.name] = input.value;
+        });
+    }
+
 
     //console.log(datosTabla1);
     if(document.getElementById('concepto').value==1) {
@@ -443,6 +514,9 @@ function cargarTabla2(arregloConInputs,idTransaccion) {
     }
     if(document.getElementById('concepto').value==4) {
         arregloConInputs['articulos'] = datosTabla1;
+    }
+    if(document.getElementById('concepto').value==5) {
+        arregloConInputs['idSucursal'] = document.getElementById('idSucursal').value;
     }
 
 
@@ -506,6 +580,8 @@ function cargarTabla2(arregloConInputs,idTransaccion) {
         peticionAjax(API_SYS_PATH + 'inventario/seleccionarMasConflictivos', arregloConInputs, exitoso, fallo);
     }else if(document.getElementById('concepto').value==4) {
         peticionAjax(API_SYS_PATH + 'inventario/seleccionarIndividual', arregloConInputs, exitoso, fallo);
+    }else if(document.getElementById('concepto').value==5) {
+        peticionAjax(API_SYS_PATH + 'parametros/seleccionarListaFija', arregloConInputs, exitoso, fallo);
     }
 return false;
 }
@@ -530,6 +606,7 @@ $("#send").submit(function() {
     fallo = function(datos){
         return false;
     };
+    var tbody = $("#resultados tbody").empty();
     peticionAjax(API_SYS_PATH+'inventario/insertar',datosTabla1,exitoso,fallo,"Enviando datos...");
     return false;
 });
@@ -548,6 +625,10 @@ $("#inventario").submit(function(){
     }
     if(document.getElementById('concepto').value==4){
         configuracionIndividual();
+        return false;
+    }
+    if(document.getElementById('concepto').value==5){
+        configuracionListaFija();
         return false;
     }
     notificacionWarning("Faltan parametros para la busqueda");

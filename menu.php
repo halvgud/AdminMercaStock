@@ -96,7 +96,7 @@ if(!isset($_SESSION['idUsuario'])){
                                 </li>
                             <?php }if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
                                 <li>
-                                    <a href="#" onclick="cambiarUrl('/proceso/listado_fijo.php');"><i class="fa fa-link fa-fw"></i>Listado FIjo</a>
+                                    <a href="#" onclick="cambiarUrl('/proceso/listado_fijo.php');"><i class="fa fa-link fa-fw"></i>Listado Fijo</a>
                                 </li>
                             <?php }?>
 
