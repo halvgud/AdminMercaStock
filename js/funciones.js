@@ -142,12 +142,13 @@ function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
 	if ((loading) != undefined) {
 		mostrarDialogoDeEspera(loading);
 	}
+	console.log("Authorization: "+API_TOKEN);
 	$.ajax({
 				type: "POST",
 				url: URL,
 				data: JSON.stringify(datos),
 				dataType: 'json',
-				headers: { 'Authorization': '07f896862ab333e70ef66e4d57c1c3b2' }
+				headers: { 'Authorization': API_TOKEN}
 			})
 			.done(function (resultado) {
 
@@ -170,7 +171,7 @@ function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
 					console.log(resulta);
 					notificacionError(resulta['error'] ? resulta['error'] : resulta['mensaje']?resulta['mensaje']:resulta['message']);
 				} else {
-					console.log(jqXHR);
+					console.log(jqXHR.responseText);
 					notificacionError('Error de conexión al servicio API');
 				}
 

@@ -14,7 +14,7 @@
       }
    }
    else{
-       header('Authorization:07f896862ab333e70ef66e4d57c1c3b2');
+       header('Authorization:'.$_SESSION['ClaveAPI']);
 
 
    
@@ -47,7 +47,10 @@
 
     <script>
     var seguridad=false;
+    API_TOKEN="<?php echo $_SESSION['ClaveAPI'];?>";
     function cambiarUrl(pagina,bandera,seguridad1){
+        console.log(API_SYS_PATH);
+
         if(seguridad==false) {
             mostrarDialogo(pagina,bandera);
         }else {

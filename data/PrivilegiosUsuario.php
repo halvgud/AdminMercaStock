@@ -14,6 +14,7 @@ class PrivilegiosUsuario
         $curl_post_data = array(
         );
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl,CURLOPT_HTTPHEADER,array('Authorization:'.$_SESSION['ClaveAPI']));
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($curl_post_data));
         $curl_response = curl_exec($curl);
@@ -32,7 +33,6 @@ class PrivilegiosUsuario
 
    public static function tienePrivilegio($obj, $field) {
        $obj = json_decode($obj);
-
        if(gettype($obj)=='object'){
             foreach($obj as $item) {
                     if(isset($item->$field)) {

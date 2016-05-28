@@ -23,11 +23,7 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes>
-      <connection connection-id="15a1d2c5-43d9-4dd6-8d65-6de39ed03ec5">
-        <schema name="mercatto_mstock" object-types="column, table, view" />
-      </connection>
-    </loaded-nodes>
+    <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="15a1d2c5-43d9-4dd6-8d65-6de39ed03ec5">
