@@ -2,10 +2,11 @@
 session_start();
 $path = "/ADMINMERCASTOCK";
 
-if (!isset($_SESSION['idUsuario'])) {
+if (!isset($_SESSION['idUsuario'])){
     header('Location: ' . '../index.php');
 }
-else{ ?>
+else
+{ ?>
     <div id="page-wrapper">
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#home">Registrar</a></li>
@@ -15,16 +16,15 @@ else{ ?>
             <div id="home" class="tab-pane fade in active">
                 <div class="col-md-6 col-md-offset-3">
                     <br>
-                    <h3>Registrar Art&iacute;culo en Lista Fija</h3>
+                    <h3>Registrar Art&iacute;culo en Lista Excluyente</h3>
                     <br>
                     <form class="form-inline" id="buscarArticulo" method="post">
                         <label for="idSucursal">Sucursal: </label>
                         <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;" required onchange="limpiarTabla1();">
                         </select>
-                        <label for="art_id">Clave o Descripci&oacute;n: </label>
+                        <label for="art_id">Clave o Descripci&oacute;n </label>
                         <input type="text" class="form-control" id="art_id" name="art_id" placeholder="" required autocomplete="off" style="width: 20%;">
-                        <br>
-                        <br>
+                        <br><br>
                         <button type="submit" class="btn btn-outline btn-success" id="btnBuscar"><i class="fa fa-search"></i> Buscar</button>
                     </form>
                     <br>
@@ -43,22 +43,21 @@ else{ ?>
             </div>
             <div id="menu1" class="tab-pane fade">
                 <div class="col-md-6 col-md-offset-3">
-                    <br/>
-                    <h3>Listado Fijo</h3>
-                    <br />
+                    <br>
+                    <h3>Listado Excluyente</h3>
+                    <br>
                     <form class="form-inline" id="listadoFijo" method="post">
                         <label for="idSucursal2">Sucursales Disponibles: </label>
                         <select id="idSucursal2" name="idSucursal2" class="form-control" style="width: 25%;" required onchange="limpiarTabla2()">
                         </select>
                         &nbsp;&nbsp;&nbsp;
-                        <div  id="divEstado"  style="visibility: hidden;">
+                        <div id="divEstado">
                             <label for="myonoffswitch">Estado</label>
                             <div class="onoffswitch">
                                 <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" onchange="cambiarEstado();"/>
                                 <label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-outline btn-success" id="btnBuscar"><i class="fa fa-search"></i> Buscar</button>
                     </form>
                     <br>
                     <br>
@@ -77,7 +76,7 @@ else{ ?>
             </div>
         </div>
         <input type="hidden" id="usuario" name="usuario" value="<?php echo $_SESSION['usuario']; ?>">
-        <script type="text/javascript" src="js/controlador/proceso/listado_fijo.js" ></script>
+        <script type="text/javascript" src="js/controlador/proceso/listado_excluyente.js"></script>
     </div>
     <?php
 } ?>

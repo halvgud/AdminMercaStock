@@ -139,6 +139,7 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading) {
 
 function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
 	console.log(JSON.stringify(datos));
+	console.log(URL);
 	if ((loading) != undefined) {
 		mostrarDialogoDeEspera(loading);
 	}
@@ -314,7 +315,7 @@ function cargarDropDownList(nombreJquery, idSql, descripcionSql, rutaRest, idGen
 				$(nombreJquery).append($("<option></option>", {value: '%', text: 'MOSTRAR TODOS'}));
 			}
 		}
-		else{
+		else if(result.estado=='warning'){
 			notificacionWarning("Error al traer el listado");
 		}
 

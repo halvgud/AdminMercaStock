@@ -90,15 +90,17 @@ if(!isset($_SESSION['idUsuario'])){
                                 <li>
                                     <a href="#" onclick="cambiarUrl('/proceso/generar_inventario.php',null,true);"><i class="fa fa-file-text-o fa-fw"></i> Generar Inventario</a>
                                 </li>
-                            <?php }if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
+                            <?php }if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
                                 <li>
                                     <a href="#" onclick="cambiarUrl('/proceso/listado_fijo.php');"><i class="fa fa-link fa-fw"></i> Listado Fijo</a>
                                 </li>
-                            <?php }?>
-
+                            <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) {  ?>
+                            <li>
+                                <a href="#" onclick="cambiarUrl('/proceso/listado_excluyente.php');"><i class="fa fa-ban fa-fw"></i> Listado Excluyente</a>
+                            </li>
                         </ul>
                     </li>
-                <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
+                <?php }} if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
 
                     <li>
                         <!-- <i class="fa fa-bar-chart-o fa-fw"></i> -->

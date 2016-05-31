@@ -1,18 +1,28 @@
+var estadoF='FALSE';
 $( document ).ready(function() {
     $("#idSucursal").empty();
     cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12,false,'Cargando...','Seleccione una Sucursal');
-});
-$('#buscarYModificar').click(function(){
-    $("#idSucursal2").empty();
     cargarDropDownList(("#idSucursal2"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12,false,'Cargando...','Seleccione una Sucursal');
+    var tbody = $("#resultados2 tbody").empty();
+    $("#idSucursal2").empty();
+    document.getElementById('divEstado').style.visibility='hidden';
 });
 $("#listadoFijo").submit(function(){
+    var tbody = $("#resultados2 tbody").empty();
     var datosTabla2 = {};
     datosTabla2['idSucursal'] = document.getElementById('idSucursal2').value;
     //console.warn(datosTabla2);
     cargarTabla(datosTabla2,10);
     return false;
 });
+function limpiarTabla2(){
+    var tbody = $("#resultados2 tbody").empty();
+    document.getElementById('divEstado').style.visibility='hidden';
+
+}
+function limpiarTabla1(){
+    var tbody = $("#resultados tbody").empty();
+}
 $("#buscarArticulo").submit(function(){
     var datosTabla3 = {};
     datosTabla3['clave'] = document.getElementById('art_id').value;
@@ -20,6 +30,34 @@ $("#buscarArticulo").submit(function(){
     cargarTabla2(datosTabla3,10);
     return false;
 });
+function cambiarEstado(){
+    arreglo={};
+    exitoso = function(result){
+        if(result.estado!=undefined){
+            if(result.estado =='warning'){
+                notificacionWarning(result.success);
+                return;
+            }
+        }
+    };
+    fallo = function(datos){
+        console.log(datos);
+    };
+
+    arreglo['valor']=document.getElementById('idSucursal2').value;
+    if(document.getElementById('myonoffswitch').checked==false){
+     arreglo['comentario']='FALSE';
+     peticionAjax(API_SYS_PATH+'parametros/actualizarListaFija',arreglo,exitoso,fallo);
+     }
+     if(document.getElementById('myonoffswitch').checked==true){
+     arreglo['comentario']='TRUE';
+     peticionAjax(API_SYS_PATH+'parametros/actualizarListaFija',arreglo,exitoso,fallo);
+     }
+}
+function desactivarSwitch(estado){
+
+
+}
 function cargarTabla(arregloConInputs,idTransaccion) {
     arregloConInputs['idTransaccion']=idTransaccion;
     $("#resultados2").hide();
@@ -74,17 +112,55 @@ function cargarTabla(arregloConInputs,idTransaccion) {
             agregarTHaTR(tr,eliminar);
             $(tbody).append(tr);
         });
-
+        traerEstado();
         if(find){
             $('#resultados2').show();
+        }
+
+    };
+    fallo = function(datos){
+        console.log(datos);
+    };
+    var tbody = $("#resultados2 tbody").empty();
+    arregloConInputs['idSucursal']=document.getElementById('idSucursal2').value;
+    peticionAjax(API_SYS_PATH+'parametros/seleccionar/lista/fija',arregloConInputs,exitoso,fallo);
+
+    return false;
+}
+function traerEstado(){
+
+    exitoso = function(result){
+        if(result.estado!=undefined){
+            if(result.estado =='warning'){
+                notificacionWarning(result.success);
+                return;
+            }
+        }
+        result.data.forEach( function(element, index) {
+            estadoF=result.data[0]['comentario'];
+        });
+        if(estadoF=='FALSE'){
+            document.getElementById('myonoffswitch').checked=false;
+        }
+        if(estadoF=='TRUE'){
+            document.getElementById('myonoffswitch').checked=true;
+        }
+        if(document.getElementById('idSucursal2').selectedIndex!=0){
+            document.getElementById('divEstado').style.visibility='visible';
+        }
+        if(document.getElementById('idSucursal2').selectedIndex==0){
+            document.getElementById('divEstado').style.visibility='hidden';
         }
     };
     fallo = function(datos){
         console.log(datos);
     };
-    arregloConInputs['bandera']='1';
-    peticionAjax(API_SYS_PATH+'parametros/seleccionarListaFija',arregloConInputs,exitoso,fallo);
-    return false;
+    arregloEstado={};
+    arregloEstado['idSucursal']=document.getElementById('idSucursal2').value;
+    peticionAjax(API_SYS_PATH + 'parametros/seleccionarEstado', arregloEstado, exitoso, fallo);
+//alert(estadoF+'o.o');
+    //desactivarSwitch(estado);
+
 }
 function cargarTabla2(arregloConInputs,idTransaccion) {
     arregloConInputs['idTransaccion']=idTransaccion;
