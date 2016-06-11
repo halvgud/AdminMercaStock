@@ -149,7 +149,10 @@ function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
 				url: URL,
 				data: JSON.stringify(datos),
 				dataType: 'json',
-				headers: { 'Authorization': API_TOKEN}
+				beforeSend: function (request)
+				{
+					request.setRequestHeader("Authorization", API_TOKEN);
+				}
 			})
 			.done(function (resultado) {
 
@@ -171,6 +174,9 @@ function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
 				if (resulta != undefined) {
 					console.log(resulta);
 					notificacionError(resulta['error'] ? resulta['error'] : resulta['mensaje']?resulta['mensaje']:resulta['message']);
+					if(resulta['estado']!=undefined&&resulta['estado']=='-1'){
+						logout();
+					}
 				} else {
 					console.log(jqXHR.responseText);
 					notificacionError('Error de conexión al servicio API');
@@ -563,4 +569,125 @@ function generarPDFMemo(columnas, datos, nombre, header1, header2, orientacion) 
 		doc.save(nombre + '.pdf');
 	else
 		doc.save('Reporte.pdf');
+}
+function cambiarContrasena(){
+	var $contenido = $("<form></form>", {
+		name: 'formSucursal'
+	});
+	var $form_group = $("<div></div>", {
+		class: 'form-inline'
+	});
+
+	label = $("<label></label>", {
+		for: 'passwordActual',
+		text: 'Contraseña actual:\u00a0'
+	});
+	nombre = $("<input>", {
+		id: 'passwordActual',
+		name: 'passwordActual',
+		value: '',
+		type: 'password',
+		class: 'form-control',
+		required: 'required'
+	});
+	salto = $("<br><br>");
+
+	$form_group.append(label);
+	$form_group.append(nombre);
+	$form_group.append(salto);
+
+	label = $("<label></label>", {
+		for: 'passwordNueva1',
+		text: 'Contraseña nueva:\u00a0'
+	});
+	nombre = $("<input>", {
+		id: 'passwordNueva1',
+		name: 'passwordNueva1',
+		value: '',
+		type: 'password',
+		class: 'form-control',
+		required: 'required'
+	});
+	salto = $("<br><br>");
+
+	$form_group.append(label);
+	$form_group.append(nombre);
+	$form_group.append(salto);
+
+	label = $("<label></label>", {
+		for: 'passwordNueva2',
+		text: 'Repetir Contraseña nueva:\u00a0'
+	});
+	nombre = $("<input>", {
+		id: 'passwordNueva2',
+		name: 'passwordNueva2',
+		value: '',
+		type: 'password',
+		class: 'form-control',
+		required: 'required'
+	});
+	salto = $("<br><br>");
+
+	$form_group.append(label);
+	$form_group.append(nombre);
+	$form_group.append(salto);
+
+	var generarModalPopUp = $("<button></button>", {
+		id: "guardar",
+		name: "guardar",
+		type: 'button',
+		class: 'btn btn-outline btn-success',
+		text: 'Guardar'
+	});
+	$form_group.append(generarModalPopUp);
+	$contenido.append($form_group);
+	$(generarModalPopUp).click(function() {
+		//inicializarTablaModalPopuUp();
+		arregloConInputs={};
+		if($('#passwordNueva1').val()!=$('#passwordNueva2').val()||($('#passwordNueva1').val()==''||$('#passwordNueva2').val()==''||$('#passwordActual').val()=='')) {
+			notificacionWarning("Falta algún campo de llenar o las contraseñas no coinciden, favor de verificar los datos ");
+			return false;
+		}else{
+			exitoso = function(result) {
+				if (result.estado != undefined) {
+					if (result.estado == 'warning') {
+						notificacionWarning(result.mensaje);
+						//logout();
+						return;
+					}
+					if (result.estado == 'success') {
+						notificacionSuccess(result.success);
+						window.setInterval(logout, 3000);
+					}
+				}
+			};
+			fallo = function(datos) {
+
+			};
+			arregloConInputs['passwordActual']=$('#passwordActual').val();
+			arregloConInputs['passwordNueva']=$('#passwordNueva1').val();
+			arregloConInputs['usuario']=$('#usuario').val();
+			peticionAjax(API_SYS_PATH + 'usuario/actualizarContrasena', arregloConInputs, exitoso, fallo);
+		}
+	});
+	BootstrapDialog.show({
+		title: "Cambiar Contraseña",
+		message: function(dialog) {
+			return $contenido;
+		},
+		style: 'width:85%;',
+		closable: false,
+		type: BootstrapDialog.TYPE_WARNING,
+		onshown: function() {},
+		buttons: [{
+			id: 'btn-1',
+			label: 'Regresar',
+			cssClass: 'btn-primary',
+			action: function(dialog) {
+				dialog.close();
+			}
+		}]
+	});
+
+	return false;
 }

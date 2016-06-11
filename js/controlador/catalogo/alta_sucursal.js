@@ -107,6 +107,7 @@ function cargarTabla(arregloConInputs, idTransaccion) {
     fallo = function(datos) {
         console.log(datos);
     };
+    arregloConInputs['banderaSucursal']='1';
     peticionAjax(API_SYS_PATH + 'sucursal/seleccionar', arregloConInputs, exitoso, fallo, 'Cargando Lista de Sucursales...');
 }
 

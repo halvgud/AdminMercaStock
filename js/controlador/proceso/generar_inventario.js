@@ -78,7 +78,7 @@ function configuracionGeneral(titulo, idTransaccion) {
             id: 'cantidad',
             name: 'cantidad',
             value: '10',
-            type: 'text',
+            type: 'number',
             class: 'form-control',
             required: 'required',
             style: 'width:15%;'
@@ -117,7 +117,7 @@ function configuracionGeneral(titulo, idTransaccion) {
             class: 'form-control',
             onclick: 'InicializarDateTimePicker();',
             autocomplete: 'off',
-            style: 'width:85%;',
+            style: 'width:20%;',
             readonly: 'readonly'
         });
         $form_group.append(inputInicio);
@@ -134,7 +134,7 @@ function configuracionGeneral(titulo, idTransaccion) {
             class: 'form-control',
             onclick: 'InicializarDateTimePicker();',
             autocomplete: 'off',
-            style: 'width:85%;',
+            style: 'width:20%;',
             readonly: 'readonly'
         });
         $form_group.append(inputInicio);
@@ -176,6 +176,7 @@ function configuracionGeneral(titulo, idTransaccion) {
         inicializarTablaModalPopuUp();
         return false;
     });
+
     InicializarDateTimePicker();
     BootstrapDialog.show({
         title: titulo,
@@ -349,12 +350,17 @@ function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
                     type: 'button',
                     class: 'btn btn-outline btn-danger',
                     readonly: 'readonly',
-                    onclick: 'remover(' + contador + ');'
+                    onclick: 'remover(' +contador + ');'
                 });
                 $(removerModal).click(function() {
                     $(row).remove();
                     contador--;
                 });
+                function removerModal1(row){
+                    $(row).remove();
+                    contador--;
+                }
+
                 removerModal.append(icono);
                 td = $("<td></td>");
                 td.append(removerModal);
@@ -369,7 +375,7 @@ function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
                 tabla.show();
             }
         } else {
-            notificacionWarning('No se encontro informacion');
+            notificacionWarning('No se encontró información');
         }
     };
     fallo = function(datos) {
@@ -430,3 +436,6 @@ $("#inventario").submit(function() {
     }
     return false;
 });
+function remover(row){
+    $('#'+row).remove();
+}

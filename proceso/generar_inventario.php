@@ -33,7 +33,9 @@ if (!isset($_SESSION['idUsuario'])){
                 <tbody></tbody>
             </table></div>
         <form id="send" method="post">
-            <button type="submit" id="btnSend" name="btnSend" class="btn btn-outline btn-success" value=""><i class="fa fa-paper-plane"> Enviar tabla en formato JSON</i></button>
+            <button type="submit" id="btnSend" name="btnSend" class="btn btn-outline btn-success" value=""><i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+
+                Generar</button>
         </form>
         <script type="text/javascript" src="js/controlador/proceso/generar_inventario.js"></script>
         <script type="text/javascript" src="http://lightswitch05.github.io/table-to-json/javascripts/jquery.tabletojson.min.js"></script>

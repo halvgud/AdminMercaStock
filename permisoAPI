@@ -1,5 +1,5 @@
 <?php
-class PrivilegiosUsuario
+class permisoAPI
 {
     private $roles;
 
@@ -7,7 +7,7 @@ class PrivilegiosUsuario
 
     }
 
-    public static function traerPrivilegios(){
+    public static function traeAPI(){
 
         $service_url = 'http://localhost/APIMercaStock/public/usuario/permisos/obtener/'.$_SESSION['idUsuario'];
         $curl = curl_init($service_url);
@@ -31,16 +31,15 @@ class PrivilegiosUsuario
         return $decoded;
     }
 
-   public static function tienePrivilegio($obj, $field) {
-       $obj = json_decode($obj);
-       //var_dump($obj);
-       if(gettype($obj)=='object'){
+    public static function tieneAPI($obj, $field) {
+        $obj = json_decode($obj);
+        if(gettype($obj)=='object'){
             foreach($obj as $item) {
-                    if(isset($item->$field)) {
-                        return $item->$field;
-                    }
+                if(isset($item->$field)) {
+                    return $item->$field;
+                }
             }
-       }
+        }
         return false;
     }
 }
