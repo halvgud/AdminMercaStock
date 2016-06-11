@@ -1,6 +1,5 @@
 exitoso = function(datos){
     API_TOKEN=datos['datos']['ClaveAPI'];
-    console.log(API_TOKEN);
     exitoso2 = function(datos){
         window.location.reload();
     }
@@ -18,6 +17,6 @@ $("#loginForm").submit(function(){
     form.forEach(function(input) {
         datos[input.name] = input.value;
     });
-    peticionAjax(API_SYS_PATH+'usuario/login',datos,exitoso,fallo);
+    peticionAjax(API_SYS_PATH+'usuario/login',datos,exitoso,fallo,"cargando...");
     return false;
 });
