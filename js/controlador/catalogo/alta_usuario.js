@@ -2,7 +2,7 @@ var contador = 0;
 var contador2 = 0;
 
 $(function() {
-    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12);
+    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', null);
     cargarDropDownList(("#sexo"), 'idSexo', 'descripcion', API_SYS_PATH + 'sexo/seleccionar', 12);
     cargarDropDownList(("#idNivelAutorizacion"), 'idNivelAutorizacion', 'descripcion', API_SYS_PATH + 'nivel_autorizacion/seleccionar', $("#idUsuario").val());
     $("#descripcion").enterKey(function() {

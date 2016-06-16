@@ -1,10 +1,14 @@
 $(function() {
-    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12, false, 'Buscando Sucursal...', 'Seleccione una Sucursal');
+    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', true, false, 'Buscando Sucursal...', 'Seleccione una Sucursal');
 });
 
 function buscarDepartamento() {
     $("#dep_id").empty();
-    cargarDropDownList(("#dep_id"), 'dep_id', 'nombre', API_SYS_PATH + 'departamento/seleccionar', $("#idSucursal").val(), true, 'Buscando Departamento...', 'Seleccione un Departamento');
+    if($('#idSucursal').val()!='') {
+        cargarDropDownList(("#dep_id"), 'dep_id', 'nombre', API_SYS_PATH + 'departamento/seleccionar', $("#idSucursal").val(), true, 'Buscando Departamento...', 'Seleccione un Departamento');
+    }else{
+        $('#resultadosCategoria').empty();
+    }
 }
 
 $("#categoria").submit(function() {

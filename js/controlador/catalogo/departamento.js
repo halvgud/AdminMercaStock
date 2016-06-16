@@ -21,3 +21,8 @@ $("#departamento").submit(function() {
 
     return false;
 });
+function borrar(){
+    if($('#idSucursal').val()=='') {
+        $('#resultadosSucursal').empty();
+    }
+}

@@ -15,9 +15,6 @@
    }
    else{
        header('Authorization:'.$_SESSION['ClaveAPI']);
-
-
-   
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -49,6 +49,8 @@ $(function() {
         fallo = function(datos) {
             console.log(datos);
         };
+        arregloConInputs['usuario']=document.getElementById('usuario').value;
+
         peticionAjax(API_SYS_PATH + 'permisos/seleccionar', arregloConInputs, exitoso, fallo, "Buscando Permisos...");
     }
 

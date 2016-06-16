@@ -25,7 +25,7 @@ if (!isset($_SESSION['idUsuario'])){
             <select id="concepto" name="concepto" class="form-control" style="width: 25%;" required>
             </select>&nbsp;&nbsp;&nbsp;
             <input type="hidden" id="idUsuario" value="<?php echo $_SESSION['idUsuario']; ?>">
-            <button type="submit" class="btn btn-outline btn-success" id="search"><i class="fa fa-search"></i> Buscar</button>
+            <button type="submit" class="btn  btn-success" id="search"><i class="fa fa-search" hidden="true"></i> Buscar</button>
         </form>
         <br /><br /><div  align="center">
             <table id="resultados" width="90%" class="table table-condensed" >
@@ -33,7 +33,7 @@ if (!isset($_SESSION['idUsuario'])){
                 <tbody></tbody>
             </table></div>
         <form id="send" method="post">
-            <button type="submit" id="btnSend" name="btnSend" class="btn btn-outline btn-success" value=""><i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+            <button type="submit" id="btnSend" name="btnSend" class="btn btn-success" value=""><div ><i class="fa fa-cog fa-spin fa-3x fa-fw" style="display: none"></i></div>
 
                 Generar</button>
         </form>

@@ -25,7 +25,7 @@ else
                         <label for="art_id">Clave o Descripci&oacute;n </label>
                         <input type="text" class="form-control" id="art_id" name="art_id" placeholder="" required autocomplete="off" style="width: 20%;">
                         <br><br>
-                        <button type="submit" class="btn btn-outline btn-success" id="btnBuscar"><i class="fa fa-search"></i> Buscar</button>
+                        <button type="submit" class="btn btn-success" id="btnBuscar"><i class="fa fa-search"></i> Buscar</button>
                     </form>
                     <br>
                     <table id="resultados" class="table table-condensed" style="" align="center">
@@ -51,6 +51,7 @@ else
                         <select id="idSucursal2" name="idSucursal2" class="form-control" style="width: 25%;" required onchange="limpiarTabla2()">
                         </select>
                         &nbsp;&nbsp;&nbsp;
+                        <button type="submit" class="btn btn-success" id="btnBuscar"><i class="fa fa-search"></i> Buscar</button>
                         <div id="divEstado">
                             <label for="myonoffswitch">Estado</label>
                             <div class="onoffswitch">
@@ -58,6 +59,7 @@ else
                                 <label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label>
                             </div>
                         </div>
+
                     </form>
                     <br>
                     <br>

@@ -48,7 +48,7 @@ else
                         <input type="hidden" id="claveAPI" name="claveAPI" value="default" />
                         <input type="hidden" id="idEstado" name="idEstado" value="1" />
                         <input type="hidden" id="idSucursal" name="idSucursal" value="0" />
-                        <button id="btnGuardar" type="submit" class="btn btn-outline btn-success"><i class="fa fa-floppy-o"></i> Guardar</button>
+                        <button id="btnGuardar" type="submit" class="btn btn-success"><i class="fa fa-floppy-o"></i> Guardar</button>
                     </form>
                 </div>
             </div>

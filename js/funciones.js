@@ -158,14 +158,14 @@ function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
 				}
 			})
 			.done(function (resultado) {
-
-				if (successCallBack) {
-					successCallBack(resultado);
+				if (!(resultado != undefined && resultado['estado'] != undefined && resultado['estado'] == "nomessage")) {
+					if (successCallBack) {
+						successCallBack(resultado);
+					}
+					if ((loading) != undefined) {
+						BootstrapDialog.closeAll();
+					}
 				}
-				if ((loading) != undefined) {
-					BootstrapDialog.closeAll();
-				}
-
 
 			})
 			.fail(function (jqXHR, status, thrownError) {
@@ -295,7 +295,6 @@ function cargarDropDownList(nombreJquery, idSql, descripcionSql, rutaRest, idGen
 	arreglo = {};
 	arreglo['idGenerico'] = idGenerico;
 	//arreglo['item']=itemS;
-
 	arreglo['idTransaccion'] = rutaRest;
 	exitoso = function (result) {
 		var options = '';
@@ -334,6 +333,7 @@ function cargarDropDownList(nombreJquery, idSql, descripcionSql, rutaRest, idGen
 		resulta = datos;
 		console.log('fallo');
 	};
+	console.log(arreglo);
 	peticionAjax(rutaRest, arreglo, exitoso, fallo,mensaje);
 }
 
