@@ -1,14 +1,3 @@
-/*$(document).ready(function(){
- jQuery('#wrapper').ajaxify(/*{previewoff: false, menu: ".menu-item a", idleTime: 60000, slideTime: 5000,
- aniTime: 200,
- aniParams: {
- //    backgroundColor: "#0F0",     color: "#FFF",
- opacity: 0,
- width: 0
- },
- toggleSlide: { parentEl: 'article:first' }
- });
- })});*/
 function mostrarDialogoDeEspera($dialogo){
 	var $contenido = $("<div></div>");
 	var $form_group = $("<div></div>",{class:'sk-cube-grid',id:'cover'});
@@ -21,10 +10,7 @@ function mostrarDialogoDeEspera($dialogo){
 	var $cubo7 = $("<div></div>",{class:'sk-cube sk-cube7'});
 	var $cubo8 = $("<div></div>",{class:'sk-cube sk-cube8'});
 	var $cubo9 = $("<div></div>",{class:'sk-cube sk-cube9'});
-	//	var $cargando = $("<div><p></p></div>");
-	//var $h3 = $("<h5></h5>");
-	//$h3.append($dialogo);
-	//$cargando.append($h3);
+
 	$form_group.append($cubo1);
 	$form_group.append($cubo2);
 	$form_group.append($cubo3);
@@ -34,18 +20,18 @@ function mostrarDialogoDeEspera($dialogo){
 	$form_group.append($cubo7);
 	$form_group.append($cubo8);
 	$form_group.append($cubo9);
-	//$form_group.append($cargando);
+
 	$contenido.append($form_group);
 	$contenido.append("<br><br><br><br><br><br><br><br><br><br>");
 	BootstrapDialog.show({
-		title: $dialogo,
-		closable: false,
-		message:function(dialog) {
+		'title': $dialogo,
+		'closable': false,
+		'message':function(dialog) {
 			return $contenido;
 		},
-		type: BootstrapDialog.TYPE_WARNING,
-		size: BootstrapDialog.SIZE_SMALL
-	});
+		'type': BootstrapDialog.TYPE_WARNING,
+		'size': BootstrapDialog.SIZE_SMALL
+	})
 
 }
 function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading) {
@@ -86,6 +72,11 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading) {
 		},
 		ajax: {
 			'url': API_SYS_PATH + URL,
+			/**
+			 * @param {{estado:string}} json
+			 * @param {{success:string}} json
+			 * @param {{data:array}} json
+			 */
 			'dataSrc': function (json) {
 				console.log(json);
 				console.log(json.data);
@@ -106,38 +97,38 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading) {
 				request.setRequestHeader("Authorization", API_TOKEN);
 			},
 			'type': "POST",
-			data: function (d) {
+			data: function () {
 				console.log(JSON.stringify(datos));
 				return JSON.stringify(datos);
 			},
 			dataType: 'json'
-			, error: (function (jqXHR, status, thrownError) {
+			/**
+			 * @param {{responseText:string}} jqXHR
+			 * @param {{responseJSON:string}} jqXHR
+			 */
+			, error: (function (jqXHR) {
 				if ((loading) != undefined) {
 					BootstrapDialog.closeAll();
 				}
 				console.log(jqXHR.responseText);
-				resulta = jqXHR.responseJSON;
+				var resulta = jqXHR.responseJSON;
 				if (resulta != undefined) {
 					console.log(resulta);
 					notificacionError(resulta['error'] ? resulta['error'] : resulta['mensaje']);
 				} else {
-
 					notificacionError('Error de conexión al servicio API');
 				}
 			})
 		},
-
 		columns: arregloColumnas,
 		buttons: [
-		{
-			extend: 'collection',
-			text: 'Exportar tabla',
-			buttons: ['pdfHtml5', 'csvHtml5', 'copyHtml5', 'excelHtml5']
-
-		}
-	]
+					{
+						extend: 'collection',
+						text: 'Exportar tabla',
+						buttons: ['pdfHtml5', 'csvHtml5', 'copyHtml5', 'excelHtml5']
+					}
+		]
 	});
-
 }
 
 function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
@@ -146,14 +137,12 @@ function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
 	if ((loading) != undefined) {
 		mostrarDialogoDeEspera(loading);
 	}
-	console.log("Authorization: "+API_TOKEN);
 	$.ajax({
 				type: "POST",
 				url: URL,
 				data: JSON.stringify(datos),
 				dataType: 'json',
-				beforeSend: function (request)
-				{
+				beforeSend: function (request){
 					request.setRequestHeader("Authorization", API_TOKEN);
 				}
 			})
@@ -168,9 +157,8 @@ function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
 
 
 			})
-			.fail(function (jqXHR, status, thrownError) {
-
-				resulta = jqXHR.responseJSON;
+			.fail(function (jqXHR) {
+				var resulta = jqXHR.responseJSON;
 				if ((loading) != undefined) {
 					BootstrapDialog.closeAll();
 				}
@@ -184,7 +172,6 @@ function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
 					console.log(jqXHR.responseText);
 					notificacionError('Error de conexión al servicio API');
 				}
-
 				if (errorCallBack) {
 					errorCallBack(resulta);
 				}
@@ -192,10 +179,10 @@ function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
 
 }
 function logout() {
-	exitoso = function (datos) {
+	var exitoso = function () {
 		window.location.reload();
 	};
-	fallo = function (datos) {
+	var fallo = function (datos) {
 	};
 	peticionAjax('data/logout.php', '', exitoso, fallo);
 }
@@ -205,8 +192,8 @@ function notificacionError(mensaje) {
 		// options
 		icon: 'fa fa-exclamation-circle',
 		title: '<strong>Error</strong><br>',
-		message: mensaje,
-	}, {
+		message: mensaje
+		}, {
 		// settings
 		element: 'body',
 		position: null,
@@ -233,9 +220,9 @@ function notificacionWarning(mensaje) {
 	$.notify({
 		// options
 		icon: 'fa fa-exclamation-triangle',
-		title: '<strong>Advertencia</strong><br>',
-		message: mensaje,
-	}, {
+		title: '<strong></strong><br>'.append('Advertencia'),
+		message: mensaje
+		}, {
 		// settings
 		element: 'body',
 		position: null,
@@ -262,9 +249,9 @@ function notificacionSuccess(mensaje) {
 	$.notify({
 		// options
 		icon: 'fa fa-thumbs-o-up',
-		title: '<strong>Correcto</strong><br>',
-		message: mensaje,
-	}, {
+		title: '<strong></strong><br>'.append('Correcto'),
+		message: mensaje
+		}, {
 		// settings
 		element: 'body',
 		position: null,
@@ -286,37 +273,33 @@ function notificacionSuccess(mensaje) {
 	});
 
 }
-
+/*
 function cargarDropDownListDescripcion(nameattr, tipo) {
 	cargarDropDownList(nameattr, 'id_descripcion', 'descripcion', 1, tipo);
-}
+}*/
 
 function cargarDropDownList(nombreJquery, idSql, descripcionSql, rutaRest, idGenerico, cargarTodos,mensaje,itemS,valorDefault) {
-	arreglo = {};
+	var arreglo = {};
 	arreglo['idGenerico'] = idGenerico;
-	//arreglo['item']=itemS;
-
 	arreglo['idTransaccion'] = rutaRest;
-	exitoso = function (result) {
-		var options = '';
+	/**
+	 * @param {{estado:string}} result
+	 * @param {{success:string}} result
+	 */
+	var exitoso = function (result) {
 		if (result.estado!="warning"){
-			if(idSql=='idSucursal' ||idSql=='idConcepto') {
-				var resultados = result.data;
-			}
-			else{
-					var resultados = result.data[0];
-
-			}
-
+			var resultados;
+			resultados = idSql == 'idSucursal' || idSql == 'idConcepto' ? result.data : result.data[0];
 			if(itemS!=null){
 				$(nombreJquery).append($("<option></option>", {value: '', text: itemS}));
 			}
-
 			for (var i = 0; i < resultados.length; i++) {
 				if(valorDefault!=undefined&&valorDefault==resultados[i][idSql]){
-					$(nombreJquery).append($("<option></option>", {value: resultados[i][idSql], text: resultados[i][descripcionSql],selected:'selected'}));
+					$(nombreJquery).append($("<option></option>", {value: resultados[i][idSql],
+						text: resultados[i][descripcionSql],selected:'selected'}));
 				}else{
-					$(nombreJquery).append($("<option></option>", {value: resultados[i][idSql], text: resultados[i][descripcionSql]}));
+					$(nombreJquery).append($("<option></option>", {value: resultados[i][idSql],
+						text: resultados[i][descripcionSql]}));
 				}
 
 			}
@@ -330,9 +313,8 @@ function cargarDropDownList(nombreJquery, idSql, descripcionSql, rutaRest, idGen
 
 
 	};
-	fallo = function (datos) {
-		resulta = datos;
-		console.log('fallo');
+	var fallo = function (datos) {
+		console.log(datos);
 	};
 	peticionAjax(rutaRest, arreglo, exitoso, fallo,mensaje);
 }
@@ -347,20 +329,4 @@ $.fn.enterKey = function (fnc) {
 		});
 	});
 };
-function agregarTDaTR(tr, element, cssClass) {
-	if (cssClass)
-		var td = $("<td></td>", {class: cssClass});
-	else
-		var td = $("<td></td>");
-	$(td).append(element);
-	$(tr).append(td);
-}
-
-function agregarTHaTR(tr, element, cssClass) {
-	if (cssClass)
-		var th = $("<th></th>", {class: cssClass});
-	else
-		var th = $("<th></th>");
-	$(th).append(element);
-	$(tr).append(th);
-}
+/*function agregarTDaTR(tr, element, cssClass) {var td= cssClass ? $("<td></td>", {class: cssClass}) : $("<td></td>");$(td).append(element);$(tr).append(td);}function agregarTHaTR(tr, element, cssClass) {	var th = cssClass ? $("<th></th>", {class: cssClass}) : $("<th></th>");	$(th).append(element);	$(tr).append(th);}*/

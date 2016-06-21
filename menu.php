@@ -74,7 +74,7 @@ if(!isset($_SESSION['idUsuario'])){
                                 <li>
                                     <a href="#" onclick="cambiarUrl('/catalogo/permisos.php','true');"><i class="fa fa-lock fa-fw"></i> Permisos</a>
                                 </li>
-                            <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"PERAMETROS")) {  ?>
+                            <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"PARAMETROS")) {  ?>
                                 <li>
                                     <a href="#" onclick="cambiarUrl('/catalogo/parametros.php');"><i class="fa fa-wrench fa-fw"></i> Parametros</a>
                                 </li>
