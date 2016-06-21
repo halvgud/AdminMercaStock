@@ -18,7 +18,7 @@ else
             <label  class="form-inline" id="lDepartamento" style="">Filtrar por Departamento</label>
             <select id="dep_id" name="dep_id" class="form-control" style="width: 25%;" >
             </select>&nbsp;&nbsp;&nbsp;
-            <button type="submit" class="btn btn-outline btn-success"><i class="fa fa-search"></i> Buscar</button>
+            <button type="submit" class="btn btn-success"><i class="fa fa-search"></i> Buscar</button>
         </form>
         </br></br>
         <table id="resultadosCategoria" class="table table-condensed text-center"  align="center">

@@ -21,7 +21,7 @@ else
             <label for="cat_id">Filtrar por Categoria: </label>
             <select id="cat_id" name="cat_id" class="form-control" style="width: 25%;" required >
             </select>&nbsp;&nbsp;&nbsp;
-            <button type="submit" class="btn btn-outline btn-success"><i class="fa fa-search"></i> Buscar</button>
+            <button type="submit" class="btn btn-success"><i class="fa fa-search"></i> Buscar</button>
         </form></br>
         <table id="resultadosArticulo" class="table table-condensed text-center"  align="center">
             <thead>

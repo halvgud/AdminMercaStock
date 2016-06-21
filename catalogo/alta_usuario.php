@@ -46,7 +46,7 @@ else
                                 <option value="">Seleccione un Nivel</option>
                             </select>
                         </div>
-                        <button type="submit" id='btnGuardar' class="btn btn-outline btn-success"><i class="fa fa-floppy-o"></i> Guardar</button>
+                        <button type="submit" id='btnGuardar' class="btn btn-success"><i class="fa fa-floppy-o"></i> Guardar</button>
                     </form>
                 </div>
             </div>

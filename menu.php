@@ -45,7 +45,6 @@ if(!isset($_SESSION['idUsuario'])){
                 <li>
                     <a href="<?php echo $path;?>/index.php"><i class="fa fa-home fa-fw"></i> Dashboard</a>
                 </li>
-                <?php if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
 
                     <li>
                         <a href="#"><i class="fa fa-th-list fa-fw"></i> Catálogo<span class="fa arrow"></span></a>
@@ -82,7 +81,7 @@ if(!isset($_SESSION['idUsuario'])){
                         </ul>
                     </li>
                     <!-- /.nav-second-level -->
-                <?php }if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
+
                     <li>
                         <!-- <i class="fa fa-bar-chart-o fa-fw"></i> -->
                         <a href="#"><i class="fa fa-cogs fa-fw"></i> Proceso<span class="fa arrow"></span></a>
@@ -100,9 +99,10 @@ if(!isset($_SESSION['idUsuario'])){
                             <li>
                                 <a href="#" onclick="cambiarUrl('/proceso/listado_excluyente.php');"><i class="fa fa-ban fa-fw"></i> Listado Excluyente</a>
                             </li>
+                            <?php }  ?>
                         </ul>
                     </li>
-                <?php }} if (PrivilegiosUsuario::tienePrivilegio($decoded,"DUMMY")) { ?>
+
 
                     <li>
                         <!-- <i class="fa fa-bar-chart-o fa-fw"></i> -->
@@ -131,7 +131,7 @@ if(!isset($_SESSION['idUsuario'])){
                             <?php }  ?>
                         </ul>
                     </li>
-                <?php }  }?>
+                <?php }  ?>
             </ul>
         </div>
         <!-- /.sidebar-collapse -->

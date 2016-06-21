@@ -36,7 +36,11 @@ $("#articulo").submit(function() {
 function buscarDeparamento() {
     $("#dep_id").empty();
     $("#cat_id").empty();
-    cargarDropDownList(("#dep_id"), 'dep_id', 'nombre', API_SYS_PATH + 'departamento/seleccionar', $("#idSucursal").val(), true, 'Buscando Departamentos...', 'Seleccione un Departamento');
+    if($('#idSucursal').val()!='') {
+        cargarDropDownList(("#dep_id"), 'dep_id', 'nombre', API_SYS_PATH + 'departamento/seleccionar', $("#idSucursal").val(), true, 'Buscando Departamentos...', 'Seleccione un Departamento');
+    }else{
+        $("#resultadosArticulo").empty();
+    }
 }
 
 function buscarCategoria() {
@@ -45,5 +49,9 @@ function buscarCategoria() {
         idSucursal: $("#idSucursal").val(),
         dep_id: $("#dep_id").val()
     };
-    cargarDropDownList(("#cat_id"), 'cat_id', 'nombre', API_SYS_PATH + 'categoria/seleccionar', columnas, false, 'Buscando Categorias...', 'Seleccione una Categoria');
+    if($('#idSucursal').val()!='') {
+        cargarDropDownList(("#cat_id"), 'cat_id', 'nombre', API_SYS_PATH + 'categoria/seleccionar', columnas, false, 'Buscando Categorias...', 'Seleccione una Categoria');
+    }else{
+        $("#resultadosArticulo").empty();
+    }
 }

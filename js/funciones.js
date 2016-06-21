@@ -147,14 +147,14 @@ function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
 				}
 			})
 			.done(function (resultado) {
-
-				if (successCallBack) {
-					successCallBack(resultado);
+				if (!(resultado != undefined && resultado['estado'] != undefined && resultado['estado'] == "nomessage")) {
+					if (successCallBack) {
+						successCallBack(resultado);
+					}
+					if ((loading) != undefined) {
+						BootstrapDialog.closeAll();
+					}
 				}
-				if ((loading) != undefined) {
-					BootstrapDialog.closeAll();
-				}
-
 
 			})
 			.fail(function (jqXHR) {
@@ -281,6 +281,7 @@ function cargarDropDownListDescripcion(nameattr, tipo) {
 function cargarDropDownList(nombreJquery, idSql, descripcionSql, rutaRest, idGenerico, cargarTodos,mensaje,itemS,valorDefault) {
 	var arreglo = {};
 	arreglo['idGenerico'] = idGenerico;
+	//arreglo['item']=itemS;
 	arreglo['idTransaccion'] = rutaRest;
 	/**
 	 * @param {{estado:string}} result
@@ -316,6 +317,7 @@ function cargarDropDownList(nombreJquery, idSql, descripcionSql, rutaRest, idGen
 	var fallo = function (datos) {
 		console.log(datos);
 	};
+	console.log(arreglo);
 	peticionAjax(rutaRest, arreglo, exitoso, fallo,mensaje);
 }
 
