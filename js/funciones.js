@@ -34,7 +34,7 @@ function mostrarDialogoDeEspera($dialogo){
 	})
 
 }
-function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading,success,ocultarBusqueda) {
+function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading,success,ocultarBusqueda,funcionDeColor) {
 	if ((loading) != undefined) {
 		mostrarDialogoDeEspera(loading);
 	}
@@ -43,7 +43,7 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading,success,ocultarBusq
 		banderaMostrarBusqueda=true;
 	}
 	return $(DT).DataTable({
-		dom: '<"toolbar">frtip',
+		dom: funcionDeColor==undefined?'<"toolbar">frtip':'lrtip',
 		"bDestroy": true,
 		"language": {
 			"sProcessing":     "Procesando...",
@@ -77,6 +77,17 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading,success,ocultarBusq
 		"bFilter": banderaMostrarBusqueda,
 		"bPaginate":banderaMostrarBusqueda,
 		"bInfo":banderaMostrarBusqueda,
+		'createdRow': function( nRow, aData, iDataIndex ) {
+			if(funcionDeColor==undefined){
+				return nRow;
+			}else if(funcionDeColor==1){
+				if(aData.bandera!=undefined){
+					$('td', nRow).eq(6).css('background-color',obtenerColorPorPorcentaje(aData.bandera));
+				}
+				return nRow;
+			}
+
+		},
 		ajax: {
 			'url': API_SYS_PATH + URL,
 			/**
@@ -95,7 +106,6 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading,success,ocultarBusq
 					return json.data;
 				}
 				else {
-					//notificacionSuccess(json.success);
 					if(success) {
 						success(json.success);
 					}else{
@@ -141,6 +151,30 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading,success,ocultarBusq
 					}
 		]
 	});
+}
+var colores = [
+	{ pct: 0.0, color: { r: 133, g: 34, b: 38 } },
+	{ pct: 0.5, color: { r: 204, g: 219, b: 38 } },
+	{ pct: 1.0, color: { r: 34, g: 133, b: 38 } } ];
+
+function obtenerColorPorPorcentaje(pct) {
+	for (var i = 1; i < colores.length - 1; i++) {
+		if (pct < colores[i].pct) {
+			break;
+		}
+	}
+	var lower = colores[i - 1];
+	var upper = colores[i];
+	var range = upper.pct - lower.pct;
+	var rangePct = (pct - lower.pct) / range;
+	var pctLower = 1 - rangePct;
+	var pctUpper = rangePct;
+	var color = {
+		r: Math.floor(lower.color.r * pctLower + upper.color.r * pctUpper),
+		g: Math.floor(lower.color.g * pctLower + upper.color.g * pctUpper),
+		b: Math.floor(lower.color.b * pctLower + upper.color.b * pctUpper)
+	};
+	return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
 }
 
 function peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {

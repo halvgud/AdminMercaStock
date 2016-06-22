@@ -13,7 +13,7 @@ if(!isset($_SESSION['idUsuario'])){
         <form class="form-inline" id="inventario" name="inventario">
             <div class="form-group">
                 <label>Sucursales:&nbsp;</label>
-                <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;" onchange="//buscarDepartamento();" required></select>
+                <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;" required></select>
                 <label for="fechaInicio">&nbsp;&nbsp;&nbsp;&nbsp;Fecha de Inicio</label>
                 <input type="text" id="fechaInicio" name="fechaInicio" class="form-control" size="20" autocomplete="off" style="width: 10%"/>
                 <label for="fechaFin">&nbsp;&nbsp;&nbsp;&nbsp;Fecha Final</label>
@@ -27,13 +27,34 @@ if(!isset($_SESSION['idUsuario'])){
         <table id="tabla" class="table table-condensed" align="center">
             <thead>
             <tr align="center">
-                <th align="center">Nº de veces inventariadas</th>
-                <th align="center">Nº de veces acertado</th>
-                <th align="center">Nº de veces erroneo</th>
+                <th align="center">idSucursal</th>
+                <th align="center">Nombre</th>
+                <th align="center">Fecha</th>
+                <th align="center">Total</th>
+                <th align="center">Total Acertado</th>
+                <th align="center">Total Fallado</th>
             </tr>
             </thead>
             <tbody></tbody>
         </table>
+        <br>
+        <div id="divDetalle">
+            <table id="tablaDetalle"  class="table table-striped" align="center">
+                <thead>
+                <tr align="center">
+                    <th align="center">Fecha</th>
+                    <th align="center">Clave</th>
+                    <th align="center" >Descripcion</th>
+                    <th align="center" >Cantidad solicitada</th>
+                    <th align="center" >Cantidad ejecutada</th>
+                    <th align="center" >Cantidad respuesta</th>
+                    <th align="center" >Porcentaje</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
         <script type="text/javascript" src="js/controlador/reportes/inventario_sucursal_articulos.js"></script>
 
     </div>
