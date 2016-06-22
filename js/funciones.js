@@ -48,12 +48,12 @@ function mostrarDialogoDeEspera($dialogo){
 	});
 
 }
-function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading) {
+function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading,success) {
 	if ((loading) != undefined) {
 		mostrarDialogoDeEspera(loading);
 	}
 	return $(DT).DataTable({
-		dom: 'Bfrtip',
+		dom: '<"toolbar">frtip',
 		"bDestroy": true,
 		"language": {
 			"sProcessing":     "Procesando...",
@@ -97,7 +97,12 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading) {
 					return json.data;
 				}
 				else {
-					notificacionSuccess(json.success);
+					//notificacionSuccess(json.success);
+					if(success) {
+						success(json.success);
+					}else{
+						notificacionSuccess(json.success);
+					}
 					console.log(json.data);
 					return json.data;
 				}
@@ -134,7 +139,10 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading) {
 			text: 'Exportar tabla',
 			buttons: ['pdfHtml5', 'csvHtml5', 'copyHtml5', 'excelHtml5']
 
-		}
+		},{
+
+
+			}
 	]
 	});
 

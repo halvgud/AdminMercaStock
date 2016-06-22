@@ -1,7 +1,7 @@
 $(function() {
     arreglo = {};
     arreglo['bandera'] = true;
-    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', arreglo, 12, false);
+    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', null, 12, false);
 });
 
 function inicializarTabla3() {

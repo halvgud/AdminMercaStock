@@ -73,7 +73,7 @@ if(!isset($_SESSION['idUsuario'])){
                                 <li>
                                     <a href="#" onclick="cambiarUrl('/catalogo/permisos.php','true');"><i class="fa fa-lock fa-fw"></i> Permisos</a>
                                 </li>
-                            <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"PERAMETROS")) {  ?>
+                            <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"PARAMETROS")) {  ?>
                                 <li>
                                     <a href="#" onclick="cambiarUrl('/catalogo/parametros.php');"><i class="fa fa-wrench fa-fw"></i> Parametros</a>
                                 </li>
@@ -116,11 +116,11 @@ if(!isset($_SESSION['idUsuario'])){
                                 <li>
                                     <a href="#" onclick="cambiarUrl('/reportes/movimiento_articulos.php');"><i class="fa fa-exchange fa-fw"></i> Movimiento de Artículos</a>
                                 </li>
-                            <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"EXISTENCIAS")) {  ?>
+                            <?php } /*if (PrivilegiosUsuario::tienePrivilegio($decoded,"EXISTENCIAS")) {  ?>
                                 <li>
                                     <a href="#" onclick="cambiarUrl('/reportes/existencias.php');"><i class="fa fa-calendar-check-o fa-fw"></i> Existencias</a>
                                 </li>
-                            <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"INVENTARIO_SUCURSAL_ARTICULOS")) {  ?>
+                            <?php }*/ if (PrivilegiosUsuario::tienePrivilegio($decoded,"INVENTARIO_SUCURSAL_ARTICULOS")) {  ?>
                                 <li>
                                     <a href="#" onclick="cambiarUrl('/reportes/inventario_sucursal_articulos.php');"><i class="fa fa-industry fa-fw"></i> Inventario por Sucursal / por Artículo</a>
                                 </li>

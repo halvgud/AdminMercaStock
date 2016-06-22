@@ -33,7 +33,6 @@ else
             </thead>
             <tbody></tbody>
         </table>
-        <hr>
     </div>
     <script type="text/javascript" src="js/controlador/catalogo/parametro.js"></script>
     <?php

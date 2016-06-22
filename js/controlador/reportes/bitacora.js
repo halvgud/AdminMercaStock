@@ -29,6 +29,7 @@ $("#fecha").submit(function(){
     form1.forEach(function(input) {
         datosTabla1[input.name] = input.value;
     });
+    console.log(datosTabla1);
     var datos= (datosTabla1);
     var columnas = [{ data : "idBitacora" },
         { data : "idError" },
@@ -37,5 +38,4 @@ $("#fecha").submit(function(){
         { data : "fecha" }];
     peticionAjaxDT('bitacora/seleccionar',('#test'),datosTabla1,columnas,null);
     return false;
-
 });

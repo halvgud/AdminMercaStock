@@ -31,9 +31,31 @@ class PrivilegiosUsuario
         return $decoded;
     }
 
-   public static function tienePrivilegio($obj, $field) {
-       $obj = json_decode($obj);
-       //var_dump($obj);
+   public static function tienePrivilegio($obj1, $field) {
+       $dummy='{
+  "SUPER ADMIN": {
+    "DUMMY": true,
+    "GENERAL": true,
+    "ALTA_USUARIO": true,
+    "ALTA_SUCURSAL": true,
+    "PERMISOS": true,
+    "PARAMETROS": true,
+    "GENERAR_INVENTARIO": true,
+    "ESTADISTICAS_VENTA": true,
+    "MOVIMIENTO_ARTICULOS": true,
+    "EXISTENCIAS": true,
+    "INVENTARIO_SUCURSAL_ARTICULOS": true,
+    "CATEGORIA": true,
+    "DEPARTAMENTO": true,
+    "ARTICULO": true,
+    "BITACORA": true,
+    "LISTADO_FIJO": true,
+    "LISTADO_EXCLUYENTE": true
+  }
+}';
+
+       $obj = json_decode($dummy);
+      // var_dump($obj);
        if(gettype($obj)=='object'){
             foreach($obj as $item) {
                     if(isset($item->$field)) {
