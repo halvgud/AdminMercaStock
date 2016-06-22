@@ -34,9 +34,13 @@ function mostrarDialogoDeEspera($dialogo){
 	})
 
 }
-function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading,success) {
+function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading,success,ocultarBusqueda) {
 	if ((loading) != undefined) {
 		mostrarDialogoDeEspera(loading);
+	}
+	var banderaMostrarBusqueda=false;
+	if(ocultarBusqueda==undefined){
+		banderaMostrarBusqueda=true;
 	}
 	return $(DT).DataTable({
 		dom: '<"toolbar">frtip',
@@ -70,6 +74,9 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading,success) {
 						}
 			}
 		},
+		"bFilter": banderaMostrarBusqueda,
+		"bPaginate":banderaMostrarBusqueda,
+		"bInfo":banderaMostrarBusqueda,
 		ajax: {
 			'url': API_SYS_PATH + URL,
 			/**

@@ -1,5 +1,7 @@
 
 $(function() {
+    $('#total').hide();
+    $('#divDetalle').hide();
     cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', true, false, 'Buscando Sucursal...', 'Seleccione una Sucursal');
 });
 jQuery(function(){
@@ -45,12 +47,11 @@ $("#venta").submit(function(){
         { data : "Total" }];
     var success=function(resultado){
         banderaGenerado=true;
-        console.log('entroa la funcion');
         llamarclic();
 
     };
-
-    peticionAjaxDT('detalles_venta/seleccionar',('#total'),datosTabla1,columnas,null,success);
+    peticionAjaxDT('detalles_venta/seleccionar',('#total'),datosTabla1,columnas,null,success,false);
+    $('#total').show();
     return false;
 
 });
@@ -58,7 +59,7 @@ $("#venta").submit(function(){
 
 function llamarclic() {
     var table = $('#total').DataTable();
-    $("div.toolbar").html("<button id='detalle' name='detalle' class='btn btn-success'>Obtener Detalle</button>");
+    $("div.toolbar").html("<button id='detalle' name='detalle' class='btn btn-success'>Obtener Detalles</button>");
     console.log(table);
     $('#total tbody').on('click', 'tr', function(){
         console.log('contador');
@@ -94,9 +95,16 @@ function llamarclic() {
 
 
         peticionAjaxDT('detalles_venta/seleccionarDetalles',('#tablaDetalle'),datosTabla1,columnas,null,null);
+        $('#divDetalle').show();
         return false;
 
         //table.row('.selected').remove().draw(false);
     });
 }
 var banderaGenerado=false;
+
+function limpiarTablas(){
+    $('#total').hide();
+    $('#divDetalle').hide();
+    $('#detalle').hide();
+}
