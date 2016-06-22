@@ -163,16 +163,16 @@ function obtenerColorPorPorcentaje(pct) {
 			break;
 		}
 	}
-	var lower = colores[i - 1];
-	var upper = colores[i];
-	var range = upper.pct - lower.pct;
-	var rangePct = (pct - lower.pct) / range;
-	var pctLower = 1 - rangePct;
-	var pctUpper = rangePct;
+	var limiteInferior = colores[i - 1];
+	var limiteSuperior = colores[i];
+	var rango = limiteSuperior.pct - limiteInferior.pct;
+	var rangoPorcentaje = (pct - limiteInferior.pct) / rango;
+	var pctLower = 1 - rangoPorcentaje;
+	var pctUpper = rangoPorcentaje;
 	var color = {
-		r: Math.floor(lower.color.r * pctLower + upper.color.r * pctUpper),
-		g: Math.floor(lower.color.g * pctLower + upper.color.g * pctUpper),
-		b: Math.floor(lower.color.b * pctLower + upper.color.b * pctUpper)
+		r: Math.floor(limiteInferior.color.r * pctLower + limiteSuperior.color.r * pctUpper),
+		g: Math.floor(limiteInferior.color.g * pctLower + limiteSuperior.color.g * pctUpper),
+		b: Math.floor(limiteInferior.color.b * pctLower + limiteSuperior.color.b * pctUpper)
 	};
 	return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
 }
