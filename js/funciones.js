@@ -43,7 +43,7 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading,success,ocultarBusq
 		banderaMostrarBusqueda=true;
 	}
 	return $(DT).DataTable({
-		dom: funcionDeColor==undefined?'<"toolbar">frtip':'lrtip',
+		dom: funcionDeColor==undefined?'Bfrtip':'<"toolbar">Bfrtip',
 		"bDestroy": true,
 		"language": {
 			"sProcessing":     "Procesando...",
@@ -80,9 +80,9 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading,success,ocultarBusq
 		'createdRow': function( nRow, aData, iDataIndex ) {
 			if(funcionDeColor==undefined){
 				return nRow;
-			}else if(funcionDeColor==1){
+			}else if(funcionDeColor['Posicion']!=undefined){
 				if(aData.bandera!=undefined){
-					$('td', nRow).eq(6).css('background-color',obtenerColorPorPorcentaje(aData.bandera));
+					$('td', nRow).eq(funcionDeColor['Posicion']).css('background-color',obtenerColorPorPorcentaje(aData.bandera));
 				}
 				return nRow;
 			}

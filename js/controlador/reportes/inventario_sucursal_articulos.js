@@ -30,7 +30,7 @@ $(function(){
 
 $("#inventario").submit(function(){
     if(banderaGenerado){
-        $('#total tbody').unbind('click');
+        $('#tabla tbody').unbind('click');
 
         banderaGenerado=false;
     }
@@ -47,14 +47,16 @@ $("#inventario").submit(function(){
         { data : "fecha" },
         { data : "total" },
         { data : "totalAcertado" },
-        { data : "totalFallado" }
+        { data : "totalFallado" },
+        {data:"bandera"}
     ];
     var success=function(resultado){
         banderaGenerado=true;
         llamarclic();
 
     };
-    peticionAjaxDT('inventario/reporte/cabecero',('#tabla'),datosTabla1,columnas,null,success);
+    var arregloBoton={Boton:true,Posicion:6};
+    peticionAjaxDT('inventario/reporte/cabecero',('#tabla'),datosTabla1,columnas,null,success,undefined,arregloBoton);
     $('#total').show();
     return false;
 
@@ -92,8 +94,8 @@ function llamarclic() {
             { data : "bandera" }
         ];
 //{ data : "bandera" }
-
-        peticionAjaxDT('inventario/reporte/detalle',('#tablaDetalle'),datosTabla1,columnas,null,undefined,undefined,1);
+        var arregloBoton={Boton:true,Posicion:6};
+        peticionAjaxDT('inventario/reporte/detalle',('#tablaDetalle'),datosTabla1,columnas,null,undefined,undefined,arregloBoton);
         $('#divDetalle').show();
         return false;
 

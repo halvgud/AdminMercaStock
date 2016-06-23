@@ -33,6 +33,7 @@ if(!isset($_SESSION['idUsuario'])){
                 <th align="center">Total</th>
                 <th align="center">Total Acertado</th>
                 <th align="center">Total Fallado</th>
+                <th align="center" >Porcentaje</th>
             </tr>
             </thead>
             <tbody></tbody>
