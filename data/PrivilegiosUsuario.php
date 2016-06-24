@@ -9,8 +9,7 @@ class PrivilegiosUsuario
 
     public static function traerPrivilegios(){
 
-        $service_url = 'http://api.mercatto.mx/public/usuario/permisos/obtener/'.$_SESSION['idUsuario'];
-        var_dump($service_url);
+        $service_url = 'http://localhost/APIMercaStock/public/usuario/permisos/obtener/'.$_SESSION['idUsuario'];
         $curl = curl_init($service_url);
         $curl_post_data = array(
         );
