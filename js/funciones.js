@@ -43,8 +43,9 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading,success,ocultarBusq
 		banderaMostrarBusqueda=true;
 	}
 	return $(DT).DataTable({
-		dom: funcionDeColor==undefined?'Bfrtip':'<"toolbar">Bfrtip',
+		dom: funcionDeColor==undefined?'Bfrtip':'<"toolbar">frtipB',
 		"bDestroy": true,
+		"order": funcionDeColor==undefined?[[ 0, "asc" ]]:(funcionDeColor['Posicion']==undefined?[[ 0, "asc" ]]:[[ funcionDeColor['Posicion'], "desc" ]]),
 		"language": {
 			"sProcessing":     "Procesando...",
 			"sLengthMenu":     "Mostrar _MENU_ registros",
