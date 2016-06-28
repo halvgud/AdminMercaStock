@@ -50,7 +50,8 @@ $("#venta").submit(function(){
         llamarclic();
 
     };
-    peticionAjaxDT('detalles_venta/seleccionar',('#total'),datosTabla1,columnas,null,success,false);
+    var arregloBoton={Boton:true};
+    peticionAjaxDT('detalles_venta/seleccionar',('#total'),datosTabla1,columnas,null,success,false,arregloBoton);
     $('#total').show();
     return false;
 

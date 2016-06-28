@@ -7,19 +7,19 @@ $(function() {
     cargarDropDownList(("#idNivelAutorizacion"), 'idNivelAutorizacion', 'descripcion', API_SYS_PATH + 'nivel_autorizacion/seleccionar', $("#idUsuario").val());
     $("#descripcion").enterKey(function() {
         e.preventDefault();
-        buscar();
+       // buscar();
     });
     $("#clave").enterKey(function(e) {
         e.preventDefault();
-        buscar();
+      //  buscar();
     });
     $("#buscarUsuario").submit(function(e) {
         e.preventDefault();
-        buscar();
+      //  buscar();
     });
 });
 
-function reactivarBtnU() {
+/*function reactivarBtnU() {
     if (contador2 == 1) {
         $("#btnGuardar").prop("disabled", false);
         contador2 = 0;
@@ -28,8 +28,8 @@ function reactivarBtnU() {
     if (/^[0-9]{1,4}$/.test(+tempVal))
         alert('we cool');
     else
-        alert('we not');*/
-}
+        alert('we not');
+}*/
 
 $("#guardarUsuario").submit(function() {
     var guardarUsuario = $('#guardarUsuario');
@@ -114,6 +114,7 @@ function cargarTabla(arregloConInputs, idTransaccion) {
             var usuario = element['usuario'];
             var descripcionRol = element['descripcion'];
             var estado = element['idEstado'] == '1' ? 'ACTIVO' : 'INACTIVO';
+            var descripcionSucursal = element['descripcionSucursal'];
             var editar = $("<button></button>", {
                 class: 'btn btn-primary'
             });
@@ -124,10 +125,11 @@ function cargarTabla(arregloConInputs, idTransaccion) {
             editar.append(" Editar");
             $(editar).click(function() {
                 editarUsuario(element, tr);
-            })
+            });
             agregarTDaTR(tr, usuario);
             agregarTDaTR(tr, descripcionRol);
             agregarTDaTR(tr, estado);
+            agregarTDaTR(tr,descripcionSucursal);
             agregarTDaTR(tr, editar);
             $(tbody).append(tr);
         });
@@ -222,78 +224,37 @@ function editarUsuario(element, tr) {
     $form_group.append(apellido);
     $contenido.append($form_group);
     /********CONTACTO********/
-    label = $("<label></label>", {
-        for: 'contacto',
-        text: 'Contacto'
-    });
-    var contacto = $("<input>", {
-        name: 'contacto',
-        value: element['contacto'],
-        type: 'text',
-        class: 'form-control',
-        required: 'required'
-    });
+    label = $("<label></label>", {for: 'contacto',text: 'Contacto'});
+    var contacto = $("<input>", {name: 'contacto',value: element['contacto'],type: 'text',class: 'form-control',
+        required: 'required'});
     $form_group.append(label);
     $form_group.append(contacto);
     $contenido.append($form_group);
     /********SEXO********/
-    label = $("<label></label>", {
-        for: 'sexo',
-        text: 'Sexo'
-    });
-    var optionSexo = $("<option></option>", {
-        name: 'empty',
-        text: 'Seleccione sexo',
-        value: '',
-        required: 'required'
-    });
-    var sexo = $("<select></select>", {
-        name: 'sexo',
-        id: 'sexo',
-        class: 'form-control'
-    });
+    label = $("<label></label>", {for: 'sexo',text: 'Sexo'});
+    var optionSexo = $("<option></option>", {name: 'empty',text: 'Seleccione sexo',value: '',required: 'required'});
+    var sexo = $("<select></select>", {name: 'sexo',id: 'sexo',class: 'form-control'});
     $(sexo).append(optionSexo);
     $(sexo).val('');
     $form_group.append(label);
     $form_group.append(sexo);
     $contenido.append($form_group);
     /********SUCURSAL********/
-    label = $("<label></label>", {
-        for: 'idSucursal',
-        text: 'Sucursal'
-    });
-    var optionSucursal = $("<option></option>", {
-        name: 'empty',
-        text: 'Seleccione Sucursal',
-        value: '',
-        required: 'required'
-    });
-    var sucursal = $("<select></select>", {
-        name: 'idSucursal',
-        id: 'idSucursal',
-        class: 'form-control'
-    });
+    label = $("<label></label>", {for: 'idSucursal',text: 'Sucursal'});
+    var optionSucursal = $("<option></option>", {name: 'empty',text: 'Seleccione Sucursal',value: '',
+        required: 'required'});
+    var sucursal = $("<select></select>", {name: 'idSucursal',id: 'idSucursal',class: 'form-control'});
     $(sucursal).append(optionSucursal);
     $(sucursal).val('');
     $form_group.append(label);
     $form_group.append(sucursal);
     $contenido.append($form_group);
     /********NIVEL AUTORIZACION********/
-    label = $("<label></label>", {
-        for: 'idnivelAutorizacion',
-        text: 'nivel de Autorización'
-    });
-    var optionAutorizacion = $("<option></option>", {
-        name: 'empty',
-        text: 'Seleccione un nivel de autorización',
-        value: '',
-        required: 'required'
-    });
-    var idNivelAutorizacion = $("<select></select>", {
-        name: 'idnivelAutorizacion',
-        id: 'idnivelAutorizacion',
-        class: 'form-control'
-    });
+    label = $("<label></label>", {for: 'idnivelAutorizacion',text: 'nivel de Autorización'});
+    var optionAutorizacion = $("<option></option>", {name: 'empty',text: 'Seleccione un nivel de autorización',
+        value: '',required: 'required'});
+    var idNivelAutorizacion = $("<select></select>", {name: 'idnivelAutorizacion',id: 'idnivelAutorizacion',
+        class: 'form-control'});
     $(idNivelAutorizacion).append(optionAutorizacion);
     $(idNivelAutorizacion).val('');
     $form_group.append(label);
@@ -312,31 +273,15 @@ function editarUsuario(element, tr) {
     });
     var inputEstado = "";
     if (element['idEstado'] == '1') {
-        inputEstado = $("<input>", {
-            type: 'checkbox',
-            checked: 'checked',
-            name: 'onoffswitch',
-            class: 'onoffswitch-checkbox',
-            id: 'myonoffswitch'
-        });
+        inputEstado = $("<input>", {type: 'checkbox',checked: 'checked',name: 'onoffswitch',class: 'onoffswitch-checkbox',
+            id: 'myonoffswitch'});
     } else {
-        inputEstado = $("<input>", {
-            type: 'checkbox',
-            name: 'onoffswitch',
-            class: 'onoffswitch-checkbox',
-            id: 'myonoffswitch'
+        inputEstado = $("<input>", {type: 'checkbox',name: 'onoffswitch',class: 'onoffswitch-checkbox',id: 'myonoffswitch'
         });
     }
-    var labelEstado = $("<label></label>", {
-        class: 'onoffswitch-label',
-        for: 'myonoffswitch'
-    });
-    var span1 = $("<span></span>", {
-        class: 'onoffswitch-inner'
-    });
-    var span2 = $("<span></span>", {
-        class: 'onoffswitch-switch'
-    });
+    var labelEstado = $("<label></label>", {class: 'onoffswitch-label',for: 'myonoffswitch'});
+    var span1 = $("<span></span>", {class: 'onoffswitch-inner'});
+    var span2 = $("<span></span>", {class: 'onoffswitch-switch'});
     $(labelEstado).append(span1);
     $(labelEstado).append(span2);
     $($form_group).append(label);
@@ -352,9 +297,9 @@ function editarUsuario(element, tr) {
         },
         type: BootstrapDialog.TYPE_WARNING,
         onshown: function() {
-            cargarDropDownList((idNivelAutorizacion), 'idNivelAutorizacion', 'descripcion', API_SYS_PATH + 'nivel_autorizacion/seleccionar', $("#idUsuario").val(), null, null, null, element['idNivelAutorizacion']);
-            cargarDropDownList((sucursal), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', null, null, null, null, element['idSucursal']);
-            cargarDropDownList((sexo), 'idSexo', 'descripcion', API_SYS_PATH + 'sexo/seleccionar', null, null, null, null, element['sexo']);
+            cargarDropDownList((idNivelAutorizacion), 'idNivelAutorizacion', 'descripcion', API_SYS_PATH + 'nivel_autorizacion/seleccionar', $("#idUsuario").val(), undefined, undefined, undefined, element['idNivelAutorizacion']);
+            cargarDropDownList((sucursal), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar',undefined, undefined, undefined, undefined, element['idSucursal']);
+            cargarDropDownList((sexo), 'idSexo', 'descripcion', API_SYS_PATH + 'sexo/seleccionar', undefined, undefined, undefined, undefined, element['sexo']);
         },
         buttons: [{
             id: 'btn-1',

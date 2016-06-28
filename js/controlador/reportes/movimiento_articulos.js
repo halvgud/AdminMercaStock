@@ -59,7 +59,6 @@ $("#venta").submit(function(){
         //llamarclic();
 
     };
-    peticionAjaxDT('articulo/seleccionarIndividualMovimiento2',('#total'),datosTabla1,columnas,null,success);
     $('#total').show();
     return false;
 

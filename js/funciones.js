@@ -43,7 +43,7 @@ function peticionAjaxDT(URL,DT,datos,arregloColumnas,loading,success,ocultarBusq
 		banderaMostrarBusqueda=true;
 	}
 	return $(DT).DataTable({
-		dom: funcionDeColor==undefined?'Bfrtip':'<"toolbar">frtipB',
+		dom: funcionDeColor==undefined?'Bfrtip':'<"toolbar">Bfrtip',
 		"bDestroy": true,
 		"order": funcionDeColor==undefined?[[ 0, "asc" ]]:(funcionDeColor['Posicion']==undefined?[[ 0, "asc" ]]:[[ funcionDeColor['Posicion'], "desc" ]]),
 		"language": {
@@ -499,4 +499,13 @@ function cambiarContrasena(){
 
 	return false;
 }
-/*function agregarTDaTR(tr, element, cssClass) {var td= cssClass ? $("<td></td>", {class: cssClass}) : $("<td></td>");$(td).append(element);$(tr).append(td);}function agregarTHaTR(tr, element, cssClass) {	var th = cssClass ? $("<th></th>", {class: cssClass}) : $("<th></th>");	$(th).append(element);	$(tr).append(th);}*/
+function agregarTDaTR(tr, element, cssClass)
+{
+	var td= cssClass ? $("<td></td>", {class: cssClass}) : $("<td></td>");
+	$(td).append(element);$(tr).append(td);
+}
+function agregarTHaTR(tr, element, cssClass)
+{	var th = cssClass ? $("<th></th>", {class: cssClass}) : $("<th></th>");
+	$(th).append(element);
+	$(tr).append(th);
+}
