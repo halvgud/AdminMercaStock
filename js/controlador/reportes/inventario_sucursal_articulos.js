@@ -2,26 +2,35 @@
 $(function() {
     $('#total').hide();
     $('#divDetalle').hide();
-    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', true, false, 'Buscando Sucursal...', 'Seleccione una Sucursal');
+    Funcion.cargarDropDownList(("#idSucursal"),
+        'idSucursal',
+        'nombre',
+        API_SYS_PATH + 'sucursal/seleccionar',
+        true,
+        false,
+        'Buscando Sucursal...',
+        'Seleccione una Sucursal');
 });
 $(function(){
     $.datetimepicker.setLocale('es');
-    jQuery('#fechaInicio').datetimepicker({
+    var fechaIni=$('#fechaInicio');
+    var fechaFin=$('#fechaFin');
+    fechaIni.datetimepicker({
         theme:'dark',
         format:'Y-m-d',
-        onShow:function( ct ){
+        onShow:function( ){
             this.setOptions({
-                maxDate:$('#fechaFin').val()?$('#fechaFin').val():false
+                maxDate:fechaFin.val()?fechaFin.val():false
             })
         },
         timepicker:false
     });
-    jQuery('#fechaFin').datetimepicker({
+    fechaFin.datetimepicker({
         theme:'dark',
         format:'Y-m-d ',
-        onShow:function( ct ){
+        onShow:function(  ){
             this.setOptions({
-                minDate:$('#fechaInicio').val()?$('#fechaInicio').val():false
+                minDate:fechaIni.val()?fechaIni.val():false
             })
         },
         timepicker:false
@@ -30,7 +39,7 @@ $(function(){
 
 $("#inventario").submit(function(){
     if(banderaGenerado){
-        $('#tabla tbody').unbind('click');
+        $('#tabla').find('tbody').unbind('click');
 
         banderaGenerado=false;
     }
@@ -41,22 +50,22 @@ $("#inventario").submit(function(){
         datosTabla1[input.name] = input.value;
     });
     console.log(datosTabla1);
-    var datos= (datosTabla1);
-    var columnas = [{ data : "idSucursal" },
-        { data : "nombre" },
-        { data : "fecha" },
-        { data : "total" },
-        { data : "totalAcertado" },
-        { data : "totalFallado" },
-        {data:"bandera"}
+    var columnas =[
+        { data: "idSucursal" },
+        { data: "nombre" },
+        { data: "fecha" },
+        { data: "total" },
+        { data: "totalAcertado" },
+        { data: "totalFallado" },
+        { data: "bandera"}
     ];
-    var success=function(resultado){
+    var success=function(){
         banderaGenerado=true;
         llamarclic();
 
     };
     var arregloBoton={Boton:true,Posicion:6};
-    peticionAjaxDT('inventario/reporte/cabecero',('#tabla'),datosTabla1,columnas,null,success,undefined,arregloBoton);
+    Funcion.peticionAjaxDT('inventario/reporte/cabecero',('#tabla'),datosTabla1,columnas,null,success,undefined,arregloBoton);
     $('#total').show();
     return false;
 
@@ -85,7 +94,8 @@ function llamarclic() {
         var datosTabla1 = {};
         datosTabla1['idSucursal']=$('#idSucursal').val();
         datosTabla1['fecha']=fecha;
-        var columnas = [{ data : "fechaSolicitud" },
+        var columnas = [
+            { data : "fechaSolicitud" },
             { data : "clave" },
             { data : "descripcion" },
             { data : "existenciaSolicitud" },
@@ -93,16 +103,23 @@ function llamarclic() {
             { data : "existenciaRespuesta" },
             { data : "bandera" }
         ];
-//{ data : "bandera" }
         var arregloBoton={Boton:true,Posicion:6};
-        peticionAjaxDT('inventario/reporte/detalle',('#tablaDetalle'),datosTabla1,columnas,null,undefined,undefined,arregloBoton);
+        Funcion.peticionAjaxDT('inventario/reporte/detalle',('#tablaDetalle'),datosTabla1,columnas,null,undefined,undefined,arregloBoton);
         $('#divDetalle').show();
         return false;
-
-        //table.row('.selected').remove().draw(false);
     });
 }
 var banderaGenerado=false;
+
+$('#idSucursal').on('change',function(){
+    limpiarTablas()
+});
+$('#fechaInicio').on('change',function(){
+    limpiarTablas()
+});
+$('#fechaFin').on('change',function(){
+    limpiarTablas()
+});
 
 function limpiarTablas(){
     $('#total').hide();

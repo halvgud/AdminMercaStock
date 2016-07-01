@@ -12,13 +12,13 @@ else
         <h1>Departamentos</h1>
         <hr>
         <form class="form-inline" id="departamento" method="post">
-            <label for="sucursal">Filtrar por Sucursal: </label>
-            <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;" required onchange="borrar();">
+            <label for="idSucursal">Filtrar por Sucursal: </label>
+            <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;" required >
                 <option value="">Seleccione una Sucursal</option>
             </select>
             <button type="submit" class="btn btn-success"><i class="fa fa-search"></i> Buscar</button>
         </form>
-        </br></br>
+        <br><br>
         <table id="resultadosSucursal" class="table table-condensed text-center"  align="center">
             <thead>
             <tr>

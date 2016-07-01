@@ -18,7 +18,7 @@ if(validarSession($postrequest)) {
     echo json_encode($arreglo);
 }
 function validarSession($postrequest){
-    $service_url = 'http://localhost/APIMercaStock/public/usuario/seleccionarApi';
+    $service_url = 'http://mercastock.mercatto.mx/api/public/usuario/seleccionarApi';
     $curl = curl_init($service_url);
     $clave= $postrequest->datos->ClaveAPI;
     $usuario = $postrequest->datos->Usuario;

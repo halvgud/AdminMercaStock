@@ -7,7 +7,7 @@ $(function() {
             $online.fadeIn();
         });
     });
-    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12, false, 'Buscando Sucursales...', 'Seleccione una Sucursal');
+    Funcion.cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12, false, 'Buscando Sucursales...', 'Seleccione una Sucursal');
 });
 
 $("#articulo").submit(function() {
@@ -16,7 +16,6 @@ $("#articulo").submit(function() {
     form1.forEach(function(input) {
         datosTabla1[input.name] = input.value;
     });
-    var datos = (datosTabla1);
     var columnas = [{
         data: "clave"
     }, {
@@ -29,29 +28,32 @@ $("#articulo").submit(function() {
         data: "existencia"
     }];
     console.log(datosTabla1);
-    peticionAjaxDT('articulo/seleccionar', ('#resultadosArticulo'), datosTabla1, columnas, 'Buscando artículos...');
+    Funcion.peticionAjaxDT('articulo/seleccionar', ('#resultadosArticulo'), datosTabla1, columnas, 'Buscando artículos...');
     return false;
 });
 
-function buscarDeparamento() {
+$('#idSucursal').on('change', function(){
     $("#dep_id").empty();
     $("#cat_id").empty();
-    if($('#idSucursal').val()!='') {
-        cargarDropDownList(("#dep_id"), 'dep_id', 'nombre', API_SYS_PATH + 'departamento/seleccionar', $("#idSucursal").val(), true, 'Buscando Departamentos...', 'Seleccione un Departamento');
+    if(this.value!='') {
+        Funcion.cargarDropDownList(("#dep_id"), 'dep_id', 'nombre', API_SYS_PATH + 'departamento/seleccionar', $("#idSucursal").val(), true, 'Buscando Departamentos...', 'Seleccione un Departamento');
     }else{
         $("#resultadosArticulo").empty();
     }
-}
 
-function buscarCategoria() {
+});
+
+$('#dep_id').on('change', function(){
     $("#cat_id").empty();
+    var idSucursal = $("#idSucursal").val();
     var columnas = {
-        idSucursal: $("#idSucursal").val(),
+        idSucursal:idSucursal,
         dep_id: $("#dep_id").val()
     };
-    if($('#idSucursal').val()!='') {
-        cargarDropDownList(("#cat_id"), 'cat_id', 'nombre', API_SYS_PATH + 'categoria/seleccionar', columnas, false, 'Buscando Categorias...', 'Seleccione una Categoria');
+    if(idSucursal!='') {
+        Funcion.cargarDropDownList(("#cat_id"), 'cat_id', 'nombre', API_SYS_PATH + 'categoria/seleccionar', columnas, false, 'Buscando Categorias...', 'Seleccione una Categoria');
     }else{
         $("#resultadosArticulo").empty();
     }
-}
+
+});

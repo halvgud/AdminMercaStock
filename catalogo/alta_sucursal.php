@@ -19,7 +19,7 @@ else
                 <div class="col-md-6 col-md-offset-3">
 
                     <h3>Registrar Sucursal</h3>
-                    </br>
+                    <br>
                     <form id="guardarSucursal">
                         <div class="form-group">
                             <label for="nombre">Nombre:</label>
@@ -39,7 +39,7 @@ else
                         </div>
                         <div class="form-group">
                             <label for="password">Password:</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" onkeydown="reactivarBtnS();" required autocomplete="off">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="repetirpassword">Repetir Password:</label>
@@ -55,7 +55,7 @@ else
             <div id="menu1" class="tab-pane fade">
                 <div class="col-md-6 col-md-offset-3">
                     <h3>Buscar y Modificar Sucursal</h3>
-                    </br>
+                    <br>
                     <table id="resultados" class="table table-condensed" style="">
                         <thead>
                         <tr>

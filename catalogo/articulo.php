@@ -12,12 +12,12 @@ else
         <h1>Art&iacute;culos</h1>
         <hr>
         <form class="form-inline" id="articulo" method="post">
-            <label for="sucursal">Filtrar por Sucursal: </label>
-            <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;" onchange="buscarDeparamento();" required>
+            <label for="idSucursal">Filtrar por Sucursal: </label>
+            <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;"  required>
             </select>&nbsp;&nbsp;&nbsp;
             <label for="dep_id">Filtrar por Departamento: </label>
             <select id="dep_id" name="dep_id" class="form-control" style="width: 25%;" onchange="buscarCategoria();" required >
-            </select>&nbsp;&nbsp;&nbsp;</br></br>
+            </select>&nbsp;&nbsp;&nbsp;<br>
             <label for="cat_id">Filtrar por Categoria: </label>
             <select id="cat_id" name="cat_id" class="form-control" style="width: 25%;" required >
             </select>&nbsp;&nbsp;&nbsp;

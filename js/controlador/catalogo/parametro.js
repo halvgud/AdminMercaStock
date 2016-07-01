@@ -1,7 +1,7 @@
 $(function() {
-    arreglo = {};
+    var arreglo = {};
     arreglo['bandera'] = true;
-    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', null, 12, false);
+    Funcion.cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', null, 12, false);
 });
 
 function inicializarTabla3() {
@@ -25,11 +25,11 @@ function agregarTDaTR(tr, element) {
 function cargarTabla3(arregloConInputs, idTransaccion) {
     arregloConInputs['idTransaccion'] = idTransaccion;
     $("#resultados").hide();
-    var tbody = $("#resultados tbody").empty();
-    exitoso = function(result) {
+    var tbody = $("#resultados").find("tbody").empty();
+    var exitoso = function(result) {
         if (result.estado != undefined) {
             if (result.estado == 'warning') {
-                notificacionWarning(result.success);
+                Funcion.notificacionWarning(result.success);
                 return;
             }
         }
@@ -57,7 +57,7 @@ function cargarTabla3(arregloConInputs, idTransaccion) {
             editar.append(" Editar");
             $(editar).click(function() {
                 editarParametros(element, tr);
-            })
+            });
             agregarTDaTR(tr, accion);
             agregarTDaTR(tr, parametro);
             agregarTDaTR(tr, valor);
@@ -73,10 +73,10 @@ function cargarTabla3(arregloConInputs, idTransaccion) {
         }
 
     };
-    fallo = function(datos) {
+    var fallo = function(datos) {
         console.log(datos);
     };
-    peticionAjax(API_SYS_PATH + 'parametros/seleccionar', arregloConInputs, exitoso, fallo, 'Cargando lista de Parametros');
+    Funcion.peticionAjax(API_SYS_PATH + 'parametros/seleccionar', arregloConInputs, exitoso, fallo, 'Cargando lista de Parametros');
 }
 
 function editarParametros(element, tr) {
@@ -102,7 +102,7 @@ function editarParametros(element, tr) {
     label = $("<label></label>", {
         for: 'accion',
         text: 'Acción'
-    })
+    });
     var accion = $("<input>", {
         name: 'accion',
         value: element['accion'],
@@ -198,7 +198,7 @@ function editarParametros(element, tr) {
 
     BootstrapDialog.show({
         title: 'Esta a punto de modificar los siguientes datos',
-        message: function(dialog) {
+        message: function() {
             return $contenido;
         },
         type: BootstrapDialog.TYPE_WARNING,
@@ -214,7 +214,7 @@ function editarParametros(element, tr) {
             id: 'btn-2',
             label: 'Aceptar',
             cssClass: 'btn-danger',
-            submit: function(dialog) {
+            submit: function() {
 
                 return false;
             },
@@ -230,22 +230,22 @@ function editarParametros(element, tr) {
                 datos.fechaActualizacion = $(fechaActualizacion).val();
                 console.log(datos);
                 if (datos.valor == '' || datos.comentario == '' || datos.usuario == '' || datos.fechaActualizacion == '') {
-                    notificacionWarning('Ningún campo debe de ir vacío, favor de validar la información');
+                    Funcion.notificacionWarning('Ningún campo debe de ir vacío, favor de validar la información');
                     return false;
                 }
 
                 console.log(datos);
-                exitoso = function(datos) {
+                var exitoso = function(datos) {
 
-                    notificacionSuccess(datos.success);
+                    Funcion.notificacionSuccess(datos.success);
                     $(tr).remove();
                     dialog.close();
                     inicializarTabla3();
                 };
-                fallo = function(datos) {
+                var fallo = function(datos) {
                     // notificacionError(datos.error);
                 };
-                peticionAjax(API_SYS_PATH + 'parametros/actualizar', datos, exitoso, fallo, 'Guardando cambios...');
+                Funcion.peticionAjax(API_SYS_PATH + 'parametros/actualizar', datos, exitoso, fallo, 'Guardando cambios...');
                 return false;
             }
         }]

@@ -12,15 +12,15 @@ if(!isset($_SESSION['idUsuario'])){
         <br>
         <form class="form-inline" id="venta" name="venta">
             <div class="form-group">
-                <label>Sucursales:&nbsp;</label>
-                <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;" onchange="limpiarTablas();" required></select>
+                <label for="idSucursal">Sucursales:&nbsp;</label>
+                <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;"  required></select>
                 <label for="fechaInicio">&nbsp;&nbsp;&nbsp;&nbsp;Fecha de Inicio</label>
-                <input type="text" id="fechaInicio" name="fechaInicio" class="form-control" size="20" autocomplete="off" style="width: 10%" readonly="readonly" onchange="limpiarTablas();" required/>
+                <input type="text" id="fechaInicio" name="fechaInicio" class="form-control" autocomplete="off" style="width: 25%" readonly="readonly"  required/>
                 <label for="fechaFin">&nbsp;&nbsp;&nbsp;&nbsp;Fecha Final</label>
-                <input type="text" id="fechaFin" name="fechaFin" class="form-control" size="20" autocomplete="off" style="width: 10%" readonly="readonly" onchange="limpiarTablas();" required/>
+                <input type="text" id="fechaFin" name="fechaFin" class="form-control" autocomplete="off" style="width: 25%" readonly="readonly"  required/>
                 <label>&nbsp;&nbsp;&nbsp;</label>
                 <label for="descripcionArticulo">Artículo</label>
-                <input type="text" id="descripcionArticulo" name="descripcionArticulo" class="form-control" onclick="modalPopUp();" required autocomplete="off"/>
+                <input type="text" id="descripcionArticulo" name="descripcionArticulo" class="form-control" required autocomplete="off"/>
                 <input type="hidden" id="input2" name="input2" value=""/>
                 <button type="submit" class="btn btn-success"><i class="fa fa-cog"></i> Generar</button>
             </div>

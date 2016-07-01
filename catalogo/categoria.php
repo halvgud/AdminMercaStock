@@ -12,15 +12,15 @@ else
         <h1>Categorias</h1>
         <hr>
         <form class="form-inline" id="categoria" method="post">
-            <label for="sucursal">Filtrar por Sucursal: </label>
-            <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;" onchange="buscarDepartamento();" required>
+            <label for="idSucursal">Filtrar por Sucursal: </label>
+            <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;" required>
             </select>&nbsp;&nbsp;&nbsp;
-            <label  class="form-inline" id="lDepartamento" style="">Filtrar por Departamento</label>
+            <label  class="form-inline" id="lDepartamento" for="dep_id" style="">Filtrar por Departamento</label>
             <select id="dep_id" name="dep_id" class="form-control" style="width: 25%;" >
             </select>&nbsp;&nbsp;&nbsp;
             <button type="submit" class="btn btn-success"><i class="fa fa-search"></i> Buscar</button>
         </form>
-        </br></br>
+        <br><br>
         <table id="resultadosCategoria" class="table table-condensed text-center"  align="center">
             <thead>
             <tr>

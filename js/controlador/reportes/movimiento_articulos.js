@@ -1,4 +1,3 @@
-var CONFIGURACION_INDIVIDUAL = 4;
 var desc='';
 var cl='';
 var input = '';
@@ -6,26 +5,37 @@ var contador=0;
 $(function() {
     $('#total').hide();
     $('#divDetalle').hide();
-    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', true, false, 'Buscando Sucursal...', 'Seleccione una Sucursal');
+    Funcion.cargarDropDownList(
+        ("#idSucursal"),
+        'idSucursal',
+        'nombre',
+        API_SYS_PATH + 'sucursal/seleccionar',
+        true,
+        false,
+        'Buscando Sucursal...',
+        'Seleccione una Sucursal'
+    );
 });
-jQuery(function(){
+$(function(){
+    var fechaFin = $('#fechaFin');
+    var fechaIni = $('#fechaInicio');
     $.datetimepicker.setLocale('es');
-    jQuery('#fechaInicio').datetimepicker({
+    fechaIni.datetimepicker({
         theme:'dark',
         format:'Y-m-d',
-        onShow:function( ct ){
+        onShow:function(){
             this.setOptions({
-                maxDate:jQuery('#fechaFin').val()?jQuery('#fechaFin').val():false
+                maxDate:fechaFin.val()?fechaFin.val():false
             })
         },
         timepicker:false
     });
-    jQuery('#fechaFin').datetimepicker({
+    fechaFin.datetimepicker({
         theme:'dark',
         format:'Y-m-d ',
-        onShow:function( ct ){
+        onShow:function(){
             this.setOptions({
-                minDate:jQuery('#fechaInicio').val()?jQuery('#fechaInicio').val():false
+                minDate:fechaIni.val()?fechaIni.val():false
             })
         },
         timepicker:false
@@ -47,35 +57,34 @@ $("#venta").submit(function(){
     });
     datosTabla1['input2']=$('#input2').val();
     console.log(datosTabla1);
-    var datos= (datosTabla1);
-    var columnas = [{ data : "clave" },
-        { data : "descripcion" },
-        { data : "cantidad" },
-        { data : "fecha" },
-        { data : "unidad" },
-        { data : "total" }];
-    var success=function(resultado){
-        //banderaGenerado=true;
-        //llamarclic();
-
-    };
+    var columnas = [{ data : "clave" },{data : "descripcion" },{data : "cantidad" },{ data : "fecha" },
+        { data : "unidad" },{ data : "total" }];
+    var success=function(resultado){};
+    Funcion.peticionAjaxDT('articulo/seleccionarIndividualMovimiento2',
+        ('#total'),
+        datosTabla1,
+        columnas,
+        null,
+        success,
+        undefined);
     $('#total').show();
     return false;
 
 });
 
 
-var banderaGenerado=false;
+//var banderaGenerado=false;
+$('#idSucursal').on('change',function(){
+    limpiarTablas()
+});
+$('#fechaInicio').on('change',function(){
+    limpiarTablas()
+});
+$('#fechaFin').on('change',function(){
+    limpiarTablas()
+});
 
-function limpiarTablas(){
-    $('#total').hide();
-    $('#divDetalle').hide();
-    $('#detalle').hide();
-}
-function modalPopUp(){
-    configuracionGeneral("Configuración de búsqueda individual", CONFIGURACION_INDIVIDUAL);
-}
-function configuracionGeneral(titulo, idTransaccion) {
+$('#descripcionArticulo').click(function(){
     var $contenido = $("<form></form>", { name: 'formSucursal'});
     var $form_group = $("<div></div>", { class: 'form-inline'});
     var label = $("<label></label>", { for: 'input', text: 'Clave del Artículo:\u00a0'});
@@ -87,7 +96,7 @@ function configuracionGeneral(titulo, idTransaccion) {
     $form_group.append(espacio);
     var generarModalPopUp = $("<button></button>", {id: "can", name: "can", type: 'button', class: 'btn btn-success', text: 'Generar', onclick: 'this.blur();'});
     $form_group.append(generarModalPopUp);
-    var espacio = $("<label> &nbsp;&nbsp;&nbsp; </label>");
+    espacio = $("<label> &nbsp;&nbsp;&nbsp; </label>");
     $form_group.append(espacio);
     var gear = $("<a id='g2' style='display: none'><i class='fa fa-cog fa-spin fa-3x fa-fw' ></i></a>", {id: "gear", name: "gear"});
     $form_group.append(gear);
@@ -106,22 +115,23 @@ function configuracionGeneral(titulo, idTransaccion) {
     tabla.append(th1);
     th1 = $("<th>Existencia</th>");
     tabla.append(th1);/*
-    th1 = $("<th>Edici&oacute;n</th>");
-    tabla.append(th1);
-    */
+     th1 = $("<th>Edici&oacute;n</th>");
+     tabla.append(th1);
+     */
     $contenido.append($form_group);
     $(nombre).focus();
     $(generarModalPopUp).click(function() {
-        $('#g2').show();
+        var g2=$('#g2');
+        g2.show();
         inicializarTablaModalPopuUp();
         $(generarModalPopUp).focusout();
-        $('#g2').focus();
+        g2.focus();
         return false;
     });
     //InicializarDateTimePicker();
     BootstrapDialog.show({
-        title: titulo,
-        message: function(dialog) {
+        title: 'Articulos',
+        message: function() {
             return $contenido;
         },
         style: 'width:85%;',
@@ -139,28 +149,29 @@ function configuracionGeneral(titulo, idTransaccion) {
             id: 'btn-2',
             label: 'Terminar',
             cssClass: 'btn-danger',
-            submit: function(dialog) {
-                return false;
-            },
+            submit: function() {return false;},
             action: function(dialog) {
-
                 dialog.close();
-                //tabla2 = tabla;
-                //tabla.clone().find('tr').appendTo($("#total").find("tbody"));
-                //$('#total').show();
-                document.getElementById('descripcionArticulo').value=desc;
-                document.getElementById('input2').value=cl;
+                $('#descripcionArticulo').val(desc);
+                $('#input2').val(cl);
             }
         }]
     });
+});
+
+function limpiarTablas(){
+    $('#total').hide();
+    $('#divDetalle').hide();
+    $('#detalle').hide();
 }
+
 function inicializarTablaModalPopuUp() {
 
         var datosTabla4 = {};
-        datosTabla4['idSucursal'] = document.getElementById('idSucursal').value;
+        datosTabla4['idSucursal'] = $('#idSucursal').val();
         datosTabla4 = {};
         datosTabla4['input'] = $('#input').val();
-        input = $('#input').val();
+        input = datosTabla4['input'];
 
         cargarTablaModalPopup(datosTabla4);
 }
@@ -177,10 +188,14 @@ function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
     arregloConInputs['articulos'] = datosTabla1;
     arregloConInputs['idSucursal'] = idSucursal;
     arregloConInputs['input']=input;
-    exitoso = function (result) {
-        if (result.estado != undefined) {
+    /**
+     * @param {{estado:string}} result
+     * @param {{success:string}} result
+     */
+    var exitoso = function (result) {
+        if (typeof(result.estado) != 'undefined') {
             if (result.estado == 'warning') {
-                notificacionWarning(result.success);
+                Funcion.notificacionWarning(result.success);
                 $('#g2').hide();
                 return;
             }
@@ -188,7 +203,7 @@ function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
         var find = false;
         if (result.data.length > 0) {
             console.log(result.data);
-            result.data.forEach(function (element, index) {
+            result.data.forEach(function (element) {
                 find = true;
                 contador++;
                 var row = $("<tr></tr>", {id: contador, name: 'row' + contador});
@@ -204,17 +219,13 @@ function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
                 row.append(td);
 
                 var idArt = $("<input>", {type: 'hidden', id: "art_id" + contador, name: "art_id" + contador, class: 'art form-control', value: element['art_id'], data1: 'true'});
-                td = $("<td></td>")
+                td = $("<td></td>");
                 td.append(idArt);
                 row.append(td);
 
                 desc= element['descripcion'];
                 cl= element['clave'];
 
-                /*var exisArt = $("<input>", {id: "existencia" + contador, name: "existencia" + contador, type: 'text', class: 'form-control', value: element['existencia'], style: 'width:65%;', readonly: 'readonly'});
-                td = $("<td></td>");
-                td.append(exisArt);
-                row.append(td);*/
                 var agregar = $("<button></button>",{class:'btn btn-success'}).append('Agregar');
                 var icono_agregar = $("<i></i>",{class:'fa fa-check-square-o'});
                 td = $("<td></td>");
@@ -236,7 +247,7 @@ function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
                         callback: function(result) {
                             // result will be true if button was click, while it will be false if users close the dialog directly.
                             if(result) {
-                                notificacionSuccess('Se ha agregado correctamente');
+                                Funcion.notificacionSuccess('Se ha agregado correctamente');
                                 desc= element['descripcion'];
                                 cl= element['clave'];
 
@@ -265,11 +276,11 @@ function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
                 tabla.show();
             }
         } else {
-            notificacionWarning('No se encontró información');
+            Funcion.notificacionWarning('No se encontró información');
         }
     };
-    fallo = function (datos) {
+    var fallo = function (datos) {
     };
-    peticionAjax(API_SYS_PATH + 'articulo/seleccionarIndividualMovimiento', arregloConInputs, exitoso, fallo);
+    Funcion.peticionAjax(API_SYS_PATH + 'articulo/seleccionarIndividualMovimiento', arregloConInputs, exitoso, fallo);
     return false;
 }

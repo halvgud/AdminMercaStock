@@ -7,7 +7,7 @@ $(function() {
         var $resultados = $("#resultados");
         $resultados.hide();
         var tbody = $resultados.find("tbody").empty();
-        exitoso = function(result) {
+        var exitoso = function(result) {
             console.log(result);
             var find = false;
             result.forEach(function(element, index) {
@@ -24,7 +24,7 @@ $(function() {
                 editar.append(" Editar Permisos");
                 $(editar).click(function() {
                     editarPermisos(element, tr);
-                })
+                });
                 var eliminar = $("<button></button>", {
                     class: 'btn btn-danger'
                 });
@@ -35,7 +35,7 @@ $(function() {
                 eliminar.append(" Eliminar");
                 $(eliminar).click(function() {
                     eliminarUsuario(element, tr);
-                })
+                });
                 agregarTDaTR(tr, descripcion);
                 agregarTDaTR(tr, editar, 'text-center');
                 agregarTDaTR(tr, eliminar, 'text-center');
@@ -46,12 +46,12 @@ $(function() {
                 $('#resultados').show();
 
         };
-        fallo = function(datos) {
+        var fallo = function(datos) {
             console.log(datos);
         };
         arregloConInputs['usuario']=document.getElementById('usuario').value;
 
-        peticionAjax(API_SYS_PATH + 'permisos/seleccionar', arregloConInputs, exitoso, fallo, "Buscando Permisos...");
+        Funcion.peticionAjax(API_SYS_PATH + 'permisos/seleccionar', arregloConInputs, exitoso, fallo, "Buscando Permisos...");
     }
 
     function agregarTDaTR(tr, element, CSSclass) {
@@ -83,16 +83,16 @@ $(function() {
                     var datos = {};
                     datos.id_usuario = element.id_usuario;
                     datos.idTransaccion = 4;
-                    exitoso = function(datos) {
-                        notificacionSuccess(datos.success);
+                    var exitoso = function(datos) {
+                        Funcion.notificacionSuccess(datos.success);
                         $(tr).remove();
-                        buscar();
+                        //buscar();
                         dialog.close();
                     };
-                    fallo = function(datos) {
-                        notificacionError(datos.error);
+                    var fallo = function(datos) {
+                        Funcion.notificacionError(datos.error);
                     };
-                    peticionAjax('data/test-actualizar.php', datos, exitoso, fallo);
+                    Funcion.peticionAjax('data/test-actualizar.php', datos, exitoso, fallo);
                 }
             }]
         });
@@ -108,7 +108,7 @@ $(function() {
             class: 'btn-group-vertical',
             'data-toggle': 'buttons'
         });
-        permisos.forEach(function(el, index) {
+        permisos.forEach(function(el/*, index*/) {
             var claseActivo = el.activo ? 'active' : '';
             var claseDefinida = el.activo ? 'btn btn-success ' : 'btn btn-danger ';
             var label = $("<label></label>", {
@@ -159,20 +159,19 @@ $(function() {
                 icon: 'fa fa-floppy-o',
                 cssClass: 'btn-success',
                 action: function(dialog) {
-                    var datos = {};
-                    datos = element;
+                    var datoz = element;
 
-                    exitoso = function(datos) {
-                        notificacionSuccess(datos.success);
+                    var exitoso = function(datos) {
+                        Funcion.notificacionSuccess(datos.success);
                         dialog.close();
                         setTimeout(function() {
                             window.location.reload();
                         }, 1000);
                     };
-                    fallo = function(datos) {
-                        notificacionError(datos.error);
+                    var fallo = function(datos) {
+                        Funcion.notificacionError(datos.error);
                     };
-                    peticionAjax(API_SYS_PATH + 'permisos/actualizar', datos, exitoso, fallo);
+                    Funcion.peticionAjax(API_SYS_PATH + 'permisos/actualizar', datoz, exitoso, fallo);
                 }
             }]
         });

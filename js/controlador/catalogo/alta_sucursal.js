@@ -1,12 +1,13 @@
 var contador = 0;
 var contador2 = 0;
 
-function reactivarBtnS() {
+$("#password").onkeydown(function(){
     if (contador2 == 1) {
         $("#btnGuardar").prop("disabled", false);
         contador2 = 0;
     }
-}
+});
+
 
 $("#guardarSucursal").submit(function() {
     var guardarSucursal = $('#guardarSucursal');
@@ -16,25 +17,27 @@ $("#guardarSucursal").submit(function() {
     form1.forEach(function(input) {
         datosTabla2[input.name] = input.value;
     });
-    if ($("#password").val() != $("#repetirpassword").val()) {
-        notificacionWarning('Las contraseñas no concuerdan');
-        $("#password").val('');
-        $("#repetirpassword").val('');
+    var password = $("#password");
+    var repetirpassword=$("#repetirpassword");
+    if (password.val() != repetirpassword.val()) {
+        Funcion.notificacionWarning('Las contraseñas no concuerdan');
+        password.val('');
+        repetirpassword.val('');
         contador2 = 1;
         return false;
     }
-    exitoso = function(datos) {
-        notificacionSuccess(datos.success);
+    var exitoso = function(datos) {
+        Funcion.notificacionSuccess(datos.success);
         $("#guardarSucursal")[0].reset();
         contador = 0;
         $("#btnGuardar").prop("disabled", false);
         return false;
     };
-    fallo = function(datos) {
+    var fallo = function(/*datos*/) {
         $("#btnGuardar").prop("disabled", false);
         return false;
     };
-    peticionAjax(API_SYS_PATH + 'sucursal/insertar', datosTabla2, exitoso, fallo, "Guardando Sucursal...");
+    Funcion.peticionAjax(API_SYS_PATH + 'sucursal/insertar', datosTabla2, exitoso, fallo, "Guardando Sucursal...");
     return false;
 });
 
@@ -57,17 +60,22 @@ function agregarTDaTR(tr, element) {
 
 function cargarTabla(arregloConInputs, idTransaccion) {
     arregloConInputs['idTransaccion'] = idTransaccion;
-    $("#resultados").hide();
-    var tbody = $("#resultados tbody").empty();
-    exitoso = function(result) {
-        if (result.estado != undefined) {
+    var resultados = $("#resultados");
+    resultados.hide();
+    var tbody = resultados.find("tbody").empty();
+    /**
+     * @param {{estado:string}} result
+     * @param {{success:string}} result
+     */
+    var exitoso = function(result) {
+        if (typeof(result.estado) != 'undefined') {
             if (result.estado == 'warning') {
-                notificacionWarning(result.success);
+                Funcion.notificacionWarning(result.success);
                 return;
             }
         }
         var find = false;
-        result.data.forEach(function(element, index) {
+        result.data.forEach(function(element/*, index*/) {
             find = true;
             var tr = $("<tr></tr>");
 
@@ -89,7 +97,7 @@ function cargarTabla(arregloConInputs, idTransaccion) {
             editar.append(" Editar");
             $(editar).click(function() {
                 editarSucursal(element, tr);
-            })
+            });
             agregarTDaTR(tr, idSucursal);
             agregarTDaTR(tr, nombre);
             agregarTDaTR(tr, usuario);
@@ -104,11 +112,11 @@ function cargarTabla(arregloConInputs, idTransaccion) {
             $('#resultados').show();
         }
     };
-    fallo = function(datos) {
+    var fallo = function(datos) {
         console.log(datos);
     };
     arregloConInputs['banderaSucursal']='1';
-    peticionAjax(API_SYS_PATH + 'sucursal/seleccionar', arregloConInputs, exitoso, fallo, 'Cargando Lista de Sucursales...');
+    Funcion.peticionAjax(API_SYS_PATH + 'sucursal/seleccionar', arregloConInputs, exitoso, fallo, 'Cargando Lista de Sucursales...');
 }
 
 function editarSucursal(element, tr) {
@@ -121,7 +129,7 @@ function editarSucursal(element, tr) {
     label = $("<label></label>", {
         for: 'idSucursal',
         text: 'ID Sucursal'
-    })
+    });
     var idSucursal = $("<input>", {
         name: 'idSucursal',
         value: element['idSucursal'],
@@ -270,7 +278,7 @@ function editarSucursal(element, tr) {
 
     BootstrapDialog.show({
         title: 'Esta a punto de modificar los siguientes datos',
-        message: function(dialog) {
+        message: function(/*dialog*/) {
             return $contenido;
         },
         type: BootstrapDialog.TYPE_WARNING,
@@ -286,7 +294,7 @@ function editarSucursal(element, tr) {
             id: 'btn-2',
             label: 'Aceptar',
             cssClass: 'btn-danger',
-            submit: function(dialog) {
+            submit: function(/*dialog*/) {
 
                 return false;
             },
@@ -294,7 +302,7 @@ function editarSucursal(element, tr) {
                 var datos = {};
                 if ($(password).val() != $(repetirpassword).val()) {
 
-                    notificacionWarning('Las contraseñas no concuerdan');
+                    Funcion.notificacionWarning('Las contraseñas no concuerdan');
                     $(password).val('');
                     $(repetirpassword).val('');
                     return false;
@@ -308,19 +316,19 @@ function editarSucursal(element, tr) {
                 datos.idEstado = ($(inputEstado).prop('checked') == true ? '1' : '0');
                 if (datos.usuario == '' || datos.password == '' || datos.nombre == '' || datos.domicilio == '' || datos.contacto == '' ||
                     datos.idEstado == '') {
-                    notificacionWarning('Ningún campo debe de ir vacío, favor de validar la información');
+                    Funcion.notificacionWarning('Ningún campo debe de ir vacío, favor de validar la información');
                     return false;
                 }
                 console.log(datos);
-                exitoso = function(datos) {
-                    notificacionSuccess(datos.success);
+                var exitoso = function(datos) {
+                    Funcion.notificacionSuccess(datos.success);
                     $(tr).remove();
                     dialog.close();
                     inicializarTabla2();
                 };
-                fallo = function(datos) {
+                var fallo = function(datos) {
                 };
-                peticionAjax(API_SYS_PATH + 'sucursal/actualizar', datos, exitoso, fallo, 'Guardando cambios...');
+                Funcion.peticionAjax(API_SYS_PATH + 'sucursal/actualizar', datos, exitoso, fallo, 'Guardando cambios...');
                 return false;
             }
         }]

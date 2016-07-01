@@ -3,7 +3,7 @@ exitoso = function(datos){
     exitoso2 = function(datos){
         window.location.reload();
     }
-    peticionAjax(LOCAL_PATH+"setSession.php",datos,exitoso2,fallo);
+    Funcion.peticionAjax(LOCAL_PATH+"setSession.php",datos,exitoso2,fallo);
 
 
 
@@ -17,6 +17,6 @@ $("#loginForm").submit(function(){
     form.forEach(function(input) {
         datos[input.name] = input.value;
     });
-    peticionAjax(API_SYS_PATH+'usuario/login',datos,exitoso,fallo,"cargando...");
+    Funcion.peticionAjax(API_SYS_PATH+'usuario/login',datos,exitoso,fallo,"cargando...");
     return false;
 });

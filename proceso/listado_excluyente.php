@@ -20,7 +20,7 @@ else
                     <br>
                     <form class="form-inline" id="buscarArticulo" method="post">
                         <label for="idSucursal">Sucursal: </label>
-                        <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;" required onchange="limpiarTabla1();">
+                        <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;" required >
                         </select>
                         <label for="art_id">Clave o Descripci&oacute;n </label>
                         <input type="text" class="form-control" id="art_id" name="art_id" placeholder="" required autocomplete="off" style="width: 20%;">
@@ -48,14 +48,14 @@ else
                     <br>
                     <form class="form-inline" id="listadoFijo" method="post">
                         <label for="idSucursal2">Sucursales Disponibles: </label>
-                        <select id="idSucursal2" name="idSucursal2" class="form-control" style="width: 25%;" required onchange="limpiarTabla2()">
+                        <select id="idSucursal2" name="idSucursal2" class="form-control" style="width: 25%;" required >
                         </select>
                         &nbsp;&nbsp;&nbsp;
                         <button type="submit" class="btn btn-success" id="btnBuscar"><i class="fa fa-search"></i> Buscar</button>
                         <div id="divEstado">
                             <label for="myonoffswitch">Estado</label>
                             <div class="onoffswitch">
-                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" onchange="cambiarEstado();"/>
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch"/>
                                 <label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label>
                             </div>
                         </div>

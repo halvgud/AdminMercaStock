@@ -3,27 +3,27 @@ var estadoF = 'FALSE';
 $(document).ready(function() {
     $("#divEstado").hide();
     $("#idSucursal").empty();
-    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12, false, 'Buscando Sucursales...', 'Seleccione una Sucursal');
+    Funcion.cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12, false, 'Buscando Sucursales...', 'Seleccione una Sucursal');
     $("#idSucursal2").empty();
-    cargarDropDownList(("#idSucursal2"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12, false, 'Buscando Sucursales...', 'Seleccione una Sucursal');
+    Funcion.cargarDropDownList(("#idSucursal2"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12, false, 'Buscando Sucursales...', 'Seleccione una Sucursal');
 });
 
 $("#listadoFijo").submit(function() {
-    var tbody = $("#resultados tbody").empty();
+    $("#resultados").find("tbody").empty();
     var datosTabla2 = {};
     datosTabla2['idSucursal'] = $('#idSucursal2').val();
     cargarTabla(datosTabla2, 10);
     return false;
 });
-
-function limpiarTabla2() {
-    var tbody = $("#resultados2 tbody").empty();
+$("#idSucursal").on('change',function(){
+    $("#resultados").find("tbody").empty();
+});
+$("#idSucursal2").on('change',function(){
+    $("#resultados2").find("tbody").empty();
     $('#divEstado').hide();
-}
+});
 
-function limpiarTabla1() {
-    var tbody = $("#resultados tbody").empty();
-}
+
 $("#buscarArticulo").submit(function() {
     var datosTabla3 = {};
     datosTabla3['clave'] = $('#art_id').val();
@@ -31,44 +31,48 @@ $("#buscarArticulo").submit(function() {
     return false;
 });
 
-function cambiarEstado() {
-    arreglo = {};
-    exitoso = function(result) {
-        if (result.estado != undefined) {
+$('#myonoffswitch').change(function(){
+   var arreglo = {};
+    /**
+     * @param {{estado:string}} result
+     * @param {{success:string}} result
+     */
+    var exitoso = function(result) {
+        if (typeof(result.estado) != 'undefined') {
             if (result.estado == 'warning') {
-                notificacionWarning(result.success);
-                return;
+                Funcion.notificacionWarning(result.success);
+                //return;
             }
         }
     };
-    fallo = function(datos) {
+    var fallo = function(datos) {
         console.log(datos);
     };
     arreglo['valor'] = $('#idSucursal2').val();
     arreglo['excluyente'] = '1';
-    if ($('#myonoffswitch').check=false) {
-        arreglo['comentario'] = 'FALSE';
-        peticionAjax(API_SYS_PATH + 'parametros/actualizarListaFija', arreglo, exitoso, fallo);
-    }
-    if ($('#myonoffswitch').check=true) {
-        arreglo['comentario'] = 'TRUE';
-        peticionAjax(API_SYS_PATH + 'parametros/actualizarListaFija', arreglo, exitoso, fallo);
-    }
-}
+    arreglo['comentario'] = $('#myonoffswitch').check().val().toString().toUpperCase();
+        Funcion.peticionAjax(API_SYS_PATH + 'parametros/actualizarListaFija', arreglo, exitoso, fallo);
+});
+
 
 function cargarTabla(arregloConInputs, idTransaccion) {
     arregloConInputs['idTransaccion'] = idTransaccion;
-    $("#resultados2").hide();
-    var tbody = $("#resultados2 tbody").empty();
-    exitoso = function(result) {
-        if (result.estado != undefined) {
+    var resultados2 = $('#resultados2');
+    resultados2.hide();
+    var tbody = resultados2.find("tbody").empty();
+    /**
+     * @param {{estado:string}} result
+     * @param {{success:string}} result
+     */
+    var exitoso = function(result) {
+        if (typeof(result.estado) != 'undefined') {
             if (result.estado == 'warning') {
-                notificacionWarning(result.success);
+                Funcion.notificacionWarning(result.success);
                 return;
             }
         }
         var find = false;
-        result.data.forEach(function(element, index) {
+        result.data.forEach(function(element) {
             find = true;
             var tr = $("<tr class='text-center' ></tr>");
             var idSucursal = element['art_id'];
@@ -96,21 +100,21 @@ function cargarTabla(arregloConInputs, idTransaccion) {
                     callback: function(result) {
                         // result will be true if button was click, while it will be false if users close the dialog directly.
                         if (result) {
-                            notificacionSuccess('Se ha eliminado correctamente');
+                            Funcion.notificacionSuccess('Se ha eliminado correctamente');
                             $(tr).remove();
                             arregloConInputs['parametro'] = $('#idSucursal2').val();
                             arregloConInputs['valor'] = idSucursal;
                             arregloConInputs['excluyentes'] = '1';
-                            peticionAjax(API_SYS_PATH + 'parametros/eliminarListaFija', arregloConInputs, exitoso, fallo);
+                            Funcion.peticionAjax(API_SYS_PATH + 'parametros/eliminarListaFija', arregloConInputs, exitoso, fallo);
                         } else {
                         }
                     }
                 });
             });
-            agregarTDaTR(tr, idSucursal);
-            agregarTDaTR(tr, clave);
-            agregarTDaTR(tr, descripcion);
-            agregarTHaTR(tr, eliminar);
+            Funcion.agregarTDaTR(tr, idSucursal);
+            Funcion.agregarTDaTR(tr, clave);
+            Funcion.agregarTDaTR(tr, descripcion);
+            Funcion.agregarTHaTR(tr, eliminar);
             $(tbody).append(tr);
         });
         traerEstado();
@@ -118,62 +122,67 @@ function cargarTabla(arregloConInputs, idTransaccion) {
             $('#resultados2').show();
         }
     };
-    fallo = function(datos) {
+    var fallo = function(datos) {
         console.log(datos);
     };
     arregloConInputs['idSucursal'] = $('#idSucursal2').val();
     arregloConInputs['excluyente'] = '1';
-    peticionAjax(API_SYS_PATH + 'parametros/seleccionar/lista/excluyente', arregloConInputs, exitoso, fallo);
+    Funcion.peticionAjax(API_SYS_PATH + 'parametros/seleccionar/lista/excluyente', arregloConInputs, exitoso, fallo);
     return false;
 }
 
 function traerEstado() {
-
-    exitoso = function(result) {
-        if (result.estado != undefined) {
+    /**
+     * @param {{estado:string}} result
+     * @param {{success:string}} result
+     */
+    var exitoso = function(result) {
+        if (typeof(result.estado) != 'undefined') {
             if (result.estado == 'warning') {
-                notificacionWarning(result.success);
+                Funcion.notificacionWarning(result.success);
                 return;
             }
         }
-        result.data.forEach(function(element, index) {
-            estadoF = result.data[0]['comentario'];
+        result.data.forEach(function(element) {
+            estadoF = element['comentario'];
         });
-        if (estadoF == 'FALSE') {
-            $('#myonoffswitch').check=false;
-        }
-        if (estadoF == 'TRUE') {
-            $('#myonoffswitch').check=true;
-        }
-        if ($('#idSucursal2').val() != 0) {
+        $('#myonoffswitch').check=Boolean(estadoF);
+
+        var idSucursal2 = $('#idSucursal2');
+        if (idSucursal2.val() != 0) {
             $('#divEstado').show();
         }
-        if ($('#idSucursal2').val() == 0) {
+        else{
             $('#divEstado').hide();
         }
     };
-    fallo = function(datos) {
+    var fallo = function(datos) {
         console.log(datos);
     };
-    arregloEstado = {};
+    var arregloEstado = {};
     arregloEstado['idSucursal'] = $('#idSucursal2').val();
     arregloEstado['excluyente'] = '1';
-    peticionAjax(API_SYS_PATH + 'parametros/seleccionarEstado', arregloEstado, exitoso, fallo);
+    Funcion.peticionAjax(API_SYS_PATH + 'parametros/seleccionarEstado', arregloEstado, exitoso, fallo);
 }
 
 function cargarTabla2(arregloConInputs, idTransaccion) {
     arregloConInputs['idTransaccion'] = idTransaccion;
-    $("#resultados").hide();
-    var tbody = $("#resultados tbody").empty();
-    exitoso = function(result) {
-        if (result.estado != undefined) {
+    var resultados = $('#resultados');
+    resultados.hide();
+    var tbody = resultados.find("tbody").empty();
+    /**
+     * @param {{estado:string}} result
+     * @param {{success:string}} result
+     */
+    var exitoso = function(result) {
+        if (typeof(result.estado) != 'undefined') {
             if (result.estado == 'warning') {
-                notificacionWarning(result.success);
+                Funcion.notificacionWarning(result.success);
                 return;
             }
         }
         var find = false;
-        result.data.forEach(function(element, index) {
+        result.data.forEach(function(element) {
             find = true;
             var tr = $("<tr class='text-center' ></tr>");
             var idSucursal = element['art_id'];
@@ -200,33 +209,33 @@ function cargarTabla2(arregloConInputs, idTransaccion) {
                     btnOKClass: 'btn-danger', // <-- If you didn't specify it, dialog type will be used,
                     callback: function(result) {
                         if (result) {
-                            notificacionSuccess('Se ha agregado correctamente');
+                            Funcion.notificacionSuccess('Se ha agregado correctamente');
                             $(tr).remove();
                             arregloConInputs['parametro'] = $('#idSucursal').val();
                             arregloConInputs['valor'] = idSucursal;
                             arregloConInputs['usuario'] = $('#usuario').val();
                             arregloConInputs['excluyente'] = '1';
-                            peticionAjax(API_SYS_PATH + 'parametros/insertarListaFija', arregloConInputs, exitoso, fallo);
+                            Funcion.peticionAjax(API_SYS_PATH + 'parametros/insertarListaFija', arregloConInputs, exitoso, fallo);
                         } else {
                         }
                     }
                 });
             });
-            agregarTDaTR(tr, idSucursal);
-            agregarTDaTR(tr, clave);
-            agregarTDaTR(tr, descripcion);
-            agregarTHaTR(tr, agregar);
+            Funcion.agregarTDaTR(tr, idSucursal);
+            Funcion.agregarTDaTR(tr, clave);
+            Funcion.agregarTDaTR(tr, descripcion);
+            Funcion.agregarTHaTR(tr, agregar);
             $(tbody).append(tr);
         });
         if (find) {
             $('#resultados').show();
         }
     };
-    fallo = function(datos) {
+    var fallo = function(datos) {
         console.log(datos);
     };
     arregloConInputs['art_id'] = $('#art_id').val();
     arregloConInputs['idSucursal'] = $('#idSucursal').val();
-    peticionAjax(API_SYS_PATH + 'articulo/seleccionarListaFija', arregloConInputs, exitoso, fallo, 'Buscando Artículos...');
+    Funcion.peticionAjax(API_SYS_PATH + 'articulo/seleccionarListaFija', arregloConInputs, exitoso, fallo, 'Buscando Artículos...');
     return false;
 }

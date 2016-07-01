@@ -9,17 +9,17 @@ var contador = 0;
 var removerModal;
 
 $(function() {
-    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12, false, 'cargando', 'Seleccione una Sucursal');
+    Funcion.cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12, false, 'cargando', 'Seleccione una Sucursal');
     var idSuc=$('#idSucursal');
     idSuc.change(function() {
         $("#concepto").empty();
         $("#dep_id").empty();
         $("#cat_id").empty();
         $("#resultados").find("tbody").empty();
-        cargarDropDownList(("#concepto"), 'idConcepto', 'descripcion', API_SYS_PATH + 'concepto/seleccionar', 12, false, 'cargando', 'Seleccione un Concepto');
+        Funcion.cargarDropDownList(("#concepto"), 'idConcepto', 'descripcion', API_SYS_PATH + 'concepto/seleccionar', 12, false, 'cargando', 'Seleccione un Concepto');
         if (idSuc.val() != "") {
             configuracionListaFija();
-            cargarDropDownList(("#dep_id"), 'dep_id', 'nombre', API_SYS_PATH + 'departamento/seleccionar', $("#idSucursal").val(), true, 'Cargando...', 'Seleccione un Departamento');
+            Funcion.cargarDropDownList(("#dep_id"), 'dep_id', 'nombre', API_SYS_PATH + 'departamento/seleccionar', $("#idSucursal").val(), true, 'Cargando...', 'Seleccione un Departamento');
         }
     });
     $('#dep_id').change(function() {
@@ -29,29 +29,31 @@ $(function() {
             dep_id: $("#dep_id").val()
         };
         if (idSuc.val() != "") {
-            cargarDropDownList(("#cat_id"), 'cat_id', 'nombre', API_SYS_PATH + 'categoria/seleccionar', columnas, true, 'Cargando...', 'Seleccione una Categoria');
+            Funcion.cargarDropDownList(("#cat_id"), 'cat_id', 'nombre', API_SYS_PATH + 'categoria/seleccionar', columnas, true, 'Cargando...', 'Seleccione una Categoria');
         }
     });
 });
 
 function InicializarDateTimePicker() {
     $.datetimepicker.setLocale('es');
-    $('#hora_inicio').datetimepicker({
+    var horaInicio=$('#hora_inicio');
+    var horaFin=$('#hora_fin');
+    horaInicio.datetimepicker({
         theme: 'dark',
         format: 'Y-m-d',
-        onShow: function(ct) {
+        onShow: function() {
             this.setOptions({
-                maxDate: $('#hora_fin').val() ? $('#hora_fin').val() : false
+                maxDate: horaFin.val() ? horaFin.val() : false
             })
         },
         timepicker: false
     });
-    $('#hora_fin').datetimepicker({
+    horaFin.datetimepicker({
         theme: 'dark',
         format: 'Y-m-d ',
-        onShow: function(ct) {
+        onShow: function() {
             this.setOptions({
-                minDate: $('#hora_inicio').val() ? $('#hora_inicio').val() : false
+                minDate: horaInicio.val() ? horaInicio.val() : false
             })
         },
         timepicker: false
@@ -88,11 +90,11 @@ function configuracionGeneral(titulo, idTransaccion) {
         var espacio = $("<label> &nbsp;&nbsp;&nbsp; </label>");
         $form_group.append(espacio);
     }
-    var espacio = $("<label> &nbsp;&nbsp;&nbsp; </label>");
+    espacio = $("<label> &nbsp;&nbsp;&nbsp; </label>");
     $form_group.append(espacio);
     var generarModalPopUp = $("<button></button>", {id: "can", name: "can", type: 'button', class: 'btn btn-success', text: 'Generar', onclick: 'this.blur();'});
     $form_group.append(generarModalPopUp);
-    var espacio = $("<label> &nbsp;&nbsp;&nbsp; </label>");
+    espacio = $("<label> &nbsp;&nbsp;&nbsp; </label>");
     $form_group.append(espacio);
     var gear = $("<a id='g2' style='display: none'><i class='fa fa-cog fa-spin fa-3x fa-fw' ></i></a>", {id: "gear", name: "gear"});
     $form_group.append(gear);
@@ -107,7 +109,7 @@ function configuracionGeneral(titulo, idTransaccion) {
     tabla.append($thead);
     var th1 = $("<th>Clave</th>");
     tabla.append(th1);
-    th1 = $("<th>Descripci&oacute;n</th>");
+    th1 = $('<th>Descripci&oacute;n</th>');
     tabla.append(th1);
     th1 = $("<th>Existencia</th>");
     tabla.append(th1);
@@ -115,16 +117,17 @@ function configuracionGeneral(titulo, idTransaccion) {
     tabla.append(th1);
     $contenido.append($form_group);
     $(generarModalPopUp).click(function() {
-        $('#g2').show();
+        var g2 = $('#g2');
+        g2.show();
         inicializarTablaModalPopuUp();
         $(generarModalPopUp).focusout();
-        $('#g2').focus();
+        g2.focus();
         return false;
     });
     InicializarDateTimePicker();
     BootstrapDialog.show({
         title: titulo,
-        message: function(dialog) {
+        message: function() {
             return $contenido;
         },
         style: 'width:85%;',
@@ -142,7 +145,7 @@ function configuracionGeneral(titulo, idTransaccion) {
             id: 'btn-2',
             label: 'Terminar',
             cssClass: 'btn-danger',
-            submit: function(dialog) {
+            submit: function() {
                 return false;
             },
             action: function(dialog) {
@@ -182,13 +185,14 @@ function configuracionListaFija() {
 function inicializarTablaModalPopuUp() {
     var idConcepto = $('#concepto').val();
     var datosTabla4 = {};
-    datosTabla4['idSucursal'] = document.getElementById('idSucursal').value;
-    datosTabla4['cat_id'] = document.getElementById('cat_id').value;
-    datosTabla4['cantidad'] = $('#cantidad').val() != null ? $('#cantidad').val() : 0;
-    datosTabla4['dep_id'] = document.getElementById('dep_id').value;;
+    datosTabla4['idSucursal'] = $('#idSucursal').val();
+    datosTabla4['cat_id'] = $('#cat_id').val();
+    var cantidad =$('#cantidad');
+    datosTabla4['cantidad'] = cantidad.val() != null ? cantidad.val() : 0;
+    datosTabla4['dep_id'] = $('#dep_id').val();
     if (idConcepto == CONFIGURACION_MAS_VENDIDOS || idConcepto == CONFIGURACION_MAS_CONFLICTIVOS) {
-        datosTabla4['fechaInicio'] = document.getElementById('hora_inicio').value;
-        datosTabla4['fechaFin'] = document.getElementById('hora_fin').value;
+        datosTabla4['fechaInicio'] = $('#hora_inicio').val();
+        datosTabla4['fechaFin'] = $('#hora_fin').val();
     } else if (idConcepto == CONFIGURACION_INDIVIDUAL) {
         datosTabla4 = {};
         datosTabla4['input'] = $('#input').val();
@@ -208,10 +212,14 @@ function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
     });
     arregloConInputs['articulos'] = datosTabla1;
     arregloConInputs['idSucursal'] = idSucursal;
-    exitoso = function (result) {
-        if (result.estado != undefined) {
+    /**
+     * @param {{estado:string}} result
+     * @param {{success:string}} result
+     */
+    var exitoso = function (result) {
+        if (typeof(result.estado)!= 'undefined') {
             if (result.estado == 'warning') {
-                notificacionWarning(result.success);
+                Funcion.notificacionWarning(result.success);
                 $('#g2').hide();
                 return;
             }
@@ -219,7 +227,7 @@ function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
         var find = false;
         if (result.data.length > 0) {
             console.log(result.data);
-            result.data.forEach(function (element, index) {
+            result.data.forEach(function (element) {
                 find = true;
                 contador++;
                 var row = $("<tr></tr>", {id: contador, name: 'row' + contador});
@@ -244,10 +252,7 @@ function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
                     $(row).remove();
                     contador--;
                 });
-                function removerModal1(row) {
-                    $(row).remove();
-                    contador--;
-                }
+                //function removerModal1(row) {$(row).remove();contador--;}
                 removerModal.append(icono);
                 td = $("<td></td>");
                 td.append(removerModal);
@@ -263,27 +268,28 @@ function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
                 tabla.show();
             }
         } else {
-            notificacionWarning('No se encontró información');
+            Funcion.notificacionWarning('No se encontró información');
         }
     };
-    fallo = function (datos) {
+    var fallo = function (datos) {
     };
     if (idConcepto == CONFIGURACION_AZAR) {
-        peticionAjax(API_SYS_PATH + 'inventario/seleccionarAzar', arregloConInputs, exitoso, fallo);
+        Funcion.peticionAjax(API_SYS_PATH + 'inventario/seleccionarAzar', arregloConInputs, exitoso, fallo);
     } else if (idConcepto == CONFIGURACION_MAS_VENDIDOS) {
-        peticionAjax(API_SYS_PATH + 'inventario/seleccionarMasVendidos', arregloConInputs, exitoso, fallo);
+        Funcion.peticionAjax(API_SYS_PATH + 'inventario/seleccionarMasVendidos', arregloConInputs, exitoso, fallo);
     } else if (idConcepto == CONFIGURACION_MAS_CONFLICTIVOS) {
-        peticionAjax(API_SYS_PATH + 'inventario/seleccionarMasConflictivos', arregloConInputs, exitoso, fallo);
+        Funcion.peticionAjax(API_SYS_PATH + 'inventario/seleccionarMasConflictivos', arregloConInputs, exitoso, fallo);
     } else if (idConcepto == CONFIGURACION_INDIVIDUAL) {
-        peticionAjax(API_SYS_PATH + 'inventario/seleccionarIndividual', arregloConInputs, exitoso, fallo);
+        Funcion.peticionAjax(API_SYS_PATH + 'inventario/seleccionarIndividual', arregloConInputs, exitoso, fallo);
     } else {
-        peticionAjax(API_SYS_PATH + 'parametros/seleccionar/lista/fija/inventario', arregloConInputs, exitoso, fallo);
+        Funcion.peticionAjax(API_SYS_PATH + 'parametros/seleccionar/lista/fija/inventario', arregloConInputs, exitoso, fallo);
     }
     return false;
 }
 
 $("#send").submit(function() {
-    var form1 = $("#resultados").find("input[data1]").serializeArray();
+    var resultados = $("#resultados");
+    var form1 = resultados.find("input[data1]").serializeArray();
     var datosTabla1 = {};
     var subArreglo = [];
     form1.forEach(function(input) {
@@ -294,15 +300,15 @@ $("#send").submit(function() {
     datosTabla1['art_id'] = subArreglo;
     datosTabla1['idSucursal'] = $('#idSucursal').val();
     datosTabla1['idUsuario'] = document.getElementById('idUsuario').value;
-    exitoso = function(datos) {
-        notificacionSuccess(datos.success);
+    var exitoso = function(datos) {
+        Funcion.notificacionSuccess(datos.success);
         return false;
     };
-    fallo = function(datos) {
+    var fallo = function(/*datos*/) {
         return false;
     };
-    var tbody = $("#resultados").find("tbody").empty();
-    peticionAjax(API_SYS_PATH + 'inventario/insertar', datosTabla1, exitoso, fallo, "Enviando datos...");
+    var tbody = resultados.find("tbody").empty();
+    Funcion.peticionAjax(API_SYS_PATH + 'inventario/insertar', datosTabla1, exitoso, fallo, "Enviando datos...");
     return false;
 });
 
@@ -319,7 +325,7 @@ $("#inventario").submit(function() {
     } else if (idConcepto == CONFIGURACION_INDIVIDUAL) {
         configuracionGeneral("Configuración de búsqueda individual", CONFIGURACION_INDIVIDUAL);
     } else {
-        notificacionWarning("Faltan parametros para la busqueda");
+        Funcion.notificacionWarning("Faltan parametros para la busqueda");
     }
     return false;
 });

@@ -72,7 +72,7 @@
         }
 
         function mostrarDialogo(pagina, bandera) {
-            mostrarDialogoDeEspera("Cargando página");
+            Funcion.mostrarDialogoDeEspera("Cargando página");
             $.get("<?php echo $path;?>" + pagina, function(data) {
                 history.pushState("", document.title, window.location.pathname);
                 $("#page-wrapper").replaceWith(data);
@@ -135,7 +135,7 @@
                     }
                 };
                 var falloSucursal = function(result) {};
-                peticionAjax(API_SYS_PATH + "sucursal/seleccionar", arreglo2, generarPanelConSucursal, falloSucursal);
+                Funcion.peticionAjax(API_SYS_PATH + "sucursal/seleccionar", arreglo2, generarPanelConSucursal, falloSucursal);
             }
             static obtenerDetalle(idSucursal) {
                 divBodyPanelNotificacion.empty();
@@ -166,7 +166,7 @@
 
                 };
                 var failDetalle = function(resultado) {};
-                peticionAjax(API_SYS_PATH + "general/dashboard/tiempo", arreglo3, successDetalle, failDetalle);
+                Funcion.peticionAjax(API_SYS_PATH + "general/dashboard/tiempo", arreglo3, successDetalle, failDetalle);
             }
         }
         class SucursalEstadistica {
@@ -179,7 +179,7 @@
                 var success = function(result) {
                     if (typeof(result.estado) != 'undefined') {
                         if (result.estado == 'warning') {
-                            notificacionWarning(result.success);
+                            Funcion.notificacionWarning(result.success);
                             return;
                         }
                     }
@@ -224,7 +224,7 @@
                     }
                 };
                 var fail = function(result) {};
-                peticionAjax(API_SYS_PATH + "general/dashboard", arreglo, success, fail, "Cargando dashboard...");
+                Funcion.peticionAjax(API_SYS_PATH + "general/dashboard", arreglo, success, fail, "Cargando dashboard...");
             }
         }
     </script>

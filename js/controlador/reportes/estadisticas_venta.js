@@ -1,27 +1,35 @@
-
 $(function() {
+    Funcion.cargarDropDownList(("#idSucursal"),
+        'idSucursal',
+        'nombre',
+        API_SYS_PATH + 'sucursal/seleccionar',
+        true,
+        false,
+        'Buscando Sucursal...',
+        'Seleccione una Sucursal');
+
     $('#total').hide();
     $('#divDetalle').hide();
-    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', true, false, 'Buscando Sucursal...', 'Seleccione una Sucursal');
-});
-jQuery(function(){
+
     $.datetimepicker.setLocale('es');
-    jQuery('#fechaInicio').datetimepicker({
+    var fechaIni=$('#fechaInicio');
+    var fechaFin=$('#fechaFin');
+    fechaIni.datetimepicker({
         theme:'dark',
         format:'Y-m-d',
-        onShow:function( ct ){
+        onShow:function( ){
             this.setOptions({
-                maxDate:jQuery('#fechaFin').val()?jQuery('#fechaFin').val():false
+                maxDate:fechaFin.val()?fechaFin.val():false
             })
         },
         timepicker:false
     });
-    jQuery('#fechaFin').datetimepicker({
+    fechaFin.datetimepicker({
         theme:'dark',
         format:'Y-m-d ',
-        onShow:function( ct ){
+        onShow:function(  ){
             this.setOptions({
-                minDate:jQuery('#fechaInicio').val()?jQuery('#fechaInicio').val():false
+                minDate:fechaIni.val()?fechaIni.val():false
             })
         },
         timepicker:false
@@ -29,8 +37,9 @@ jQuery(function(){
 });
 
 $("#venta").submit(function(){
+    var total = $('#total');
     if(banderaGenerado){
-        $('#total tbody').unbind('click');
+        total.find('tbody').unbind('click');
 
         banderaGenerado=false;
     }
@@ -40,19 +49,18 @@ $("#venta").submit(function(){
     form1.forEach(function(input) {
         datosTabla1[input.name] = input.value;
     });
-    console.log(datosTabla1);
-    var datos= (datosTabla1);
+
     var columnas = [{ data : "mpa_id" },
         { data : "metodo" },
         { data : "Total" }];
-    var success=function(resultado){
+    var success=function(){
         banderaGenerado=true;
         llamarclic();
 
     };
     var arregloBoton={Boton:true};
-    peticionAjaxDT('detalles_venta/seleccionar',('#total'),datosTabla1,columnas,null,success,false,arregloBoton);
-    $('#total').show();
+    Funcion.peticionAjaxDT('detalles_venta/seleccionar',('#total'),datosTabla1,columnas,null,success,false,arregloBoton);
+    total.show();
     return false;
 
 });
@@ -74,35 +82,47 @@ function llamarclic() {
             console.log('add');
         }
     });
-
+    /**
+     * @param {{mpa_id:string}} data
+     */
     $('#detalle').click(function () {
         var idMetodo=table.row('.selected').data().mpa_id;
         var datosTabla1 = {};
-        /*var form1 = $("#venta").find("select,input").serializeArray();
 
-        form1.forEach(function(input) {
-            datosTabla1[input.name] = input.value;
-        });*/
         datosTabla1['idSucursal']=$('#idSucursal').val();
         datosTabla1['fechaInicio']=$('#fechaInicio').val();
         datosTabla1['fechaFin']=$('#fechaFin').val();
         datosTabla1['idMetodo']=idMetodo;
-        console.log(datosTabla1);
-        var datos= (datosTabla1);
-        var columnas = [{ data : "tic_id" },
+
+        var columnas = [
+            { data : "tic_id" },
             { data : "descripcion" },
             { data : "fecha" },
-            { data : "total" }];
+            { data : "total" }
+        ];
 
-
-        peticionAjaxDT('detalles_venta/seleccionarDetalles',('#tablaDetalle'),datosTabla1,columnas,null,null);
+        Funcion.peticionAjaxDT('detalles_venta/seleccionarDetalles',
+            ('#tablaDetalle'),
+            datosTabla1,
+            columnas,
+            null,
+            null
+        );
         $('#divDetalle').show();
         return false;
-
-        //table.row('.selected').remove().draw(false);
     });
 }
 var banderaGenerado=false;
+
+$('#idSucursal').on('change',function(){
+    limpiarTablas()
+});
+$('#fechaInicio').on('change',function(){
+    limpiarTablas()
+});
+$('#fechaFin').on('change',function(){
+    limpiarTablas()
+});
 
 function limpiarTablas(){
     $('#total').hide();

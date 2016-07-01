@@ -2,9 +2,9 @@ var contador = 0;
 var contador2 = 0;
 
 $(function() {
-    cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', null);
-    cargarDropDownList(("#sexo"), 'idSexo', 'descripcion', API_SYS_PATH + 'sexo/seleccionar', 12);
-    cargarDropDownList(("#idNivelAutorizacion"), 'idNivelAutorizacion', 'descripcion', API_SYS_PATH + 'nivel_autorizacion/seleccionar', $("#idUsuario").val());
+    Funcion.cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', null);
+    Funcion.cargarDropDownList(("#sexo"), 'idSexo', 'descripcion', API_SYS_PATH + 'sexo/seleccionar', 12);
+    Funcion.cargarDropDownList(("#idNivelAutorizacion"), 'idNivelAutorizacion', 'descripcion', API_SYS_PATH + 'nivel_autorizacion/seleccionar', $("#idUsuario").val());
     $("#descripcion").enterKey(function() {
         e.preventDefault();
        // buscar();
@@ -40,7 +40,7 @@ $("#guardarUsuario").submit(function() {
         datosTabla1[input.name] = input.value;
     });
     if ($("#password").val() != $("#repetirpassword").val()) {
-        notificacionWarning('Las contraseñas no concuerdan');
+        Funcion.notificacionWarning('Las contraseñas no concuerdan');
         $("#password").val('');
         $("#repetirpassword").val('');
         contador2 = 1;
@@ -50,7 +50,7 @@ $("#guardarUsuario").submit(function() {
         $("#password").val('');
         $("#repetirpassword").val('');
         contador2 = 1;
-        notificacionWarning('Las contraseñas deben tener 4 digitos');
+        Funcion.notificacionWarning('Las contraseñas deben tener 4 digitos');
         return false;
     }
     var tempVal = $('#password').val();
@@ -60,22 +60,22 @@ $("#guardarUsuario").submit(function() {
         $("#password").val('');
         $("#repetirpassword").val('');
         contador2 = 1;
-        notificacionWarning('Las contraseñas solo deben contener números');
+        Funcion.notificacionWarning('Las contraseñas solo deben contener números');
         return false;
     }
 
-    exitoso = function(datos) {
-        notificacionSuccess(datos.success);
+    var exitoso = function(datos) {
+        Funcion.notificacionSuccess(datos.success);
         $("#guardarUsuario")[0].reset();
         contador = 0;
         $("#btnGuardar").prop("disabled", false);
         return false;
     };
-    fallo = function(datos) {
+    var fallo = function(datos) {
         $("#btnGuardar").prop("disabled", false);
         return false;
     };
-    peticionAjax(API_SYS_PATH + 'usuario/insertar', datosTabla1, exitoso, fallo, "Guardando Usuario...");
+    Funcion.peticionAjax(API_SYS_PATH + 'usuario/insertar', datosTabla1, exitoso, fallo, "Guardando Usuario...");
 
     return false;
 });
@@ -100,15 +100,19 @@ function cargarTabla(arregloConInputs, idTransaccion) {
     arregloConInputs['idTransaccion'] = idTransaccion;
     $("#resultados").hide();
     var tbody = $("#resultados tbody").empty();
-    exitoso = function(result) {
+    /**
+     * @param {{estado:string}} result
+     * @param {{success:string}} result
+     */
+    var exitoso = function(result) {
         if (result.estado != undefined) {
             if (result.estado == 'warning') {
-                notificacionWarning(result.success);
+                Funcion.notificacionWarning(result.success);
                 return;
             }
         }
         var find = false;
-        result.forEach(function(element, index) {
+        result.forEach(function(element/*, index*/) {
             find = true;
             var tr = $("<tr></tr>");
             var usuario = element['usuario'];
@@ -137,10 +141,10 @@ function cargarTabla(arregloConInputs, idTransaccion) {
             $('#resultados').show();
         }
     };
-    fallo = function(datos) {
+    var fallo = function(datos) {
         console.log(datos);
     };
-    peticionAjax(API_SYS_PATH + 'usuario/seleccionar', arregloConInputs, exitoso, fallo, 'Cargando Lista de usuarios');
+    Funcion.peticionAjax(API_SYS_PATH + 'usuario/seleccionar', arregloConInputs, exitoso, fallo, 'Cargando Lista de usuarios');
 }
 
 function editarUsuario(element, tr) {
@@ -292,14 +296,14 @@ function editarUsuario(element, tr) {
 
     BootstrapDialog.show({
         title: 'Esta a punto de modificar los siguientes datos',
-        message: function(dialog) {
+        message: function(/*dialog*/) {
             return $contenido;
         },
         type: BootstrapDialog.TYPE_WARNING,
         onshown: function() {
-            cargarDropDownList((idNivelAutorizacion), 'idNivelAutorizacion', 'descripcion', API_SYS_PATH + 'nivel_autorizacion/seleccionar', $("#idUsuario").val(), undefined, undefined, undefined, element['idNivelAutorizacion']);
-            cargarDropDownList((sucursal), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar',undefined, undefined, undefined, undefined, element['idSucursal']);
-            cargarDropDownList((sexo), 'idSexo', 'descripcion', API_SYS_PATH + 'sexo/seleccionar', undefined, undefined, undefined, undefined, element['sexo']);
+            Funcion.cargarDropDownList((idNivelAutorizacion), 'idNivelAutorizacion', 'descripcion', API_SYS_PATH + 'nivel_autorizacion/seleccionar', $("#idUsuario").val(), undefined, undefined, undefined, element['idNivelAutorizacion']);
+            Funcion.cargarDropDownList((sucursal), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar',undefined, undefined, undefined, undefined, element['idSucursal']);
+            Funcion.cargarDropDownList((sexo), 'idSexo', 'descripcion', API_SYS_PATH + 'sexo/seleccionar', undefined, undefined, undefined, undefined, element['sexo']);
         },
         buttons: [{
             id: 'btn-1',
@@ -315,7 +319,7 @@ function editarUsuario(element, tr) {
             action: function(dialog) {
                 var datos = {};
                 if ($(password).val() != $(repetirpassword).val()) {
-                    notificacionWarning('Las contraseñas no concuerdan');
+                    Funcion.notificacionWarning('Las contraseñas no concuerdan');
                     $(password).val('');
                     $(repetirpassword).val('');
                     return false;
@@ -331,18 +335,18 @@ function editarUsuario(element, tr) {
                 datos.idNivelAutorizacion = $(idNivelAutorizacion).val();
                 if (datos.usuario == '' || datos.password == '' || datos.nombre == '' || datos.apellido == '' || datos.sexo == '' || datos.contacto == '' ||
                     datos.idSucursal == '' || datos.idEstado == '' || datos.idNivelAutorizacion == '') {
-                    notificacionWarning('Ningún campo debe de ir vacío, favor de validar la información');
+                    Funcion.notificacionWarning('Ningún campo debe de ir vacío, favor de validar la información');
                     return false;
                 }
-                exitoso = function(datos) {
-                    notificacionSuccess(datos.success);
+                var exitoso = function(datos) {
+                    Funcion.notificacionSuccess(datos.success);
                     $(tr).remove();
                     dialog.close();
                     inicializarTabla();
                 };
-                fallo = function(datos) {
+                var fallo = function(datos) {
                 };
-                peticionAjax(API_SYS_PATH + 'usuario/actualizar', datos, exitoso, fallo, 'Guardando cambios...');
+                Funcion.peticionAjax(API_SYS_PATH + 'usuario/actualizar', datos, exitoso, fallo, 'Guardando cambios...');
             }
         }]
     });

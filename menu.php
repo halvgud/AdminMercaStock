@@ -4,7 +4,7 @@ require_once "data/Roles.php";
 require_once "data/PrivilegiosUsuario.php";
 $decoded = PrivilegiosUsuario::traerPrivilegios();
 
-$path = "/ADMINMERCASTOCK";
+$path2 = "/";
 if(!isset($_SESSION['idUsuario'])){
     //require_once('../index.php');
     header('Location: '.'index.php');
