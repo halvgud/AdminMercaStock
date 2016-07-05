@@ -36,7 +36,7 @@ class Funcion{
      }
    static peticionAjaxDT(URL,DT,datos,arregloColumnas,loading,success,ocultarBusqueda,funcionDeColor) {
         if ((loading) != undefined) {
-            this.mostrarDialogoDeEspera(loading);
+            Funcion.mostrarDialogoDeEspera(loading);
         }
         var banderaMostrarBusqueda=false;
         if(ocultarBusqueda==undefined){
@@ -182,7 +182,7 @@ class Funcion{
         console.log(JSON.stringify(datos));
         console.log(URL);
         if ((loading) != undefined) {
-            this.mostrarDialogoDeEspera(loading);
+            Funcion.mostrarDialogoDeEspera(loading);
         }
         $.ajax({
                 type: "POST",
@@ -213,7 +213,7 @@ class Funcion{
                     console.log(resulta);
                     Funcion.notificacionError(resulta['error'] ? resulta['error'] : resulta['mensaje']?resulta['mensaje']:resulta['message']);
                     if(resulta['estado']!=undefined&&resulta['estado']=='-1'){
-                        this.logout();
+                        Funcion.logout();
                     }
                 } else {
                     console.log(jqXHR.responseText);
@@ -231,7 +231,7 @@ class Funcion{
     };
     var fallo = function (datos) {
     };
-    this.peticionAjax('data/logout.php', '', exitoso, fallo);
+    Funcion.peticionAjax('data/logout.php', '', exitoso, fallo);
 }
 
     static notificacionError(mensaje) {
@@ -351,7 +351,7 @@ class Funcion{
                 }
             }
             else if(result.estado=='warning'){
-                this.notificacionWarning("Error al traer el listado");
+                Funcion.notificacionWarning("Error al traer el listado");
             }
 
 
@@ -360,7 +360,7 @@ class Funcion{
             console.log(datos);
         };
         console.log(arreglo);
-        this.peticionAjax(rutaRest, arreglo, exitoso, fallo,mensaje);
+        Funcion.peticionAjax(rutaRest, arreglo, exitoso, fallo,mensaje);
     }
 
     static cambiarContrasena(){
@@ -441,7 +441,7 @@ class Funcion{
             var passwordNueva2=$('#passwordNueva2').val();
             var passwordActual=$('#passwordActual').val();
             if(passwordNueva1!=passwordNueva2||(passwordNueva1==''||passwordNueva2==''||passwordActual=='')) {
-                this.notificacionWarning("Falta algún campo de llenar o las contraseñas no coinciden, favor de verificar los datos ");
+                Funcion.notificacionWarning("Falta algún campo de llenar o las contraseñas no coinciden, favor de verificar los datos ");
                 return false;
             }else{
                 /**
@@ -468,7 +468,7 @@ class Funcion{
                 arregloConInputs['passwordActual']=passwordActual;
                 arregloConInputs['passwordNueva']=passwordActual;
                 arregloConInputs['usuario']=$('#usuario').val();
-                this.peticionAjax(API_SYS_PATH + 'usuario/actualizarContrasena', arregloConInputs, exitoso, fallo);
+                Funcion.peticionAjax(API_SYS_PATH + 'usuario/actualizarContrasena', arregloConInputs, exitoso, fallo);
             }
         });
         BootstrapDialog.show({

@@ -1,8 +1,8 @@
 exitoso = function(datos){
     API_TOKEN=datos['datos']['ClaveAPI'];
-    exitoso2 = function(datos){
+    var exitoso2 = function(){
         window.location.reload();
-    }
+    };
     Funcion.peticionAjax(LOCAL_PATH+"setSession.php",datos,exitoso2,fallo);
 
 
