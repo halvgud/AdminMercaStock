@@ -31,14 +31,14 @@ $(function() {
                 var icono_eliminar = $("<i></i>", {
                     class: 'fa fa-trash-o'
                 });
-                eliminar.append(icono_eliminar);
+                /*eliminar.append(icono_eliminar);
                 eliminar.append(" Eliminar");
                 $(eliminar).click(function() {
                     eliminarUsuario(element, tr);
-                });
+                });*/
                 agregarTDaTR(tr, descripcion);
                 agregarTDaTR(tr, editar, 'text-center');
-                agregarTDaTR(tr, eliminar, 'text-center');
+               // agregarTDaTR(tr, eliminar, 'text-center');
                 $(tbody).append(tr);
             });
             console.log(find);

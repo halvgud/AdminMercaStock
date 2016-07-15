@@ -3,6 +3,7 @@ var CONFIGURACION_AZAR = 1;
 var CONFIGURACION_MAS_VENDIDOS = 2;
 var CONFIGURACION_MAS_CONFLICTIVOS = 3;
 var CONFIGURACION_INDIVIDUAL = 4;
+var CONFIGURACION_TODO_DEPARTAMENTO=5;
 var tabla;
 var tabla2;
 var contador = 0;
@@ -63,22 +64,22 @@ function InicializarDateTimePicker() {
 function configuracionGeneral(titulo, idTransaccion) {
     var $contenido = $("<form></form>", { name: 'formSucursal'});
     var $form_group = $("<div></div>", { class: 'form-inline'});
-    if (idTransaccion != CONFIGURACION_INDIVIDUAL) {
-        var espacio2 = $("<label> &nbsp;&nbsp; </label>");
+    var espacio2 = $("<label> &nbsp;&nbsp; </label>");
+    if (idTransaccion != CONFIGURACION_INDIVIDUAL&&idTransaccion!=CONFIGURACION_TODO_DEPARTAMENTO) {
         $form_group.append(espacio2);
         var label = $("<label></label>", { for: 'cantidad', text: 'Cantidad:\u00a0'});
         var nombre = $("<input>", { id: 'cantidad', name: 'cantidad', value: '10', type: 'number', class: 'form-control', required: 'required', style: 'width:15%;'});
         $form_group.append(label);
         $form_group.append(nombre);
     }
-    if (idTransaccion == CONFIGURACION_INDIVIDUAL) {
+    else if (idTransaccion == CONFIGURACION_INDIVIDUAL) {
         $form_group.append(espacio2);
         label = $("<label></label>", { for: 'input', text: 'Clave o Descripción del Artículo:\u00a0'});
         nombre = $("<input>", { id: 'input', name: 'input', value: '', type: 'text', class: 'form-control', required: 'required'});
         $form_group.append(label);
         $form_group.append(nombre);
     }
-    if (idTransaccion == CONFIGURACION_MAS_CONFLICTIVOS || idTransaccion == CONFIGURACION_MAS_VENDIDOS) {
+    else if (idTransaccion == CONFIGURACION_MAS_CONFLICTIVOS || idTransaccion == CONFIGURACION_MAS_VENDIDOS) {
         label = $("<label></label>", { for: 'hora_inicio', text: '\u00a0Inicio:\u00a0'});
         $form_group.append(label);
         var inputInicio = $("<input>", { type: 'text', id: 'hora_inicio', name: 'hora_inicio', class: 'form-control', onclick: 'InicializarDateTimePicker();', autocomplete: 'off', style: 'width:20%;', readonly: 'readonly'});
@@ -89,11 +90,19 @@ function configuracionGeneral(titulo, idTransaccion) {
         $form_group.append(inputInicio);
         var espacio = $("<label> &nbsp;&nbsp;&nbsp; </label>");
         $form_group.append(espacio);
+    }else if(idTransaccion==CONFIGURACION_TODO_DEPARTAMENTO){
+        $form_group.append(espacio2);
+        //label = $("<label></label>", { for: 'input', text: 'Clave o Descripción del Artículo:\u00a0'});
+        nombre = $("<input>", { id: 'cantidad', name: 'cantidad', value:'250', type: 'hidden', class: 'form-control', required: 'required'});
+        //$form_group.append(label);
+        $form_group.append(nombre);
     }
     espacio = $("<label> &nbsp;&nbsp;&nbsp; </label>");
     $form_group.append(espacio);
     var generarModalPopUp = $("<button></button>", {id: "can", name: "can", type: 'button', class: 'btn btn-success', text: 'Generar', onclick: 'this.blur();'});
+    var terminarModalPopUp = $("<button></button>", {id: "done", name: "done", type: 'button', class: 'btn btn-info', text: 'Terminar', style:'visibility:hidden;'});
     $form_group.append(generarModalPopUp);
+    $form_group.append(terminarModalPopUp);
     espacio = $("<label> &nbsp;&nbsp;&nbsp; </label>");
     $form_group.append(espacio);
     var gear = $("<a id='g2' style='display: none'><i class='fa fa-cog fa-spin fa-3x fa-fw' ></i></a>", {id: "gear", name: "gear"});
@@ -122,7 +131,13 @@ function configuracionGeneral(titulo, idTransaccion) {
         inicializarTablaModalPopuUp();
         $(generarModalPopUp).focusout();
         g2.focus();
+        $(terminarModalPopUp).removeAttr("style");
         return false;
+    });
+    $(terminarModalPopUp).click(function(){
+        BootstrapDialog.closeAll();
+        tabla2 = tabla;
+        tabla.clone().find('tr').appendTo($("#resultados").find("tbody"));
     });
     InicializarDateTimePicker();
     BootstrapDialog.show({
@@ -281,7 +296,9 @@ function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
         Funcion.peticionAjax(API_SYS_PATH + 'inventario/seleccionarMasConflictivos', arregloConInputs, exitoso, fallo);
     } else if (idConcepto == CONFIGURACION_INDIVIDUAL) {
         Funcion.peticionAjax(API_SYS_PATH + 'inventario/seleccionarIndividual', arregloConInputs, exitoso, fallo);
-    } else {
+    }else if (idConcepto ==CONFIGURACION_TODO_DEPARTAMENTO){
+        Funcion.peticionAjax(API_SYS_PATH + 'inventario/seleccionarAzar', arregloConInputs, exitoso, fallo);
+    }else {
         Funcion.peticionAjax(API_SYS_PATH + 'parametros/seleccionar/lista/fija/inventario', arregloConInputs, exitoso, fallo);
     }
     return false;
@@ -324,7 +341,10 @@ $("#inventario").submit(function() {
         configuracionGeneral('Configuración de Búsqueda Mas Conflictivos', CONFIGURACION_MAS_CONFLICTIVOS);
     } else if (idConcepto == CONFIGURACION_INDIVIDUAL) {
         configuracionGeneral("Configuración de búsqueda individual", CONFIGURACION_INDIVIDUAL);
-    } else {
+    }
+    else if (idConcepto == CONFIGURACION_TODO_DEPARTAMENTO){
+        configuracionGeneral("Configuración de búsqueda de departamento", CONFIGURACION_TODO_DEPARTAMENTO);
+    }else {
         Funcion.notificacionWarning("Faltan parametros para la busqueda");
     }
     return false;

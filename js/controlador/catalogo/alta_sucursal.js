@@ -1,7 +1,7 @@
 var contador = 0;
 var contador2 = 0;
 
-$("#password").onkeydown(function(){
+$("#password").keydown(function(){
     if (contador2 == 1) {
         $("#btnGuardar").prop("disabled", false);
         contador2 = 0;

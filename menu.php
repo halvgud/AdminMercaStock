@@ -30,7 +30,7 @@ if(!isset($_SESSION['idUsuario'])){
             <ul class="dropdown-menu dropdown-user">
                 <li><a href="#" onClick="cambiarContrasena();return false;"><i class="fa fa-wrench fa-fw"></i> Cambiar Contrase&ntilde;a</a>
                 </li>
-                <li><a href="#" onClick="logout();"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                <li><a href="#" onClick="Funcion.logout();"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                 </li>
             </ul>
             <!-- /.dropdown-user -->
