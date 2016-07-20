@@ -1,19 +1,15 @@
-var desc='';
-var cl='';
+var descripcion='';
+var clave='';
 var input = '';
 var contador=0;
 $(function() {
     $('#total').hide();
     $('#divDetalle').hide();
     Funcion.cargarDropDownList(
-        ("#idSucursal"),
-        'idSucursal',
-        'nombre',
-        API_SYS_PATH + 'sucursal/seleccionar',
-        true,
-        false,
-        'Buscando Sucursal...',
-        'Seleccione una Sucursal'
+        ("#idSucursal")         ,'idSucursal',
+        'nombre'                ,API_SYS_PATH + 'sucursal/seleccionar',
+        true                    ,false,
+        'Buscando Sucursal...'  ,'Seleccione una Sucursal'
     );
 });
 $(function(){
@@ -21,8 +17,7 @@ $(function(){
     var fechaIni = $('#fechaInicio');
     $.datetimepicker.setLocale('es');
     fechaIni.datetimepicker({
-        theme:'dark',
-        format:'Y-m-d',
+        theme:'dark'            ,format:'Y-m-d',
         onShow:function(){
             this.setOptions({
                 maxDate:fechaFin.val()?fechaFin.val():false
@@ -57,16 +52,15 @@ $("#venta").submit(function(){
     });
     datosTabla1['input2']=$('#input2').val();
     console.log(datosTabla1);
-    var columnas = [{ data : "clave" },{data : "descripcion" },{data : "cantidad" },{ data : "fecha" },
-        { data : "unidad" },{ data : "total" }];
+    var columnas =
+        [{ data :  "clave"}     ,{ data : "descripcion" },
+         { data :  "cantidad"}  ,{ data : "fecha" },
+         { data :  "unidad"}    ,{ data : "total" }];
     var success=function(resultado){};
     Funcion.peticionAjaxDT('articulo/seleccionarIndividualMovimiento2',
-        ('#total'),
-        datosTabla1,
-        columnas,
-        null,
-        success,
-        undefined);
+        ('#total')  ,datosTabla1,
+        columnas    ,null,
+        success     ,undefined);
     $('#total').show();
     return false;
 
@@ -152,8 +146,8 @@ $('#descripcionArticulo').click(function(){
             submit: function() {return false;},
             action: function(dialog) {
                 dialog.close();
-                $('#descripcionArticulo').val(desc);
-                $('#input2').val(cl);
+                $('#descripcionArticulo').val(descripcion);
+                $('#input2').val(clave);
             }
         }]
     });
@@ -209,7 +203,10 @@ function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
                 var row = $("<tr></tr>", {id: contador, name: 'row' + contador});
                 var td = $("<td></td>");
 
-                var claveArt = $("<input>", {name: "clave" + contador, id: "clave" + contador, class: 'form-control', value: element['clave'], style: 'width:85%;', readonly: 'readonly'});
+                var claveArt = $("<input>",
+                    {name: "clave" + contador, id: "clave" + contador,
+                        class: 'form-control', value: element['clave'],
+                        style: 'width:85%;', readonly: 'readonly'});
                 td.append(claveArt);
                 row.append(td);
 
@@ -223,8 +220,8 @@ function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
                 td.append(idArt);
                 row.append(td);
 
-                desc= element['descripcion'];
-                cl= element['clave'];
+                descripcion= element['descripcion'];
+                clave= element['clave'];
 
                 var agregar = $("<button></button>",{class:'btn btn-success'}).append('Agregar');
                 var icono_agregar = $("<i></i>",{class:'fa fa-check-square-o'});
@@ -248,11 +245,11 @@ function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
                             // result will be true if button was click, while it will be false if users close the dialog directly.
                             if(result) {
                                 Funcion.notificacionSuccess('Se ha agregado correctamente');
-                                desc= element['descripcion'];
-                                cl= element['clave'];
+                                descripcion= element['descripcion'];
+                                clave= element['clave'];
 
-                                document.getElementById('descripcionArticulo').value=desc;
-                                document.getElementById('input2').value=cl;
+                                document.getElementById('descripcionArticulo').value=descripcion;
+                                document.getElementById('input2').value=clave;
                                 BootstrapDialog.closeAll();
                             }else {
 

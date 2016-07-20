@@ -2,28 +2,14 @@ class Funcion{
      static mostrarDialogoDeEspera($dialogo){
         var $contenido = $("<div></div>");
         var $form_group = $("<div></div>",{class:'sk-cube-grid',id:'cover'});
-        var $cubo1 = $("<div></div>",{class:'sk-cube sk-cube1'});
-        var $cubo2 = $("<div></div>",{class:'sk-cube sk-cube2'});
-        var $cubo3 = $("<div></div>",{class:'sk-cube sk-cube3'});
-        var $cubo4 = $("<div></div>",{class:'sk-cube sk-cube4'});
-        var $cubo5 = $("<div></div>",{class:'sk-cube sk-cube5'});
-        var $cubo6 = $("<div></div>",{class:'sk-cube sk-cube6'});
-        var $cubo7 = $("<div></div>",{class:'sk-cube sk-cube7'});
-        var $cubo8 = $("<div></div>",{class:'sk-cube sk-cube8'});
-        var $cubo9 = $("<div></div>",{class:'sk-cube sk-cube9'});
-
-        $form_group.append($cubo1);
-        $form_group.append($cubo2);
-        $form_group.append($cubo3);
-        $form_group.append($cubo4);
-        $form_group.append($cubo5);
-        $form_group.append($cubo6);
-        $form_group.append($cubo7);
-        $form_group.append($cubo8);
-        $form_group.append($cubo9);
-
+        var br="";
+        for(var $i = 1;$i<10;$i++){
+            var $cubo = $("<div></div>",{class:'sk-cube sk-cube'+$i});
+            $form_group.append($cubo);
+            br+="<br>";
+        }
         $contenido.append($form_group);
-        $contenido.append("<br><br><br><br><br><br><br><br><br><br>");
+        $contenido.append(br);
         BootstrapDialog.show({
             'title': $dialogo,
             'closable': false,
@@ -87,7 +73,6 @@ class Funcion{
                     }
                     return nRow;
                 }
-
             },
             ajax: {
                 'url': API_SYS_PATH + URL,
@@ -157,7 +142,7 @@ class Funcion{
     static obtenerColorPorPorcentaje(pct) {
        var colores = [
             { pct: 0.0, color: { r: 133, g: 34, b: 38 } },
-            { pct: 0.5, color: { r: 204, g: 219, b: 38 } },
+            { pct: 0.5, color: { r: 250, g: 133, b: 38 } },/*204,219,38*/
             { pct: 1.0, color: { r: 34, g: 133, b: 38 } } ];
         for (var i = 1; i < colores.length - 1; i++) {
             if (pct < colores[i].pct) {
@@ -193,132 +178,106 @@ class Funcion{
                     request.setRequestHeader("Authorization", API_TOKEN);
                 }
             })
-            .done(function (resultado) {
-                if (!(resultado != undefined && resultado['estado'] != undefined && resultado['estado'] == "nomessage")) {
-                    if (successCallBack) {
-                        successCallBack(resultado);
-                    }
-                    if ((loading) != undefined) {
-                        BootstrapDialog.closeAll();
-                    }
+        .done(function (resultado) {
+            if (!(resultado != undefined && resultado['estado'] != undefined && resultado['estado'] == "nomessage")) {
+                if (successCallBack) {
+                    successCallBack(resultado);
                 }
-
-            })
-            .fail(function (jqXHR) {
-                var resulta = jqXHR.responseJSON;
                 if ((loading) != undefined) {
                     BootstrapDialog.closeAll();
                 }
-                if (resulta != undefined) {
-                    console.log(resulta);
-                    Funcion.notificacionError(resulta['error'] ? resulta['error'] : resulta['mensaje']?resulta['mensaje']:resulta['message']);
-                    if(resulta['estado']!=undefined&&resulta['estado']=='-1'){
-                        Funcion.logout();
-                    }
-                } else {
-                    console.log(jqXHR.responseText);
-                    Funcion.notificacionError('Error de conexión al servicio API');
+            }
+        })
+        .fail(function (jqXHR) {
+            var resulta = jqXHR.responseJSON;
+            if ((loading) != undefined) {
+                BootstrapDialog.closeAll();
+            }
+            if (resulta != undefined) {
+                console.log(resulta);
+                Funcion.notificacionError(resulta['error'] ?
+                    resulta['error']    : resulta['mensaje']?
+                    resulta['mensaje']  : resulta['message']);
+                if(resulta['estado']!=undefined&&resulta['estado']=='-1'){
+                    Funcion.logout();
                 }
-                if (errorCallBack) {
-                    errorCallBack(resulta);
-                }
-            });
-
-    }
+            } else {
+                console.log(jqXHR.responseText);
+                Funcion.notificacionError('Error de conexión al servicio API');
+            }
+            if (errorCallBack) {
+                errorCallBack(resulta);
+            }
+        });
+    }//peticionAjax
     static logout() {
     var exitoso = function () {
         window.location.reload();
     };
-    var fallo = function (datos) {
-    };
+    var fallo = function (datos) {};
     Funcion.peticionAjax('data/logout.php', '', exitoso, fallo);
 }
 
     static notificacionError(mensaje) {
-    $.notify({
-        // options
-        icon: 'fa fa-exclamation-circle',
-        title: '<strong>Error</strong><br>',
-        message: mensaje
-    }, {
-        // settings
-        element: 'body',
-        position: null,
-        type: "danger",
-        allow_dismiss: true,
-        newest_on_top: true,
-        showProgressbar: false,
-        placement: {
-            from: "top",
-            align: "right"
-        },
-        z_index: 2000,
-        delay: 8000,
-        timer: 1000,
-        animate: {
-            enter: 'animated fadeInDown',
-            exit: 'animated fadeOutUp'
-        }
-    });
-
-}
+        $.notify({
+            icon: 'fa fa-exclamation-circle',
+            title: '<strong>Error</strong><br>',
+            message: mensaje
+        }, {
+            element: 'body'     ,position: null,
+            type: "danger"      ,allow_dismiss: true,
+            newest_on_top: true ,showProgressbar: false,
+            placement: {
+                from: "top"     ,align: "right"
+            },
+            z_index: 2000       ,delay: 8000,
+            timer: 1000         ,animate: {
+                enter: 'animated fadeInDown',
+                exit: 'animated fadeOutUp'
+            }
+        });
+    }//notificacionError
 
     static notificacionWarning(mensaje) {
-    $.notify({
-        // options
-        icon: 'fa fa-exclamation-triangle',
-        title: '<strong>Advertencia</strong><br>',
-        message: mensaje
-    }, {
-        // settings
-        element: 'body',
-        position: null,
-        type: "warning",
-        allow_dismiss: true,
-        newest_on_top: true,
-        showProgressbar: false,
-        placement: {
-            from: "top",
-            align: "right"
-        },
-        z_index: 2000,
-        delay: 8000,
-        timer: 1000,
-        animate: {
-            enter: 'animated fadeInDown',
-            exit: 'animated fadeOutUp'
-        }
-    });
-
-}
+        $.notify({
+            icon: 'fa fa-exclamation-triangle',
+            title: '<strong>Advertencia</strong><br>',
+            message: mensaje
+        }, {
+            element: 'body'     ,position: null,
+            type: "warning"     ,allow_dismiss: true,
+            newest_on_top: true ,showProgressbar: false,
+            placement: {
+                from: "top"     ,align: "right"
+            },
+            z_index: 2000       ,delay: 8000,
+            timer: 1000         ,animate: {
+                enter: 'animated fadeInDown',
+                exit: 'animated fadeOutUp'
+            }
+        });
+    }
 
     static notificacionSuccess(mensaje) {
-    $.notify({
-        // options
-        icon: 'fa fa-thumbs-o-up',
-        title: '<strong>Correcto</strong><br>',
-        message: mensaje
-    }, {
-        // settings
-        element: 'body',
-        position: null,
-        type: "success",
-        allow_dismiss: true,
-        newest_on_top: true,
-        showProgressbar: false,
-        placement: {
-            from: "top",
-            align: "right"
-        },
-        z_index: 2000,
-        delay: 5000,
-        timer: 1000,
-        animate: {
-            enter: 'animated fadeInDown',
-            exit: 'animated fadeOutUp'
-        }
-    });
-
+        $.notify({
+            // options
+            icon: 'fa fa-thumbs-o-up',
+            title: '<strong>Correcto</strong><br>',
+            message: mensaje
+        }, {
+            // settings
+            element: 'body'     ,position: null,
+            type: "success"     ,allow_dismiss: true,
+            newest_on_top: true ,showProgressbar: false,
+            placement: {
+                from: "top"     ,align: "right"
+            },
+            z_index: 2000       ,delay: 5000,
+            timer: 1000         ,animate: {
+                enter: 'animated fadeInDown',
+                exit: 'animated fadeOutUp'
+            }
+        });
    }
     static cargarDropDownList(nombreJquery, idSql, descripcionSql, rutaRest, idGenerico, cargarTodos,mensaje,itemS,valorDefault) {
         var arreglo = {};
@@ -353,8 +312,6 @@ class Funcion{
             else if(result.estado=='warning'){
                 Funcion.notificacionWarning("Error al traer el listado");
             }
-
-
         };
         var fallo = function (datos) {
             console.log(datos);
@@ -364,72 +321,48 @@ class Funcion{
     }
 
     static cambiarContrasena(){
-        var $contenido = $("<form></form>", {
-            name: 'formSucursal'
-        });
-        var $form_group = $("<div></div>", {
-            class: 'form-inline'
-        });
-
-        var label = $("<label></label>", {
-            for: 'passwordActual',
-            text: 'Contraseña actual:\u00a0'
-        });
+        var $contenido = $("<form></form>", {name: 'formSucursal'});
+        var $form_group = $("<div></div>", {class: 'form-inline'});
+        var label = $("<label></label>", {for: 'passwordActual',text: 'Contraseña actual:\u00a0'});
         var nombre = $("<input>", {
-            id: 'passwordActual',
-            name: 'passwordActual',
-            value: '',
-            type: 'password',
-            class: 'form-control',
-            required: 'required'
+            id: 'passwordActual'    ,name: 'passwordActual',
+            value: ''               ,type: 'password',
+            class: 'form-control'   ,required: 'required'
         });
         var salto = $("<br><br>");
-
         $form_group.append(label);
         $form_group.append(nombre);
         $form_group.append(salto);
 
         label = $("<label></label>", {
-            for: 'passwordNueva1',
-            text: 'Contraseña nueva:\u00a0'
+            for: 'passwordNueva1'   ,text: 'Contraseña nueva:\u00a0'
         });
         nombre = $("<input>", {
-            id: 'passwordNueva1',
-            name: 'passwordNueva1',
-            value: '',
-            type: 'password',
-            class: 'form-control',
-            required: 'required'
+            id: 'passwordNueva1'    ,name: 'passwordNueva1',
+            value: ''               ,type: 'password',
+            class: 'form-control'   ,required: 'required'
         });
         salto = $("<br><br>");
-
         $form_group.append(label);
         $form_group.append(nombre);
         $form_group.append(salto);
 
         label = $("<label></label>", {
-            for: 'passwordNueva2',
-            text: 'Repetir Contraseña nueva:\u00a0'
+            for: 'passwordNueva2'   ,text: 'Repetir Contraseña nueva:\u00a0'
         });
         nombre = $("<input>", {
-            id: 'passwordNueva2',
-            name: 'passwordNueva2',
-            value: '',
-            type: 'password',
-            class: 'form-control',
-            required: 'required'
+            id: 'passwordNueva2'    ,name: 'passwordNueva2',
+            value: ''               ,type: 'password',
+            class: 'form-control'   ,required: 'required'
         });
         salto = $("<br><br>");
-
         $form_group.append(label);
         $form_group.append(nombre);
         $form_group.append(salto);
 
         var generarModalPopUp = $("<button></button>", {
-            id: "guardar",
-            name: "guardar",
-            type: 'button',
-            class: 'btn btn-outline btn-success',
+            id: "guardar"           ,name: "guardar",
+            type: 'button'          ,class: 'btn btn-outline btn-success',
             text: 'Guardar'
         });
         $form_group.append(generarModalPopUp);
@@ -462,9 +395,7 @@ class Funcion{
                         }
                     }
                 };
-                var fallo = function(datos) {
-
-                };
+                var fallo = function(datos) {};
                 arregloConInputs['passwordActual']=passwordActual;
                 arregloConInputs['passwordNueva']=passwordActual;
                 arregloConInputs['usuario']=$('#usuario').val();
@@ -489,19 +420,17 @@ class Funcion{
                 }
             }]
         });
-
         return false;
+    }//cambiar contraseña
+    static agregarTDaTR(tr, element, cssClass){
+        var td= cssClass ? $("<td></td>", {class: cssClass}) : $("<td></td>");
+        $(td).append(element);$(tr).append(td);
     }
-        static agregarTDaTR(tr, element, cssClass)
-        {
-            var td= cssClass ? $("<td></td>", {class: cssClass}) : $("<td></td>");
-            $(td).append(element);$(tr).append(td);
-        }
-        static agregarTHaTR(tr, element, cssClass)
-        {	var th = cssClass ? $("<th></th>", {class: cssClass}) : $("<th></th>");
-            $(th).append(element);
-            $(tr).append(th);
-        }
+    static agregarTHaTR(tr, element, cssClass){
+        var th = cssClass ? $("<th></th>", {class: cssClass}) : $("<th></th>");
+        $(th).append(element);
+        $(tr).append(th);
+    }
 }//Class funcion
 $.fn.enterKey = function (fnc) {
     return this.each(function () {
