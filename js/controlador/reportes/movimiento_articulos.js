@@ -52,15 +52,18 @@ $("#venta").submit(function(){
     });
     datosTabla1['input2']=$('#input2').val();
     console.log(datosTabla1);
-    var columnas =
-        [{ data :  "clave"}     ,{ data : "descripcion" },
-         { data :  "cantidad"}  ,{ data : "fecha" },
-         { data :  "unidad"}    ,{ data : "total" }];
-    var success=function(resultado){};
-    Funcion.peticionAjaxDT('articulo/seleccionarIndividualMovimiento2',
-        ('#total')  ,datosTabla1,
-        columnas    ,null,
-        success     ,undefined);
+    //var success=function(resultado){};
+    Funcion.peticionAjaxDT({
+        RestUrl: 'articulo/reporte/seleccionar',
+        DT: ('#total'),
+        datos: datosTabla1,
+        arregloColumnas: [
+            {data: "clave"}, {data: "descripcion"},
+            {data: "cantidad"}, {data: "fecha"},
+            {data: "unidad"}, {data: "total"}
+        ],
+        loading: null
+    });
     $('#total').show();
     return false;
 

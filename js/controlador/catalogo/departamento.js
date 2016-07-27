@@ -13,9 +13,16 @@ $("#departamento").submit(function() {
     form1.forEach(function(input) {
         datosTabla1[input.name] = input.value;
     });
-    var columnas = [{data: "dep_idLocal"}, {data: "nombre"}, {data: "porcentaje"}];
-    Funcion.peticionAjaxDT('departamento/seleccionar',
-        ('#resultadosSucursal'), datosTabla1, columnas, 'Buscando Departamentos');
+    Funcion.peticionAjaxDT({
+        RestUrl:'departamento/seleccionar',
+        DT:('#resultadosSucursal'),
+        datos:datosTabla1,
+        arregloColumnas: [
+            {data: "dep_idLocal"},
+            {data: "nombre"},
+            {data: "porcentaje"}
+        ],
+        loading:'Buscando Departamentos'});
     return false;
 });
 $('#idSucursal').on('change',function(){

@@ -60,7 +60,11 @@ function InicializarDateTimePicker() {
         timepicker: false
     });
 }
+function cantidadDeRegistros(){
+    var rowCount = $('#resultados tr').length;
+    $('#titulo').text('Generar Inventario - Productos : '+(rowCount-1));
 
+}
 function configuracionGeneral(titulo, idTransaccion) {
     var $contenido = $("<form></form>", { name: 'formSucursal'});
     var $form_group = $("<div></div>", { class: 'form-inline'});
@@ -72,7 +76,7 @@ function configuracionGeneral(titulo, idTransaccion) {
         $form_group.append(label);
         $form_group.append(nombre);
     }
-    else if (idTransaccion == CONFIGURACION_INDIVIDUAL) {
+    if (idTransaccion == CONFIGURACION_INDIVIDUAL) {
         $form_group.append(espacio2);
         label = $("<label></label>", { for: 'input', text: 'Clave o Descripción del Artículo:\u00a0'});
         nombre = $("<input>", { id: 'input', name: 'input', value: '', type: 'text', class: 'form-control', required: 'required'});
@@ -125,6 +129,10 @@ function configuracionGeneral(titulo, idTransaccion) {
     th1 = $("<th>Edici&oacute;n</th>");
     tabla.append(th1);
     $contenido.append($form_group);
+    $contenido.on("submit", function () {
+        $(generarModalPopUp).click();
+        return false;
+    });
     $(generarModalPopUp).click(function() {
         var g2 = $('#g2');
         g2.show();
@@ -138,6 +146,7 @@ function configuracionGeneral(titulo, idTransaccion) {
         BootstrapDialog.closeAll();
         tabla2 = tabla;
         tabla.clone().find('tr').appendTo($("#resultados").find("tbody"));
+        cantidadDeRegistros();
     });
     InicializarDateTimePicker();
     BootstrapDialog.show({
@@ -167,6 +176,7 @@ function configuracionGeneral(titulo, idTransaccion) {
                 dialog.close();
                 tabla2 = tabla;
                 tabla.clone().find('tr').appendTo($("#resultados").find("tbody"));
+                cantidadDeRegistros();
             }
         }]
     });
@@ -194,6 +204,7 @@ function configuracionListaFija() {
     tabla2 = tabla;
     console.log(tabla.clone());
     tabla.clone().find('tr').appendTo($("#resultados").find("tbody"));
+    //cantidadDeRegistros();
     return false;
 }
 
@@ -316,7 +327,7 @@ $("#send").submit(function() {
     });
     datosTabla1['art_id'] = subArreglo;
     datosTabla1['idSucursal'] = $('#idSucursal').val();
-    datosTabla1['idUsuario'] = document.getElementById('idUsuario').value;
+    datosTabla1['idUsuario'] = $('#idUsuario').val();
     var exitoso = function(datos) {
         Funcion.notificacionSuccess(datos.success);
         return false;
@@ -351,4 +362,5 @@ $("#inventario").submit(function() {
 });
 function remover(row){
     $('#'+row).remove();
+    cantidadDeRegistros();
 }

@@ -4,7 +4,7 @@ $(function() {
         'nombre',
         API_SYS_PATH + 'sucursal/seleccionar',
         true,
-        false,
+        true,
         'Buscando Sucursal...',
         'Seleccione una Sucursal');
 
@@ -50,16 +50,22 @@ $("#venta").submit(function(){
         datosTabla1[input.name] = input.value;
     });
 
-    var columnas = [{ data : "mpa_id" },
-        { data : "metodo" },
-        { data : "Total" }];
-    var success=function(){
-        banderaGenerado=true;
-        llamarclic();
-
-    };
-    var arregloBoton={Boton:true};
-    Funcion.peticionAjaxDT('detalles_venta/seleccionar',('#total'),datosTabla1,columnas,null,success,false,arregloBoton);
+    Funcion.peticionAjaxDT({
+        RestUrl:'detalles_venta/seleccionar',
+        DT:('#total'),
+        datos:datosTabla1,
+        arregloColumnas:[
+            { data : "mpa_id" },
+            { data : "metodo" },
+            { data : "Total" }],
+        loading:null,
+        success:function(){
+            banderaGenerado=true;
+            llamarclic()
+        },
+        ocultarBusqueda:false,
+        funcionDeColor:{Boton:true}
+    });
     total.show();
     return false;
 
@@ -101,13 +107,14 @@ function llamarclic() {
             { data : "total" }
         ];
 
-        Funcion.peticionAjaxDT('detalles_venta/seleccionarDetalles',
-            ('#tablaDetalle'),
-            datosTabla1,
-            columnas,
-            null,
-            null
-        );
+        Funcion.peticionAjaxDT({
+            RestUrl: 'detalles_venta/seleccionarDetalles',
+            DT:('#tablaDetalle'),
+            datos:datosTabla1,
+            arregloColumnas:columnas,
+            loading:null//,
+            /**null**/
+            });
         $('#divDetalle').show();
         return false;
     });

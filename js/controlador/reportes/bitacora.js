@@ -30,11 +30,18 @@ $("#fecha").submit(function(){
     form1.forEach(function(input) {
         datosTabla1[input.name] = input.value;
     });
-    var columnas = [{ data : "idBitacora" },
-        { data : "idError" },
-        { data : "descripcion" },
-        { data : "usuario" },
-        { data : "fecha" }];
-    Funcion.peticionAjaxDT('bitacora/seleccionar',('#test'),datosTabla1,columnas,null);
+
+    Funcion.peticionAjaxDT({
+        RestUrl:'bitacora/seleccionar',
+        DT:('#test'),
+        datos:datosTabla1,
+        arregloColumnas:[
+            { data : "idBitacora" },
+            { data : "idError" },
+            { data : "descripcion" },
+            { data : "usuario" },
+            { data : "fecha" }
+        ],
+        loading:null});
     return false;
 });

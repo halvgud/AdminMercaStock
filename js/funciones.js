@@ -1,5 +1,5 @@
 class Funcion{
-     static mostrarDialogoDeEspera($dialogo){
+    static mostrarDialogoDeEspera($dialogo){
         var $contenido = $("<div></div>");
         var $form_group = $("<div></div>",{class:'sk-cube-grid',id:'cover'});
         var br="";
@@ -19,63 +19,124 @@ class Funcion{
             'type': BootstrapDialog.TYPE_WARNING,
             'size': BootstrapDialog.SIZE_SMALL
         })
-     }
-   static peticionAjaxDT(URL,DT,datos,arregloColumnas,loading,success,ocultarBusqueda,funcionDeColor) {
-        if ((loading) != undefined) {
-            Funcion.mostrarDialogoDeEspera(loading);
+    }
+    static setearLenguaje(){
+        return {
+            "sProcessing":     "Procesando...",
+            "sLengthMenu":     "Mostrar _MENU_ registros",
+            "sZeroRecords":    "No se encontraron resultados",
+            "sEmptyTable":     "Ningún dato disponible en esta tabla",
+            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Buscar:",
+            "sUrl":            "",
+            "sInfoThousands":  ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Último",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            },buttons: {
+                copyTitle: 'Copiado al Portapapeles',
+                copySuccess: {
+                    _: 'Se han copiado %d Registros'
+                },
+
+                colvis: 'Cambiar Columnas'
+            }
+        };
+    }
+    /**
+     * @param opciones                                      objeto con multiples propiedades.
+     * @param opciones.RestUrl                              ruta corta //obligatorio
+     * @param opciones.DT                                   Identificador del DataTable //obligatorio
+     * @param opciones.datos                                parametros a enviar //obligatorio
+     * @param opciones.arregloColumnas                      arreglo que contiene las columnas //obligatorio
+     * @param opciones.loading                              valor booleano para mostrar o no el mensaje de carga //opcional
+     * @param opciones.success                              callback al mostrar la tabla //opcional
+     * @param opciones.ocultarBusqueda                      valor booleano para ocultar la opcion de busqueda //opcional
+     * @param opciones.funcionDeColor                       arreglo para la columna de colores. //opcional
+     * @param opciones.funcionDeColor['Posicion']           lugar en el que se va ordenar y se va pintar
+     * @param opciones.funcionDeColor['PosicionMultiple']   arreglo que contiene las columnas que se van a ocultar
+     * @param opciones.rowCallBack                          callback para ajustar valor de columnas
+     */
+    static peticionAjaxDT(opciones) {
+        opciones =  opciones || {}; //forzar que sea objeto
+        if ((opciones.loading) != undefined) {
+            Funcion.mostrarDialogoDeEspera(opciones.loading);
         }
         var banderaMostrarBusqueda=false;
-        if(ocultarBusqueda==undefined){
+        if(opciones.ocultarBusqueda==undefined){
             banderaMostrarBusqueda=true;
         }
-        return $(DT).DataTable({
-            dom: funcionDeColor==undefined?'Bfrtip':'<"toolbar">Bfrtip',
+        var order=[[ 0, "asc" ]];
+        var dom='Bfrtip';
+        var targets='0';
+        var visible='';
+        var defaultcontent='';
+        if(opciones.funcionDeColor!=undefined){
+            dom='<"toolbar">Bfrtip';
+            if(opciones.funcionDeColor['Posicion']!=undefined){
+                order= [[ opciones.funcionDeColor['Posicion'], "desc" ]]
+            }
+            if(opciones.funcionDeColor['PosicionMultiple']!=undefined){
+                targets=opciones.funcionDeColor['PosicionMultiple'];
+            }
+            if(opciones.funcionDeColor['Visible']!=undefined){
+                visible = opciones.funcionDeColor['Visible'];
+            }
+            if(opciones.funcionDeColor['BotonDetalles']!=undefined){
+                defaultcontent="<button>Click!</button>";
+            }
+        }
+        return $(opciones.DT).DataTable({
+            dom: dom,
             "bDestroy": true,
-            "order": funcionDeColor==undefined?[[ 0, "asc" ]]:(funcionDeColor['Posicion']==undefined?[[ 0, "asc" ]]:[[ funcionDeColor['Posicion'], "desc" ]]),
-            "language": {
-                "sProcessing":     "Procesando...",
-                "sLengthMenu":     "Mostrar _MENU_ registros",
-                "sZeroRecords":    "No se encontraron resultados",
-                "sEmptyTable":     "Ningún dato disponible en esta tabla",
-                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix":    "",
-                "sSearch":         "Buscar:",
-                "sUrl":            "",
-                "sInfoThousands":  ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst":    "Primero",
-                    "sLast":     "Último",
-                    "sNext":     "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                },buttons: {
-                    copyTitle: 'Copiado al Portapapeles',
-                    copySuccess: {
-                        _: 'Se han copiado %d Registros'
-                    }
-                }
-            },
+            "order": order,
+            "language": Funcion.setearLenguaje(),
             "bFilter": banderaMostrarBusqueda,
             "bPaginate":banderaMostrarBusqueda,
             "bInfo":banderaMostrarBusqueda,
-            'createdRow': function( nRow, aData/*, iDataIndex */) {
-                if(funcionDeColor==undefined){
+            'createdRow': function( nRow, aData) {
+                if(opciones.funcionDeColor==undefined){
                     return nRow;
-                }else if(funcionDeColor['Posicion']!=undefined){
+                }else if(opciones.funcionDeColor['Posicion']!=undefined){
                     if(aData.bandera!=undefined){
-                        $('td', nRow).eq(funcionDeColor['Posicion']).css('background-color',Funcion.obtenerColorPorPorcentaje(aData.bandera));
+                        $('td', nRow).eq(opciones.funcionDeColor['Posicion'])
+                            .css('background-color',
+                                Funcion.obtenerColorPorPorcentaje(aData.bandera));
                     }
-                    return nRow;
                 }
+                return nRow;
             },
+            columnDefs: [ {
+                targets: targets,
+                visible: visible
+            }/*,{
+                targets:-1,
+                "data": null,
+                defaultContent: defaultcontent
+            }*/
+            ],
+            "rowCallback":  opciones.rowCallBack,
             ajax: {
-                'url': API_SYS_PATH + URL,
+                'url': API_SYS_PATH + opciones.RestUrl,
+                'type': "POST",
+                dataType: 'json',
+                'beforeSend': function (request) {
+                    request.setRequestHeader("Authorization", API_TOKEN);
+                },
+                data: function () {
+                    console.log(JSON.stringify(opciones.datos));
+                    return JSON.stringify(opciones.datos);
+                },
                 /**
                  * @param {{estado:string}} json
                  * @param {{success:string}} json
@@ -84,7 +145,7 @@ class Funcion{
                 'dataSrc': function (json) {
                     console.log(json);
                     console.log(json.data);
-                    if ((loading) != undefined) {
+                    if ((opciones.loading) != undefined) {
                         BootstrapDialog.closeAll();
                     }
                     if (json.estado == "warning") {
@@ -92,55 +153,61 @@ class Funcion{
                         return json.data;
                     }
                     else {
-                        if(success) {
-                            success(json.success);
+                        if(opciones.success) {
+                            opciones.success(json.success);
                         }else{
                             Funcion.notificacionSuccess(json.success);
                         }
                         console.log(json.data);
                         return json.data;
                     }
-                },
-                'beforeSend': function (request) {
-                    request.setRequestHeader("Authorization", API_TOKEN);
-                },
-                'type': "POST",
-                data: function () {
-                    console.log(JSON.stringify(datos));
-                    return JSON.stringify(datos);
-                },
-                dataType: 'json'
+                }
                 /**
                  * @param {{responseText:string}} jqXHR
                  * @param {{responseJSON:string}} jqXHR
                  */
                 , error: (function (jqXHR) {
-                    if ((loading) != undefined) {
+                    if ((opciones.loading) != undefined) {
                         BootstrapDialog.closeAll();
                     }
                     console.log(jqXHR.responseText);
                     var resulta = jqXHR.responseJSON;
                     if (resulta != undefined) {
                         console.log(resulta);
-                        Funcion.notificacionError(resulta['error'] ? resulta['error'] : resulta['mensaje']);
+                        if (resulta['error']) {
+                            Funcion.notificacionError(resulta['error']);
+                        } else {
+                            Funcion.notificacionError(resulta['mensaje']);
+                        }
                     } else {
                         Funcion.notificacionError('Error de conexión al servicio API');
                     }
                 })
             },
-            columns: arregloColumnas,
-            buttons: [
-                {
-                    extend: 'collection',
-                    text: 'Exportar tabla',
-                    buttons: ['pdfHtml5', 'csvHtml5', 'copyHtml5', 'excelHtml5']
-                }
-            ]
+            columns: opciones.arregloColumnas,
+            buttons: Funcion.setearBotones()
         });
     }//peticionAjaxDT
+    static setearBotones(){
+        return [
+            {
+                extend: 'collection',
+                text: 'Exportar tabla',
+                buttons: [
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions:{
+                            columns:':visible'
+                        }
+                    }
+                    , 'csvHtml5', 'copyHtml5', 'excelHtml5'
+                ]
+            },'colvis'
+        ]
+    }
 
     static obtenerColorPorPorcentaje(pct) {
-       var colores = [
+        var colores = [
             { pct: 0.0, color: { r: 133, g: 34, b: 38 } },
             { pct: 0.5, color: { r: 250, g: 133, b: 38 } },/*204,219,38*/
             { pct: 1.0, color: { r: 34, g: 133, b: 38 } } ];
@@ -178,45 +245,45 @@ class Funcion{
                     request.setRequestHeader("Authorization", API_TOKEN);
                 }
             })
-        .done(function (resultado) {
-            if (!(resultado != undefined && resultado['estado'] != undefined && resultado['estado'] == "nomessage")) {
-                if (successCallBack) {
-                    successCallBack(resultado);
+            .done(function (resultado) {
+                if (!(resultado != undefined && resultado['estado'] != undefined && resultado['estado'] == "nomessage")) {
+                    if (successCallBack) {
+                        successCallBack(resultado);
+                    }
+                    if ((loading) != undefined) {
+                        BootstrapDialog.closeAll();
+                    }
                 }
+            })
+            .fail(function (jqXHR) {
+                var resulta = jqXHR.responseJSON;
                 if ((loading) != undefined) {
                     BootstrapDialog.closeAll();
                 }
-            }
-        })
-        .fail(function (jqXHR) {
-            var resulta = jqXHR.responseJSON;
-            if ((loading) != undefined) {
-                BootstrapDialog.closeAll();
-            }
-            if (resulta != undefined) {
-                console.log(resulta);
-                Funcion.notificacionError(resulta['error'] ?
-                    resulta['error']    : resulta['mensaje']?
-                    resulta['mensaje']  : resulta['message']);
-                if(resulta['estado']!=undefined&&resulta['estado']=='-1'){
-                    Funcion.logout();
+                if (resulta != undefined) {
+                    console.log(resulta);
+                    Funcion.notificacionError(resulta['error'] ?
+                        resulta['error']    : resulta['mensaje']?
+                        resulta['mensaje']  : resulta['message']);
+                    if(resulta['estado']!=undefined&&resulta['estado']=='-1'){
+                        Funcion.logout();
+                    }
+                } else {
+                    console.log(jqXHR.responseText);
+                    Funcion.notificacionError('Error de conexión al servicio API');
                 }
-            } else {
-                console.log(jqXHR.responseText);
-                Funcion.notificacionError('Error de conexión al servicio API');
-            }
-            if (errorCallBack) {
-                errorCallBack(resulta);
-            }
-        });
+                if (errorCallBack) {
+                    errorCallBack(resulta);
+                }
+            });
     }//peticionAjax
     static logout() {
-    var exitoso = function () {
-        window.location.reload();
-    };
-    var fallo = function (datos) {};
-    Funcion.peticionAjax('data/logout.php', '', exitoso, fallo);
-}
+        var exitoso = function () {
+            window.location.reload();
+        };
+        var fallo = function (datos) {};
+        Funcion.peticionAjax('data/logout.php', '', exitoso, fallo);
+    }
 
     static notificacionError(mensaje) {
         $.notify({
@@ -278,12 +345,13 @@ class Funcion{
                 exit: 'animated fadeOutUp'
             }
         });
-   }
+    }
     static cargarDropDownList(nombreJquery, idSql, descripcionSql, rutaRest, idGenerico, cargarTodos,mensaje,itemS,valorDefault) {
         var arreglo = {};
-        arreglo['idGenerico'] = idGenerico;
-        //arreglo['item']=itemS;
-        arreglo['idTransaccion'] = rutaRest;
+        if(idGenerico!=undefined){
+            arreglo['idGenerico'] = idGenerico;
+        }
+        //arreglo['idTransaccion'] = rutaRest;
         /**
          * @param {{estado:string}} result
          * @param {{success:string}} result
@@ -446,7 +514,7 @@ $.fn.enterKey = function (fnc) {
 
 
 /*
-function cargarDropDownListDescripcion(nameattr, tipo) {
-	cargarDropDownList(nameattr, 'id_descripcion', 'descripcion', 1, tipo);
-}*/
+ function cargarDropDownListDescripcion(nameattr, tipo) {
+ cargarDropDownList(nameattr, 'id_descripcion', 'descripcion', 1, tipo);
+ }*/
 

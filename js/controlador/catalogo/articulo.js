@@ -27,8 +27,11 @@ $("#articulo").submit(function() {
     }, {
         data: "existencia"
     }];
-    console.log(datosTabla1);
-    Funcion.peticionAjaxDT('articulo/seleccionar', ('#resultadosArticulo'), datosTabla1, columnas, 'Buscando artículos...');
+    dt=Funcion.peticionAjaxDT({
+        RestUrl:'articulo/seleccionar',
+        DT: ('#resultadosArticulo'),
+        datos:datosTabla1,
+        arregloColumnas:columnas, loading:'Buscando artículos...'});
     return false;
 });
 

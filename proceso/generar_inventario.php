@@ -9,14 +9,14 @@ if (!isset($_SESSION['idUsuario'])){
     <div id="page-wrapper">
         <?php $_SESSION['bandera'] = true; ?>
         <br/>
-        <h1>Generar Inventario</h1>
+        <h1 id="titulo">Generar Inventario</h1>
         <hr>
         <form class="form-inline" id="inventario" method="post">
             <label for="idSucursal">Filtrar por Sucursal: </label>
             <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;" onchange="" required>
             </select>&nbsp;&nbsp;&nbsp;
             <label for="dep_id">Filtrar por Departamento: </label>
-            <select id="dep_id" name="dep_id" class="form-control" style="width: 25%;" onchange="buscarCategoria();"  >
+            <select id="dep_id" name="dep_id" class="form-control" style="width: 25%;"   >
             </select>&nbsp;&nbsp;&nbsp;<br><br>
             <label for="cat_id">Filtrar por Categoria: </label>
             <select id="cat_id" name="cat_id" class="form-control" style="width: 25%;" >
@@ -38,7 +38,6 @@ if (!isset($_SESSION['idUsuario'])){
                 Generar</button>
         </form>
         <script type="text/javascript" src="js/controlador/proceso/generar_inventario.js"></script>
-        <script type="text/javascript" src="http://lightswitch05.github.io/table-to-json/javascripts/jquery.tabletojson.min.js"></script>
     </div>
     <?php
 } ?>

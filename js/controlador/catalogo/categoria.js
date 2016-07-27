@@ -26,10 +26,22 @@ $("#categoria").submit(function() {
     form1.forEach(function(input) {
         datosTabla1[input.name] = input.value;
     });
-    var columnas = [{data: "cat_id"}, {data: "cat_id_Local"}, {data: "idSucursal"}, {data: "nombre"}, {data: "dep_id"}];
+
     var arreglo = {};
     arreglo['idGenerico'] = datosTabla1;
     arreglo['dt'] = true;
-    Funcion.peticionAjaxDT('categoria/seleccionar', ('#resultadosCategoria'), arreglo, columnas, 'Buscando Categorias..');
+    Funcion.peticionAjaxDT({
+        RestUrl:'categoria/seleccionar',
+        DT:('#resultadosCategoria'),
+        datos:arreglo,
+        arregloColumnas:[
+            {data: "cat_id"},
+            {data: "cat_id_Local"},
+            {data: "idSucursal"},
+            {data: "nombre"},
+            {data: "dep_id"}
+        ],
+        loading: 'Buscando Categorias..'
+    });
     return false;
 });
