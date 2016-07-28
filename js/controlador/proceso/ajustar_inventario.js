@@ -1,3 +1,8 @@
+var banderaGenerado=false;
+var banderaGenerado2=false;
+var dt;
+var table;
+
 $(function() {
     var idSucursalDropDownList=$('#idSucursal');
     var dateNow = new Date();
@@ -19,9 +24,6 @@ $(function() {
     );
     idSucursalDropDownList.change(function() {
         $("#tabla").find("tbody").empty();
-       /* var arregloConInputs={};
-        arregloConInputs['idSucursal'] = idSucursalDropDownList.val();
-        Funcion.peticionAjax(API_SYS_PATH + 'ajuste/inventario/seleccionar', arregloConInputs, exitoso, fallo);*/
     });
     $.datetimepicker.setLocale('es');
 
@@ -65,24 +67,22 @@ $("#inventario").submit(function(){
     form1.forEach(function(input) {
         datosTabla1[input.name] = input.value;
     });
-    var columnas =[
-        { data: "idSucursal" },/*id de la sucursal*/
-        { data: "descripcionSucursal" },/*nombre de la sucursal*/
-        { data: "fechaSolicitud" },/*fecha de la solicitud, no confundir con la fecha de respuesta*/
-        { data: "cantidadTotalInventario" },/*cantidad en variedad de productos*/
-        { data: "cantidadInventario"},/*cantidad en variedad de productos inventariados*/
-        /*{ data: "cantidadTotal" }, *//*suma total en cantidad de productos por inventariar*/
-        /*{ data: "cantidadInventariada"},*//*suma total en cantidad de productos inventariados*/
-        /*{ data: "diferencia" },*//*diferencia entre lo inventariado y lo real*/
-        { data: "costo"} /*costo en base al precio de compra*/
-    ];
-    var arregloBoton={Boton:true};
-    console.log(datosTabla1);
+
     Funcion.peticionAjaxDT({
         RestUrl:'ajuste/seleccionar/cabecero',
         DT:('#tabla'),
         datos:datosTabla1,
-        arregloColumnas:columnas,
+        arregloColumnas:[
+            { data: "idSucursal" },/*id de la sucursal*/
+            { data: "descripcionSucursal" },/*nombre de la sucursal*/
+            { data: "fechaSolicitud" },/*fecha de la solicitud, no confundir con la fecha de respuesta*/
+            { data: "cantidadTotalInventario" },/*cantidad en variedad de productos*/
+            { data: "cantidadInventario"},/*cantidad en variedad de productos inventariados*/
+            /*{ data: "cantidadTotal" }, *//*suma total en cantidad de productos por inventariar*/
+            /*{ data: "cantidadInventariada"},*//*suma total en cantidad de productos inventariados*/
+            /*{ data: "diferencia" },*//*diferencia entre lo inventariado y lo real*/
+            { data: "costo"} /*costo en base al precio de compra*/
+        ],
         loading:null,
         success:function(){
             banderaGenerado=true;
@@ -90,13 +90,25 @@ $("#inventario").submit(function(){
 
         },
         ocultarBusqueda:undefined,
-        funcionDeColor:arregloBoton});
+        funcionDeColor:{Boton:true}});
     $('#divDetalle').show();
     return false;
 
 });
-var banderaGenerado=false;
-var dt;
+
+
+
+
+$('#tabla tbody').on('click','tr',function(){
+    if ($(this).hasClass('selected2')) {
+        $(this).removeClass('selected2');
+    }
+    else {
+        table.$('tr.selected2').removeClass('selected2');
+        $(this).addClass('selected2');
+    }
+});
+
 
 $('#tabla tbody').on('dblclick', 'tr', function(){
     if ($(this).hasClass('selected')) {
@@ -105,11 +117,17 @@ $('#tabla tbody').on('dblclick', 'tr', function(){
     else {
         table.$('tr.selected').removeClass('selected');
         $(this).addClass('selected');
+        if(banderaGenerado2){
+            $('#detalle2').unbind('click');
+            banderaGenerado2=false;
+        }
         dt=Funcion.peticionAjaxDT({
             RestUrl:'ajuste/seleccionar/detalle',
             DT:('#tablaDetalle'),
-            datos : {idSucursal:$('#idSucursal').val(),
-                fecha:table.row('.selected').data().fechaSolicitud},
+            datos : {
+                idSucursal:$('#idSucursal').val(),
+                fecha     :table.row('.selected').data().fechaSolicitud
+            },
             arregloColumnas:[
                 { data : "fechaSolicitud" }, /*oculto*/
                 { data : "idInventario"}, /*oculto*/
@@ -120,28 +138,68 @@ $('#tabla tbody').on('dblclick', 'tr', function(){
                 { data : "diferencia"},
                 { data : "costoActual" },
                 { data : "costoAjuste" },
-                {
-                    "data": "edicion"/*,
-                 "defaultContent": "<button class='btn btn-info'>Ajuste</button>"*/
-                }
-            ],
+                { data : "edicion" },
+                { data : "aplicar"}/*,"defaultContent": "<button class='btn btn-info'>Ajuste</button>"*/
+               /* ,{
+                    data:   "aplicar",
+                    render: function ( data, type, row ) {
+                        if ( type === 'display' ) {
+                                return '<input type="checkbox" class="editor-active"/>';
+                        }
+                        return data;
+                    },
+                    className: "dt-body-center"
+                }*/
+            ], 'select': {
+                'style': 'multi'
+            },
             loading:null,
             funcionDeColor:{
                 Boton:false,
-                Posicion:1,
-                PosicionMultiple:[0,1,3,4],
-                Visible:false,
-                BotonDetalles:true
+                Posicion:1
             },
+            columnDefs:[{
+                'targets': -1,
+                'checkboxes': {
+                    'selectRow': true
+                }
+            },{
+                'targets':[1,3,4],
+                visible:false
+              }
+            ],
             rowCallBack:function( row, data ) {
                 if (data.edicion === "EDICION") {
-                    $(row).find('td:eq(-1)').html("<button class='btn btn-info'>Ajuste</button>");
+                    $(row).find('td:eq(-2)').html("<button class='btn btn-info'>Ajuste</button>");
                 }else
                 {
-                    $(row).find('td:eq(-1)').html("<b>data.edicion</b>");
+                    $(row).find('td:eq(-2)').html("<b>"+data.edicion+"</b>");
                 }
+                if(data.aplicarCheckbox==='1'){
+                    $(row).find('input:eq(-1)').prop( 'checked',true );
+                    $(row).addClass('selected');
+                }else{
+                    $(row).find('input:eq(-1)').prop( 'checked', false );
+                    $(row).find('input:eq(-1)').prop( 'disabled','disabled');
+                }
+
+                /*if(data.aplicar ==='1'){
+                    $(row).find('td:eq(-1)').html("<input type='checkbox' class='form-control' value='1' checked/><label>Ajuste</label>");
+                }else{
+                    $(row).find('td:eq(-1)').html("<input type='checkbox' class='form-control' value='0' disabled/><label>Ajuste</label>");
+                }*/
+            },
+            success:function(){
+                ajustar();
+                banderaGenerado2=true;
+/*
+                $('#detalle2').click( function(e){
+
+
+                });*/
             }
         });
+
         $('#divDetalle').show();
 
         return false;
@@ -179,13 +237,68 @@ $('#tablaDetalle tbody').on( 'click', 'button', function () {
     });
 } );
 
-var table;
+function ajusteInventario(element,e){
+    var form = element;
+    var rows_selected = dt.column(-1).checkboxes.selected();
+    // Iterate over all selected checkboxes
+    $.each(rows_selected, function(index, rowId){
+        // Create a hidden element
+        console.log('1');
+        $(form).append(
+            $('<input>')
+                .attr('type', 'hidden')
+                .attr('name', 'id[]')
+                .attr('data-token','token')
+                .val(rowId)
+        );
+    });
+
+    // Output form data to a console
+    var form1 = $(form).find('input[type="hidden"]').serializeArray();
+    console.log(form1);
+    //  console.log("Form submission", $(form).serialize());
+    // $('#detalle2').unbind('click');
+    // Prevent actual form submission
+    $("input[data-token='token']").remove();
+    e.preventDefault();
+}
+
 function llamarclic() {
     table = $('#tabla').DataTable();
     $("div.dt-buttons.btn-group").append("<button id='detalle' name='detalle' class='btn btn-success'>Obtener Detalles</button>");
 
+    $('#detalle').click(function () {
+        $('#tabla tbody tr.selected2').dblclick();
+    });
+
+}
+function ajustar() {
+    table = $('#tablaDetalle').DataTable();
+    var div  = $('#tablaDetalle_wrapper');
+
+    div.find("div.dt-buttons.btn-group").append("<button id='detalle2' name='detalle2' class='btn btn-warning' onclick='ajusteInventario(this,event)'>Ajustar registros</button>");
 
     $('#detalle').click(function () {
-        $('#tabla tbody').dblclick();
+        $('#tabla tbody tr.selected2').dblclick();
     });
+   /* $('#seleccionarTodos').on('click', function(){
+        // Check/uncheck all checkboxes in the table
+        var rows = table.rows({ 'search': 'applied' }).nodes();
+        console.log(rows);
+        $('input[type="checkbox"]', rows).prop('checked', this.checked);
+    });*/
+    /*$('#tablaDetalle tbody').on('change', 'input[type="checkbox"]', function(){
+        // If checkbox is not checked
+        if(!this.checked){
+            var el = $('#seleccionarTodos').get(0);
+            // If "Select all" control is checked and has 'indeterminate' property
+            if(el && el.checked && ('indeterminate' in el)){
+                // Set visual state of "Select all" control
+                // as 'indeterminate'
+                el.indeterminate = true;
+            }
+        }
+    });*/
+
+
 }

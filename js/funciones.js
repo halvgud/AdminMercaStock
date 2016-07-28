@@ -66,6 +66,8 @@ class Funcion{
      * @param opciones.funcionDeColor['Posicion']           lugar en el que se va ordenar y se va pintar
      * @param opciones.funcionDeColor['PosicionMultiple']   arreglo que contiene las columnas que se van a ocultar
      * @param opciones.rowCallBack                          callback para ajustar valor de columnas
+     * @param opciones.select
+     * @param opciones.habilitarCheckBox
      */
     static peticionAjaxDT(opciones) {
         opciones =  opciones || {}; //forzar que sea objeto
@@ -80,7 +82,7 @@ class Funcion{
         var dom='Bfrtip';
         var targets='0';
         var visible='';
-        var defaultcontent='';
+
         if(opciones.funcionDeColor!=undefined){
             dom='<"toolbar">Bfrtip';
             if(opciones.funcionDeColor['Posicion']!=undefined){
@@ -92,10 +94,10 @@ class Funcion{
             if(opciones.funcionDeColor['Visible']!=undefined){
                 visible = opciones.funcionDeColor['Visible'];
             }
-            if(opciones.funcionDeColor['BotonDetalles']!=undefined){
-                defaultcontent="<button>Click!</button>";
-            }
         }
+        var defaultcontent=opciones.DefaultDefs;
+
+        console.log(defaultcontent);
         return $(opciones.DT).DataTable({
             dom: dom,
             "bDestroy": true,
@@ -116,16 +118,9 @@ class Funcion{
                 }
                 return nRow;
             },
-            columnDefs: [ {
-                targets: targets,
-                visible: visible
-            }/*,{
-                targets:-1,
-                "data": null,
-                defaultContent: defaultcontent
-            }*/
-            ],
+            columnDefs: opciones.columnDefs,
             "rowCallback":  opciones.rowCallBack,
+            "select":opciones.select,
             ajax: {
                 'url': API_SYS_PATH + opciones.RestUrl,
                 'type': "POST",

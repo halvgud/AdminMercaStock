@@ -61,7 +61,7 @@ function InicializarDateTimePicker() {
     });
 }
 function cantidadDeRegistros(){
-    var rowCount = $('#resultados tr').length;
+    var rowCount = $('#resultados').find('tr').length;
     $('#titulo').text('Generar Inventario - Productos : '+(rowCount-1));
 
 }

@@ -22,7 +22,8 @@ if (!isset($_SESSION['idUsuario'])){
             <input type="hidden" id="idUsuario" value="<?php echo $_SESSION['idUsuario']; ?>">
             <button type="submit" class="btn  btn-success" id="search"><i class="fa fa-search"></i> Buscar</button>
         </form>
-        <br /><br />
+        <br><br>
+        <div id="divCabecero">
             <table id="tabla" width="90%" class="table table-striped" >
                 <thead>
                 <th>id</th>
@@ -37,7 +38,9 @@ if (!isset($_SESSION['idUsuario'])){
                 </thead>
                 <tbody></tbody>
             </table>
+        </div>
             <div id="divDetalle">
+                <form id="formDetalle" method="post">
             <table id="tablaDetalle"  class="table table-striped" align="center">
                 <thead>
                 <tr align="center">
@@ -51,10 +54,13 @@ if (!isset($_SESSION['idUsuario'])){
                     <th align="center" >Costo Actual</th>
                     <th align="center" >Costo Ajustes</th>
                     <th align="center">Editar</th>
+                    <th><input name="select_all" value="1" id="seleccionarTodos" type="checkbox" /></th>
+
                 </tr>
                 </thead>
                 <tbody></tbody>
             </table>
+                </form>
         </div>
 
         <script type="text/javascript" src="js/controlador/proceso/ajustar_inventario.js"></script>
