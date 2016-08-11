@@ -7,26 +7,28 @@ $(function() {
 });
 
 $("#departamento").submit(function() {
-    var form1 = $("#departamento").find("select,input").serializeArray();
+    var form1 = $("#proveedor").find("select,input").serializeArray();
     var datosTabla1 = {};
     datosTabla1['dt'] = 'true';
     form1.forEach(function(input) {
         datosTabla1[input.name] = input.value;
     });
     Funcion.peticionAjaxDT({
-        RestUrl:'departamento/seleccionar',
-        DT:('#resultadosSucursal'),
+        RestUrl:'proveedor/seleccionar',
+        DT:('#resultadosProveedor'),
         datos:datosTabla1,
         arregloColumnas: [
             {data: "dep_id"},
             {data: "nombre"},
-            {data: "porcentaje"}
+            {data: "representante"},
+            {data:"telefono"},
+            {data: "rfc"}
         ],
-        loading:'Buscando Departamentos'});
+        loading:'Buscando proveedores'});
     return false;
 });
 $('#idSucursal').on('change',function(){
     if($('#idSucursal').val()=='') {
-        $('#resultadosSucursal').empty();
+        $('#resultadosProveedor').empty();
     }
 });

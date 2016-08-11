@@ -80,24 +80,13 @@ class Funcion{
         }
         var order=[[ 0, "asc" ]];
         var dom='Bfrtip';
-        var targets='0';
-        var visible='';
 
         if(opciones.funcionDeColor!=undefined){
             dom='<"toolbar">Bfrtip';
             if(opciones.funcionDeColor['Posicion']!=undefined){
                 order= [[ opciones.funcionDeColor['Posicion'], "desc" ]]
             }
-            if(opciones.funcionDeColor['PosicionMultiple']!=undefined){
-                targets=opciones.funcionDeColor['PosicionMultiple'];
-            }
-            if(opciones.funcionDeColor['Visible']!=undefined){
-                visible = opciones.funcionDeColor['Visible'];
-            }
         }
-        var defaultcontent=opciones.DefaultDefs;
-
-        console.log(defaultcontent);
         return $(opciones.DT).DataTable({
             dom: dom,
             "bDestroy": true,
@@ -206,15 +195,9 @@ class Funcion{
             { pct: 0.0, color: { r: 133, g: 34, b: 38 } },
             { pct: 0.5, color: { r: 250, g: 133, b: 38 } },/*204,219,38*/
             { pct: 1.0, color: { r: 34, g: 133, b: 38 } } ];
-        for (var i = 1; i < colores.length - 1; i++) {
-            if (pct < colores[i].pct) {
-                break;
-            }
-        }
-        var limiteInferior = colores[i - 1];
-        var limiteSuperior = colores[i];
-        var rango = limiteSuperior.pct - limiteInferior.pct;
-        var rangoPorcentaje = (pct - limiteInferior.pct) / rango;
+        var limiteInferior =pct<colores[0].pct?colores[0]:colores[1];
+        var limiteSuperior = pct<colores[1].pct?colores[1]:colores[2];
+        var rangoPorcentaje = (pct - limiteInferior.pct) / limiteSuperior.pct - limiteInferior.pct;
         var pctLower = 1 - rangoPorcentaje;
         var pctUpper = rangoPorcentaje;
         var color = {

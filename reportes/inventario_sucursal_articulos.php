@@ -59,10 +59,11 @@ if(!isset($_SESSION['idUsuario'])){
                 <thead>
                 <tr align="center">
                     <th align="center">Fecha</th>
-                    <th align="center" >Descripcion</th>
-                    <th align="center" >Cantidad solicitada</th>
-                    <th align="center" >Cantidad en sistema</th>
-                    <th align="center" >Cantidad física</th>
+                    <th align="center">Clave</th>
+                    <th align="center">Descripcion</th>
+                    <th align="center">Cantidad solicitada</th>
+                    <th align="center">Cantidad en sistema</th>
+                    <th align="center">Cantidad física</th>
                     <th align="center">Diferencia</th>
                     <th align="center">Costo</th>
                     <th align="center" >Porcentaje</th>

@@ -36,7 +36,6 @@ $("#categoria").submit(function() {
         datos:arreglo,
         arregloColumnas:[
             {data: "cat_id"},
-            {data: "cat_id_Local"},
             {data: "idSucursal"},
             {data: "nombre"},
             {data: "dep_id"}

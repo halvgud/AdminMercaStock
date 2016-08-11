@@ -25,7 +25,6 @@ else
             <thead>
             <tr>
                 <th class="text-center">ID CATEGORIA</th>
-                <th class="text-center">ID LOCAL</th>
                 <th class="text-center">ID SUCURSAL</th>
                 <th class="text-center">NOMBRE</th>
                 <th class="text-center">ID DEPARTAMENTO</th>

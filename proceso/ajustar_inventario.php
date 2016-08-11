@@ -26,6 +26,7 @@ if (!isset($_SESSION['idUsuario'])){
         <div id="divCabecero">
             <table id="tabla" width="90%" class="table table-striped" >
                 <thead>
+                <tr>
                 <th>id</th>
                 <th>Descripcion</th>
                 <th>Fecha</th>
@@ -35,12 +36,13 @@ if (!isset($_SESSION['idUsuario'])){
                 <th>Cantidad de producto inventariado</th>
                    <th>Diferencia total</th>-->
                 <th>Costo total</th>
+                </tr>
                 </thead>
                 <tbody></tbody>
             </table>
         </div>
             <div id="divDetalle">
-                <form id="formDetalle" method="post">
+                <!--<form id="formDetalle" method="post">-->
             <table id="tablaDetalle"  class="table table-striped" align="center">
                 <thead>
                 <tr align="center">
@@ -54,13 +56,13 @@ if (!isset($_SESSION['idUsuario'])){
                     <th align="center" >Costo Actual</th>
                     <th align="center" >Costo Ajustes</th>
                     <th align="center">Editar</th>
-                    <th><input name="select_all" value="1" id="seleccionarTodos" type="checkbox" /></th>
+                    <th><input name="seleccionarTodos" value="Seleccionar Todos" id="seleccionarTodos" type="checkbox" /></th>
 
                 </tr>
                 </thead>
                 <tbody></tbody>
             </table>
-                </form>
+               <!-- </form>-->
         </div>
 
         <script type="text/javascript" src="js/controlador/proceso/ajustar_inventario.js"></script>
