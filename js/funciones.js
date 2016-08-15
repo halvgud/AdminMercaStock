@@ -115,7 +115,7 @@ class Funcion{
                 'type': "POST",
                 dataType: 'json',
                 'beforeSend': function (request) {
-                    request.setRequestHeader("Authorization", API_TOKEN);
+                    request.setRequestHeader("Auth", API_TOKEN);
                 },
                 data: function () {
                     console.log(JSON.stringify(opciones.datos));
@@ -195,9 +195,15 @@ class Funcion{
             { pct: 0.0, color: { r: 133, g: 34, b: 38 } },
             { pct: 0.5, color: { r: 250, g: 133, b: 38 } },/*204,219,38*/
             { pct: 1.0, color: { r: 34, g: 133, b: 38 } } ];
-        var limiteInferior =pct<colores[0].pct?colores[0]:colores[1];
-        var limiteSuperior = pct<colores[1].pct?colores[1]:colores[2];
-        var rangoPorcentaje = (pct - limiteInferior.pct) / limiteSuperior.pct - limiteInferior.pct;
+        for (var i = 1; i < colores.length - 1; i++) {
+            if (pct < colores[i].pct) {
+                break;
+            }
+        }
+        var limiteInferior = colores[i - 1];
+        var limiteSuperior = colores[i];
+        var rango = limiteSuperior.pct - limiteInferior.pct;
+        var rangoPorcentaje = (pct - limiteInferior.pct) / rango;
         var pctLower = 1 - rangoPorcentaje;
         var pctUpper = rangoPorcentaje;
         var color = {
@@ -220,7 +226,7 @@ class Funcion{
                 data: JSON.stringify(datos),
                 dataType: 'json',
                 beforeSend: function (request){
-                    request.setRequestHeader("Authorization", API_TOKEN);
+                    request.setRequestHeader("Auth", API_TOKEN);
                 }
             })
             .done(function (resultado) {
@@ -260,7 +266,7 @@ class Funcion{
             window.location.reload();
         };
         var fallo = function (datos) {};
-        Funcion.peticionAjax('data/logout.php', '', exitoso, fallo);
+        Funcion.peticionAjax('/data/logout.php', '', exitoso, fallo);
     }
 
     static notificacionError(mensaje) {
@@ -324,6 +330,11 @@ class Funcion{
             }
         });
     }
+    static cargarDropDownListJson(json){
+        Funcion.cargarDropDownList(json.objectoJquery,json.id,json.descripcion,json.rest,json.idGenerico,json.cargarTodos,json.mensaje,json.items,json.valorDefault);
+    }
+
+
     static cargarDropDownList(nombreJquery, idSql, descripcionSql, rutaRest, idGenerico, cargarTodos,mensaje,itemS,valorDefault) {
         var arreglo = {};
         if(idGenerico!=undefined){

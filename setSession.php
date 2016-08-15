@@ -18,8 +18,8 @@ if(validarSession($postrequest)) {
     echo json_encode($arreglo);
 }
 function validarSession($postrequest){
-   // $service_url = 'http://mercastock.mercatto.mx/API/public/usuario/seleccionarApi';
-    $service_url = 'http://localhost/apimercastock/public/usuario/seleccionarApi';
+    $service_url = 'http://mercastock.mercatto.mx/API/public/usuario/seleccionarApi';
+   // $service_url = 'http://localhost/apimercastock/public/usuario/seleccionarApi';
     $curl = curl_init($service_url);
     $clave= $postrequest->datos->ClaveAPI;
     $usuario = $postrequest->datos->Usuario;
@@ -35,7 +35,7 @@ function validarSession($postrequest){
     curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
 
     curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-        'Authorization:'.$clave,
+        'Auth:'.$clave,
             'Content-Type: application/json',
             'Content-Length: ' . strlen($data_string))
     );

@@ -9,8 +9,8 @@ class PrivilegiosUsuario
 
     public static function traerPrivilegios(){
 
-        //$service_url = 'http://mercastock.mercatto.mx/api/public/usuario/permisos/obtener/'.$_SESSION['idUsuario'];
-        $service_url = 'http://localhost/apimercastock/public/usuario/permisos/obtener/'.$_SESSION['idUsuario'];
+        $service_url = 'http://mercastock.mercatto.mx/API/public/usuario/permisos/obtener/'.$_SESSION['idUsuario'];
+        //$service_url = 'http://localhost/apimercastock/public/usuario/permisos/obtener/'.$_SESSION['idUsuario'];
         $curl = curl_init($service_url);
         $curl_post_data = array(
         );
@@ -34,7 +34,7 @@ class PrivilegiosUsuario
 
    public static function tienePrivilegio($obj, $field) {
        $obj = json_decode($obj);
-      // var_dump($obj);
+       //var_dump($obj);
        if(gettype($obj)=='object'){
             foreach($obj as $item) {
                     if(isset($item->$field)) {

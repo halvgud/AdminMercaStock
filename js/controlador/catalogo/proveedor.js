@@ -6,7 +6,7 @@ $(function() {
         12, false,'Seleccione una Sucursal');
 });
 
-$("#departamento").submit(function() {
+$("#proveedor").submit(function() {
     var form1 = $("#proveedor").find("select,input").serializeArray();
     var datosTabla1 = {};
     datosTabla1['dt'] = 'true';
@@ -18,7 +18,7 @@ $("#departamento").submit(function() {
         DT:('#resultadosProveedor'),
         datos:datosTabla1,
         arregloColumnas: [
-            {data: "dep_id"},
+            {data: "pro_id"},
             {data: "nombre"},
             {data: "representante"},
             {data:"telefono"},

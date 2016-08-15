@@ -2,33 +2,33 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-$path = "/adminmercastock/";
+$path = "";
 if(!isset($_SESSION['idUsuario'])){
     if (strpos( $_SERVER['HTTP_USER_AGENT'],'Trident')){
         //echo 'no valido';
-        require_once('/login.php');
+        require_once('login.php');
     }
     else{
         // echo $_SERVER['HTTP_USER_AGENT'];
-        require_once('/login.php');
+        require_once('login.php');
     }
 }
 else{
-    header('Authorization:'.$_SESSION['ClaveAPI']);
+    header('Auth:'.$_SESSION['ClaveAPI']);
     ?>
     <!DOCTYPE html>
     <html lang="en">
 
     <head>
-        <?php require_once('/header-comun.html'); ?>
-        <?php require_once('/footer-comun.html'); ?>
+        <?php require_once('header-comun.html'); ?>
+        <?php require_once('footer-comun.html'); ?>
 
     </head>
 
     <body>
 
     <div id="wrapper">
-        <?php require_once('/menu.php'); ?>
+        <?php require_once('menu.php'); ?>
         <div id="page-wrapper">
             <div class="row" id="splash">
                 <div class="col-lg-12">

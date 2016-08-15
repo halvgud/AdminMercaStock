@@ -14,7 +14,6 @@ else
         <form class="form-inline" id="proveedor" method="post">
             <label for="idSucursal">Filtrar por Sucursal: </label>
             <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;" required >
-                <option value="">Seleccione una Sucursal</option>
             </select>
             <button type="submit" class="btn btn-success"><i class="fa fa-search"></i> Buscar</button>
         </form>
