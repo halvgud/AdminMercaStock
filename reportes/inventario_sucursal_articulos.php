@@ -58,6 +58,7 @@ if(!isset($_SESSION['idUsuario'])){
             <table id="tablaDetalle"  class="table table-striped table-responsive" align="center">
                 <thead>
                 <tr align="center">
+                    <th align="center">id</th>
                     <th align="center">Fecha</th>
                     <th align="center">Clave</th>
                     <th align="center">Descripcion</th>
@@ -67,6 +68,7 @@ if(!isset($_SESSION['idUsuario'])){
                     <th align="center">Diferencia</th>
                     <th align="center">Costo</th>
                     <th align="center" >Porcentaje</th>
+                    <th align="center">Lista Temporal</th>
                 </tr>
                 </thead>
                 <tbody></tbody>

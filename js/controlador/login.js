@@ -3,7 +3,7 @@ exitoso = function(datos){
     var exitoso2 = function(){
         window.location.reload();
     };
-    Funcion.peticionAjax(LOCAL_PATH+"setSession.php",datos,exitoso2,fallo);
+    Funcion.peticionAjax({Url:LOCAL_PATH+"setSession.php",datos:datos,success:exitoso2,error:fallo});
 
 
 
@@ -17,6 +17,6 @@ $("#loginForm").submit(function(){
     form.forEach(function(input) {
         datos[input.name] = input.value;
     });
-    Funcion.peticionAjax(API_SYS_PATH+'usuario/login',datos,exitoso,fallo,"cargando...");
+    Funcion.peticionAjax({Url:API_SYS_PATH+'usuario/login',datos:datos,success:exitoso,error:fallo,mensajeDeEspera:"cargando..."});
     return false;
 });

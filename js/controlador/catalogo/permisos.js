@@ -51,7 +51,7 @@ $(function() {
         };
         arregloConInputs['usuario']=document.getElementById('usuario').value;
 
-        Funcion.peticionAjax(API_SYS_PATH + 'permisos/seleccionar', arregloConInputs, exitoso, fallo, "Buscando Permisos...");
+        Funcion.peticionAjax({Url:API_SYS_PATH + 'permisos/seleccionar', datos:arregloConInputs, success:exitoso, error:fallo, mensajeDeEspera:"Buscando Permisos..."});
     }
 
     function agregarTDaTR(tr, element, CSSclass) {
@@ -92,7 +92,7 @@ $(function() {
                     var fallo = function(datos) {
                         Funcion.notificacionError(datos.error);
                     };
-                    Funcion.peticionAjax('data/test-actualizar.php', datos, exitoso, fallo);
+                    Funcion.peticionAjax({Url:'data/test-actualizar.php', datos:datos, success:exitoso,error: fallo});
                 }
             }]
         });
@@ -171,7 +171,7 @@ $(function() {
                     var fallo = function(datos) {
                         Funcion.notificacionError(datos.error);
                     };
-                    Funcion.peticionAjax(API_SYS_PATH + 'permisos/actualizar', datoz, exitoso, fallo);
+                    Funcion.peticionAjax({Url:API_SYS_PATH + 'permisos/actualizar', datos:datoz, success:exitoso, error:fallo});
                 }
             }]
         });

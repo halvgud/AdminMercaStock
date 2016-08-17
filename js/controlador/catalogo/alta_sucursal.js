@@ -37,7 +37,7 @@ $("#guardarSucursal").submit(function() {
         $("#btnGuardar").prop("disabled", false);
         return false;
     };
-    Funcion.peticionAjax(API_SYS_PATH + 'sucursal/insertar', datosTabla2, exitoso, fallo, "Guardando Sucursal...");
+    Funcion.peticionAjax({Url:API_SYS_PATH + 'sucursal/insertar',datos: datosTabla2, success:exitoso,error: fallo,mensajeDeEspera: "Guardando Sucursal..."});
     return false;
 });
 
@@ -116,7 +116,7 @@ function cargarTabla(arregloConInputs, idTransaccion) {
         console.log(datos);
     };
     arregloConInputs['banderaSucursal']='1';
-    Funcion.peticionAjax(API_SYS_PATH + 'sucursal/seleccionar', arregloConInputs, exitoso, fallo, 'Cargando Lista de Sucursales...');
+    Funcion.peticionAjax({Url:API_SYS_PATH + 'sucursal/seleccionar', datos:arregloConInputs,success: exitoso, error:fallo,mensajeDeEspera: 'Cargando Lista de Sucursales...'});
 }
 
 function editarSucursal(element, tr) {
@@ -328,7 +328,7 @@ function editarSucursal(element, tr) {
                 };
                 var fallo = function(datos) {
                 };
-                Funcion.peticionAjax(API_SYS_PATH + 'sucursal/actualizar', datos, exitoso, fallo, 'Guardando cambios...');
+                Funcion.peticionAjax({Url:API_SYS_PATH + 'sucursal/actualizar', datos:datos,success: exitoso, error:fallo,mensajeDeEspera: 'Guardando cambios...'});
                 return false;
             }
         }]

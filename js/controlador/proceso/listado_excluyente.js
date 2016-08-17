@@ -32,7 +32,7 @@ $("#buscarArticulo").submit(function() {
 });
 
 $('#myonoffswitch').change(function(){
-   var arreglo = {};
+    var arreglo = {};
     /**
      * @param {{estado:string}} result
      * @param {{success:string}} result
@@ -51,7 +51,7 @@ $('#myonoffswitch').change(function(){
     arreglo['valor'] = $('#idSucursal2').val();
     arreglo['excluyente'] = '1';
     arreglo['comentario'] = $('#myonoffswitch').check().val().toString().toUpperCase();
-        Funcion.peticionAjax(API_SYS_PATH + 'parametros/actualizarListaFija', arreglo, exitoso, fallo);
+    Funcion.peticionAjax({Url:API_SYS_PATH + 'parametros/actualizarListaFija', datos:arreglo,success: exitoso,error: fallo});
 });
 
 
@@ -105,7 +105,7 @@ function cargarTabla(arregloConInputs, idTransaccion) {
                             arregloConInputs['parametro'] = $('#idSucursal2').val();
                             arregloConInputs['valor'] = idSucursal;
                             arregloConInputs['excluyentes'] = '1';
-                            Funcion.peticionAjax(API_SYS_PATH + 'parametros/eliminarListaFija', arregloConInputs, exitoso, fallo);
+                            Funcion.peticionAjax({Url:API_SYS_PATH + 'parametros/eliminarListaFija', datos:arregloConInputs,success: exitoso,error: fallo});
                         } else {
                         }
                     }
@@ -127,7 +127,7 @@ function cargarTabla(arregloConInputs, idTransaccion) {
     };
     arregloConInputs['idSucursal'] = $('#idSucursal2').val();
     arregloConInputs['excluyente'] = '1';
-    Funcion.peticionAjax(API_SYS_PATH + 'parametros/seleccionar/lista/excluyente', arregloConInputs, exitoso, fallo);
+    Funcion.peticionAjax({Url:API_SYS_PATH + 'parametros/seleccionar/datos:lista/success:excluyente',error: arregloConInputs, exitoso, fallo});
     return false;
 }
 
@@ -162,7 +162,7 @@ function traerEstado() {
     var arregloEstado = {};
     arregloEstado['idSucursal'] = $('#idSucursal2').val();
     arregloEstado['excluyente'] = '1';
-    Funcion.peticionAjax(API_SYS_PATH + 'parametros/seleccionarEstado', arregloEstado, exitoso, fallo);
+    Funcion.peticionAjax({Url:API_SYS_PATH + 'parametros/seleccionarEstado', datos:arregloEstado,success: exitoso,error: fallo});
 }
 
 function cargarTabla2(arregloConInputs, idTransaccion) {
@@ -215,7 +215,7 @@ function cargarTabla2(arregloConInputs, idTransaccion) {
                             arregloConInputs['valor'] = idSucursal;
                             arregloConInputs['usuario'] = $('#usuario').val();
                             arregloConInputs['excluyente'] = '1';
-                            Funcion.peticionAjax(API_SYS_PATH + 'parametros/insertarListaFija', arregloConInputs, exitoso, fallo);
+                            Funcion.peticionAjax({Url:API_SYS_PATH + 'parametros/insertarListaFija', datos:arregloConInputs,success: exitoso,error: fallo});
                         } else {
                         }
                     }
@@ -236,6 +236,6 @@ function cargarTabla2(arregloConInputs, idTransaccion) {
     };
     arregloConInputs['art_id'] = $('#art_id').val();
     arregloConInputs['idSucursal'] = $('#idSucursal').val();
-    Funcion.peticionAjax(API_SYS_PATH + 'articulo/seleccionarListaFija', arregloConInputs, exitoso, fallo, 'Buscando Artículos...');
+    Funcion.peticionAjax({Url:API_SYS_PATH + 'articulo/seleccionarListaFija', datos:arregloConInputs,success: exitoso,error: fallo, mensajeDeEspera:'Buscando Artículos...'});
     return false;
 }

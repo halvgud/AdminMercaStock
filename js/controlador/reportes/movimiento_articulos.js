@@ -281,6 +281,6 @@ function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
     };
     var fallo = function (datos) {
     };
-    Funcion.peticionAjax(API_SYS_PATH + 'articulo/seleccionarIndividualMovimiento', arregloConInputs, exitoso, fallo);
+    Funcion.peticionAjax({Url:API_SYS_PATH + 'articulo/seleccionarIndividualMovimiento',datos: arregloConInputs, success:exitoso, error:fallo});
     return false;
 }

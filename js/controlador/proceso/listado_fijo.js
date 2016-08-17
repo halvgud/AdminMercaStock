@@ -46,7 +46,7 @@ $('#idSucursal').on('change',function(){
 
     arreglo['valor']=$('#idSucursal2').val();
     arreglo['comentario'] = $('#myonoffswitch').check().val().toString().toUpperCase();
-    Funcion.peticionAjax(API_SYS_PATH+'parametros/actualizarListaFija',arreglo,exitoso,fallo);
+    Funcion.peticionAjax({Url:API_SYS_PATH + 'parametros/actualizarListaFija',datos:arreglo,success:exitoso,error:fallo});
 });
 
 function cargarTabla(arregloConInputs,idTransaccion) {
@@ -94,7 +94,7 @@ function cargarTabla(arregloConInputs,idTransaccion) {
                             $(tr).remove();
                             arregloConInputs['parametro']=document.getElementById('idSucursal2').value;
                             arregloConInputs['valor']=idSucursal;
-                            Funcion.peticionAjax(API_SYS_PATH + 'parametros/eliminarListaFija', arregloConInputs, exitoso, fallo);
+                            Funcion.peticionAjax({Url:API_SYS_PATH + 'parametros/eliminarListaFija', datos:arregloConInputs, success:exitoso,error: fallo});
                         }else {
 
                         }
@@ -119,7 +119,7 @@ function cargarTabla(arregloConInputs,idTransaccion) {
     };
     resultados2.find("tbody").empty();
     arregloConInputs['idSucursal']=document.getElementById('idSucursal2').value;
-    Funcion.peticionAjax(API_SYS_PATH+'parametros/seleccionar/lista/fija',arregloConInputs,exitoso,fallo);
+    Funcion.peticionAjax({Url:API_SYS_PATH + 'parametros/seleccionar/lista/fija',datos:arregloConInputs,success:exitoso,error:fallo});
 
     return false;
 }
@@ -152,7 +152,7 @@ function traerEstado(){
     };
     var arregloEstado={};
     arregloEstado['idSucursal']=$('#idSucursal2').val();
-    Funcion.peticionAjax(API_SYS_PATH + 'parametros/seleccionarEstado', arregloEstado, exitoso, fallo);
+    Funcion.peticionAjax({Url:API_SYS_PATH + 'parametros/seleccionarEstado', datos:arregloEstado,success: exitoso, error:fallo});
 }
 function cargarTabla2(arregloConInputs,idTransaccion) {
     arregloConInputs['idTransaccion']=idTransaccion;
@@ -200,7 +200,7 @@ function cargarTabla2(arregloConInputs,idTransaccion) {
                             arregloConInputs['parametro']=document.getElementById('idSucursal').value;
                             arregloConInputs['valor']=idSucursal;
                             arregloConInputs['usuario']=document.getElementById('usuario').value;
-                            Funcion.peticionAjax(API_SYS_PATH + 'parametros/insertarListaFija', arregloConInputs, exitoso, fallo);
+                            Funcion.peticionAjax({Url:API_SYS_PATH + 'parametros/insertarListaFija', datos:arregloConInputs, success:exitoso, error:fallo});
                         }else {
 
                         }
@@ -224,6 +224,6 @@ function cargarTabla2(arregloConInputs,idTransaccion) {
     };
     arregloConInputs['art_id']=$('#art_id').val();
     arregloConInputs['idSucursal']=$('#idSucursal').val();
-    Funcion.peticionAjax(API_SYS_PATH+'articulo/seleccionarListaFija',arregloConInputs,exitoso,fallo,'Buscando');
+    Funcion.peticionAjax({Url:API_SYS_PATH + 'articulo/seleccionarListaFija',datos:arregloConInputs,success:exitoso,error:fallo,mensajeDeEspera:'Buscando'});
     return false;
 }

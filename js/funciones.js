@@ -95,6 +95,7 @@ class Funcion{
             "bFilter": banderaMostrarBusqueda,
             "bPaginate":banderaMostrarBusqueda,
             "bInfo":banderaMostrarBusqueda,
+            "bStateSave": true,
             'createdRow': function( nRow, aData) {
                 if(opciones.funcionDeColor==undefined){
                     return nRow;
@@ -214,16 +215,25 @@ class Funcion{
         return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
     }
 
-    static peticionAjax (URL,datos,successCallBack,errorCallBack,loading) {
-        console.log(JSON.stringify(datos));
+    /***
+     * @param opciones.Url  string
+     * @param opciones.datos array
+     * @param opciones.success function
+     * @param opciones.error function
+     * @param opciones.mensajeDeEspera string
+     * URL,datos,successCallBack,errorCallBack,loading
+     */
+    static peticionAjax (opciones) {
+        console.log(JSON.stringify(opciones));
         console.log(URL);
-        if ((loading) != undefined) {
-            Funcion.mostrarDialogoDeEspera(loading);
+        opciones =  opciones || {};
+        if ((opciones.mensajeDeEspera) != undefined) {
+            Funcion.mostrarDialogoDeEspera(opciones.mensajeDeEspera);
         }
         $.ajax({
                 type: "POST",
-                url: URL,
-                data: JSON.stringify(datos),
+                url: opciones.Url,
+                data: JSON.stringify(opciones.datos),
                 dataType: 'json',
                 beforeSend: function (request){
                     request.setRequestHeader("Auth", API_TOKEN);
@@ -231,17 +241,17 @@ class Funcion{
             })
             .done(function (resultado) {
                 if (!(resultado != undefined && resultado['estado'] != undefined && resultado['estado'] == "nomessage")) {
-                    if (successCallBack) {
-                        successCallBack(resultado);
+                    if (opciones.success) {
+                        opciones.success(resultado);
                     }
-                    if ((loading) != undefined) {
+                    if ((opciones.mensajeDeEspera) != undefined) {
                         BootstrapDialog.closeAll();
                     }
                 }
             })
             .fail(function (jqXHR) {
                 var resulta = jqXHR.responseJSON;
-                if ((loading) != undefined) {
+                if ((opciones.mensajeDeEspera) != undefined) {
                     BootstrapDialog.closeAll();
                 }
                 if (resulta != undefined) {
@@ -256,8 +266,8 @@ class Funcion{
                     console.log(jqXHR.responseText);
                     Funcion.notificacionError('Error de conexión al servicio API');
                 }
-                if (errorCallBack) {
-                    errorCallBack(resulta);
+                if (opciones.error) {
+                    opciones.error(resulta);
                 }
             });
     }//peticionAjax
@@ -266,7 +276,7 @@ class Funcion{
             window.location.reload();
         };
         var fallo = function (datos) {};
-        Funcion.peticionAjax('/data/logout.php', '', exitoso, fallo);
+        Funcion.peticionAjax({Url:'/data/logout.php', datos:'', success:exitoso, error:fallo});
     }
 
     static notificacionError(mensaje) {
@@ -374,7 +384,7 @@ class Funcion{
             console.log(datos);
         };
         console.log(arreglo);
-        Funcion.peticionAjax(rutaRest, arreglo, exitoso, fallo,mensaje);
+        Funcion.peticionAjax({Url:rutaRest, datos:arreglo, success:exitoso, error:fallo,mensajeDeEspera:mensaje});
     }
 
     static cambiarContrasena(){
@@ -456,7 +466,7 @@ class Funcion{
                 arregloConInputs['passwordActual']=passwordActual;
                 arregloConInputs['passwordNueva']=passwordActual;
                 arregloConInputs['usuario']=$('#usuario').val();
-                Funcion.peticionAjax(API_SYS_PATH + 'usuario/actualizarContrasena', arregloConInputs, exitoso, fallo);
+                Funcion.peticionAjax({Url:API_SYS_PATH + 'usuario/actualizarContrasena', datos:arregloConInputs, success:exitoso, error:fallo});
             }
         });
         BootstrapDialog.show({

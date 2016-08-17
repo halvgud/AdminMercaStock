@@ -237,7 +237,7 @@ $('#tablaDetalle').find('tbody').on( 'click', 'button', function () {
                 var cell = datatable.cell(datosCelda);
                 var exitoAjuste = function(){
                     $('td:eq(-1)',renglon).html("<input type='checkbox' disabled/>");
-                    cell.data("<p>AJUSTADO</p>").draw();
+                    cell.data("<p>AJUSTADO</p>").draw(false);
                 };
                 var falloAjuste = function(){
                     Funcion.notificacionError("Fallo al realizar ajuste, favor de notificar");
@@ -249,7 +249,13 @@ $('#tablaDetalle').find('tbody').on( 'click', 'button', function () {
                 arregloJson['idUsuario'] = $('#idUsuario').val();
                 arregloFinal.push(arregloJson);
                 console.log(arregloFinal);
-                Funcion.peticionAjax(API_SYS_PATH + 'ajuste/insertar', arregloFinal, exitoAjuste, falloAjuste, "Enviando datos...");
+                Funcion.peticionAjax({
+                    Url:API_SYS_PATH + 'ajuste/insertar',
+                    datos:arregloFinal,
+                    success:exitoAjuste,
+                    error:falloAjuste,
+                    mensajeDeEspera:"Enviando datos..."
+                });
 
                 dialog.close();
 
@@ -317,7 +323,7 @@ function ajustar() {
                     };
                     resultados.find("tbody").empty();
                     console.log(arregloFinal);
-                    Funcion.peticionAjax(API_SYS_PATH + 'ajuste/insertar', arregloFinal, exitoso, fallo, "Enviando datos...");
+                    Funcion.peticionAjax({Url:API_SYS_PATH + 'ajuste/insertar', datos:arregloFinal,success: exitoso,error: fallo,mensajeDeEspera: "Enviando datos..."});
                     dialog.close();
                 }
             }

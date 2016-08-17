@@ -75,7 +75,7 @@ $("#guardarUsuario").submit(function() {
         $("#btnGuardar").prop("disabled", false);
         return false;
     };
-    Funcion.peticionAjax(API_SYS_PATH + 'usuario/insertar', datosTabla1, exitoso, fallo, "Guardando Usuario...");
+    Funcion.peticionAjax({Url:API_SYS_PATH + 'usuario/insertar',datos: datosTabla1,success: exitoso, error:fallo,mensajeDeEspera: "Guardando Usuario..."});
 
     return false;
 });
@@ -144,7 +144,7 @@ function cargarTabla(arregloConInputs, idTransaccion) {
     var fallo = function(datos) {
         console.log(datos);
     };
-    Funcion.peticionAjax(API_SYS_PATH + 'usuario/seleccionar', arregloConInputs, exitoso, fallo, 'Cargando Lista de usuarios');
+    Funcion.peticionAjax({Url:API_SYS_PATH + 'usuario/seleccionar', datos:arregloConInputs, success:exitoso, error:fallo, mensajeDeEspera:'Cargando Lista de usuarios'});
 }
 
 function editarUsuario(element, tr) {
@@ -346,7 +346,7 @@ function editarUsuario(element, tr) {
                 };
                 var fallo = function(datos) {
                 };
-                Funcion.peticionAjax(API_SYS_PATH + 'usuario/actualizar', datos, exitoso, fallo, 'Guardando cambios...');
+                Funcion.peticionAjax({Url:API_SYS_PATH + 'usuario/actualizar', datos:datos, success:exitoso, error:fallo, mensajeDeEspera:'Guardando cambios...'});
             }
         }]
     });

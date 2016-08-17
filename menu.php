@@ -106,7 +106,12 @@ if(!isset($_SESSION['idUsuario'])){
                             <li>
                                 <a href="#" onclick="cambiarUrl('/proceso/listado_excluyente.php');"><i class="fa fa-ban fa-fw"></i> Listado Excluyente</a>
                             </li>
+                        <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"LISTADO_EXCLUYENTE")) {  ?>
+                            <li>
+                                <a href="#" onclick="cambiarUrl('/proceso/listadoTemporal.php');"><i class="fa fa-ban fa-fw"></i> Lista Temporal</a>
+                            </li>
                         <?php }  ?>
+
                     </ul>
                 </li>
 

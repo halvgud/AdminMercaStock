@@ -1,6 +1,5 @@
 <?php
 session_start();
-$path = "/ADMINMERCASTOCK";
 
 if (!isset($_SESSION['idUsuario'])){
     header('Location: ' . '../index.php');

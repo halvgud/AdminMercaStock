@@ -101,37 +101,74 @@ function llamarclic() {
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
             dt=Funcion.peticionAjaxDT({
-                RestUrl:'inventario/reporte/detalle',
-                DT:('#tablaDetalle'),
-                datos : {idSucursal:$('#idSucursal').val(),
-                         fecha:table.row('.selected').data().fecha},
-                arregloColumnas:[
-                    { data : "fechaSolicitud" },
-                    { data : "clave" },
-                    { data : "descripcion" },
-                    { data : "existenciaSolicitud" },
-                    { data : "existenciaEjecucion" },
-                    { data : "existenciaRespuesta" },
-                    { data : "diferencia"},
-                    { data : "costo"},
-                    { data : "bandera" }
+                RestUrl: 'inventario/reporte/detalle',
+                DT: ('#tablaDetalle'),
+                datos: {
+                    idSucursal: $('#idSucursal').val(),
+                    fecha: table.row('.selected').data().fecha
+                },
+                arregloColumnas: [
+                    {data: "art_id"},
+                    {data: "fechaSolicitud"},
+                    {data: "clave"},
+                    {data: "descripcion"},
+                    {data: "existenciaSolicitud"},
+                    {data: "existenciaEjecucion"},
+                    {data: "existenciaRespuesta"},
+                    {data: "diferencia"},
+                    {data: "costo"},
+                    {data: "bandera"},
+                    {data: "edicion"}
                 ],
-                loading:null,
-                funcionDeColor:{
-                    Boton:false,
-                    Posicion:8
+                loading: null,
+                funcionDeColor: {
+                    Boton: false,
+                    Posicion: 8
+                },
+                 columnDefs:[{
+                 'targets':[0],
+                 visible:false
+                 }],
+                rowCallBack: function (row, data) {
+                    if (data.edicion === "edicion") {
+                        $(row).find('td:eq(-1)').html("<button class='btn btn-info'>Agregar</button>");
+                    } else {
+                        $(row).find('td:eq(-1)').html("<b>" + data.edicion + "</b>");
+                    }
                 }
             });
             $('#divDetalle').show();
             return false;
         }
-
     });
 
     $('#detalle').click(function () {
 
     });
 }
+
+$('#tablaDetalle').find('tbody').on( 'click', 'button', function () {
+    var datatable=$('#tablaDetalle').DataTable();
+    var cell = datatable.cell($(this).closest('td'));
+    var datosRenglon = datatable.row($(this).parents('tr')).data();
+    Funcion.mostrarDialogoDeEspera('Guardando...');
+    Funcion.peticionAjax({
+        Url:API_SYS_PATH+'inventario/temporal/agregar',
+        datos:{
+                idSucursal:$('#idSucursal').val(),
+                art_id:datosRenglon.art_id
+            },
+        success:function(resultado){
+            cell.data("<p>AGREGADO</p>").draw(false);
+            Funcion.notificacionSuccess("Guardado con éxito...");
+        },
+        mensajeDeEspera:'Guardando en lista temporal'
+    });
+
+    BootstrapDialog.closeAll();
+    return false;
+});
+
 var banderaGenerado=false;
 var dt;
 $('#idSucursal').on('change',function(){
@@ -156,7 +193,7 @@ $.fn.dataTable.ext.search.push(
         var min = parseFloat( $('#min').val() );
         var max = parseFloat( $('#max').val() );
         var age = parseFloat( data[$('#idConcepto').val()] ) || 0; // use data for the age column
-        console.log(age + "--"+min+"--"+max);
+        //console.log(age + "--"+min+"--"+max);
         return !!(( isNaN(min) && isNaN(max) ) ||
         ( isNaN(min) && age <= max ) ||
         ( min <= age && isNaN(max) ) ||

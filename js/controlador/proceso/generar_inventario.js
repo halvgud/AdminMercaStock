@@ -10,6 +10,7 @@ var tabla;
 var tabla2;
 var contador = 0;
 var removerModal;
+var idTransaccion;
 
 /*se carga el DOM*/
 $(function() {
@@ -20,10 +21,41 @@ $(function() {
         $("#dep_id").empty();
         $("#cat_id").empty();
         $("#resultados").find("tbody").empty();
-        Funcion.cargarDropDownList(("#concepto"), 'idConcepto', 'descripcion', API_SYS_PATH + 'concepto/seleccionar', 12, false, 'cargando', 'Seleccione un Concepto');
+        Funcion.cargarDropDownList(("#concepto"), 'idConcepto', 'descripcion', API_SYS_PATH + 'concepto/seleccionar', 12, false, undefined, 'Seleccione un Concepto');
         if (idSuc.val() != "") {
             configuracionListaFija();
-            Funcion.cargarDropDownList(("#dep_id"), 'dep_id', 'nombre', API_SYS_PATH + 'departamento/seleccionar', $("#idSucursal").val(), true, 'Cargando...', 'Seleccione un Departamento');
+            Funcion.cargarDropDownList(("#dep_id"), 'dep_id', 'nombre', API_SYS_PATH + 'departamento/seleccionar', $("#idSucursal").val(), true, undefined, 'Seleccione un Departamento');
+            Funcion.peticionAjax({
+                Url:API_SYS_PATH+'inventario/temporal/seleccionar',
+                datos:{
+                    idSucursal:idSuc.val()
+                },
+                success:function(resultado){
+                    if(resultado.data.length > 0){
+                        BootstrapDialog.confirm({
+                            title:'Lista temporal',
+                            message:'Existe(n) '+resultado.data.length+' articulo(s) en espera para esta sucursal, ¿Desea agregarlos?',
+                            type:BootstrapDialog.TYPE_WARNING,
+                            closable:false,
+                            draggable:true,
+                            btnCancelLabel:'No Cargar',
+                            btnOKLabel:'Cargar',
+                            btnOKClass: 'btn-warning',
+                            callback: function(result) {
+                                if(result) {
+                                    cargarArticulosPorTransaccion(resultado);
+                                    cantidadDeRegistros();
+                                }else {
+                                    Funcion.notificacionWarning("Se volverá a notificar cuando vuelva a ingresar...");
+                                }
+                            }
+                        });
+                    }
+                },
+                error:function(resultado){
+
+                }
+            });
         }
     });
     $('#dep_id').change(function() {
@@ -237,7 +269,7 @@ function configuracionGeneral(titulo, idTransaccion) {
     }
     else if(idTransaccion==CONFIGURACION_PROVEEDOR){
         form_group=AgregarInputBusquedaDeProveedor(form_group);
-    }else{
+    }else if(idTransaccion==undefined){
         Funcion.notificacionWarning("Función no implementada");
     }
     var contenido = AgregarBotonesYTablaContenido(form_group);
@@ -294,7 +326,8 @@ function configuracionListaFija() {
     contenido.append(form_group);
     var datosTabla4 = {};
     datosTabla4['idSucursal'] = $('#idSucursal').val();
-    cargarTablaModalPopup(datosTabla4, CONFIGURACION_LISTA_FIJA);
+    idTransaccion=CONFIGURACION_LISTA_FIJA;
+    cargarTablaModalPopup(datosTabla4);
     tabla2 = tabla;
     console.log(tabla.clone());
     tabla.clone().find('tr').appendTo($("#resultados").find("tbody"));
@@ -325,14 +358,72 @@ function inicializarTablaModalPopuUp(bandera) {
         //datosTabla4['input'] = $('#input').val();
     }
     if(bandera==undefined){
-        cargarTablaModalPopup(datosTabla4, idConcepto);
+        idTransaccion=idConcepto;
+        cargarTablaModalPopup(datosTabla4);
     }else{
-     cargarTablaModalPopup(datosTabla4,CONFIGURACION_PROVEEDOR_BUSQUEDA)
+        idTransaccion=CONFIGURACION_PROVEEDOR_BUSQUEDA;
+        cargarTablaModalPopup(datosTabla4);
     }
 
 }
 
-function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
+function cargarArticulosPorTransaccion(result){
+    if (typeof(result.estado)!= 'undefined') {
+        if (result.estado == 'warning') {
+            Funcion.notificacionWarning(result.success);
+            $('#g2').hide();
+            return;
+        }
+    }
+    var find = false;
+    if (result.data.length > 0) {
+        console.log(result.data);
+        result.data.forEach(function (element) {
+            find = true;
+            contador++;
+            var row = $("<tr></tr>", {id: contador, name: 'row' + contador});
+            var td = $("<td></td>");
+            var claveArt = $("<input>", {name: "clave" + contador, id: "clave" + contador, class: 'form-control', value: element['clave'], style: 'width:85%;', readonly: 'readonly'});
+            td.append(claveArt);
+            row.append(td);
+            var descArt = $("<input>", {name: "descripcion", id: "descripcion" + contador, class: 'form-control', value: element['descripcion'], readonly: 'readonly'});
+            td = $("<td></td>");
+            td.append(descArt);
+            row.append(td);
+            var idArt = $("<input>", {type: 'hidden', id: "art_id" + contador, name: "art_id" + contador, class: 'art form-control', value: element['art_id'], data1: 'true'});
+            td.append(idArt);
+            row.append(td);
+            var exisArt = $("<input>", {id: "existencia" + contador, name: "existencia" + contador, type: 'text', class: 'form-control', value: element['existencia'], style: 'width:65%;', readonly: 'readonly'});
+            td = $("<td></td>");
+            td.append(exisArt);
+            row.append(td);
+            var icono = $("<i></i>", {class: 'fa fa-minus-square'});
+            removerModal = $("<button></button>", {id: "cantidad" + contador, name: "cantidad" + contador, type: 'button', class: 'btn btn-outline btn-danger', readonly: 'readonly', onclick: 'remover(' + contador + ');'});
+            $(removerModal).click(function () {
+                $(row).remove();
+                contador--;
+            });
+            removerModal.append(icono);
+            td = $("<td></td>");
+            td.append(removerModal);
+            row.append(td);
+            if (idTransaccion == CONFIGURACION_LISTA_FIJA) {
+                $("#resultados").append(row);
+            } else {
+                $("#tabla1").append(row);
+            }
+            $('#g2').hide();
+        });
+        if (find) {
+            tabla.show();
+        }
+    } else {
+        Funcion.notificacionWarning('No se encontró información');
+    }
+}
+
+
+function cargarTablaModalPopup(arregloConInputs) {
     var idSucursal = $('#idSucursal').val();
     var idConcepto = idTransaccion;//$('#concepto').val();
     $("#tabla1").find("tbody").empty();
@@ -348,74 +439,18 @@ function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
      * @param {{estado:string}} result
      * @param {{success:string}} result
      */
-    var exitoso = function (result) {
-        if (typeof(result.estado)!= 'undefined') {
-            if (result.estado == 'warning') {
-                Funcion.notificacionWarning(result.success);
-                $('#g2').hide();
-                return;
-            }
-        }
-        var find = false;
-        if (result.data.length > 0) {
-            console.log(result.data);
-            result.data.forEach(function (element) {
-                find = true;
-                contador++;
-                var row = $("<tr></tr>", {id: contador, name: 'row' + contador});
-                var td = $("<td></td>");
-                var claveArt = $("<input>", {name: "clave" + contador, id: "clave" + contador, class: 'form-control', value: element['clave'], style: 'width:85%;', readonly: 'readonly'});
-                td.append(claveArt);
-                row.append(td);
-                var descArt = $("<input>", {name: "descripcion", id: "descripcion" + contador, class: 'form-control', value: element['descripcion'], readonly: 'readonly'});
-                td = $("<td></td>");
-                td.append(descArt);
-                row.append(td);
-                var idArt = $("<input>", {type: 'hidden', id: "art_id" + contador, name: "art_id" + contador, class: 'art form-control', value: element['art_id'], data1: 'true'});
-                td.append(idArt);
-                row.append(td);
-                var exisArt = $("<input>", {id: "existencia" + contador, name: "existencia" + contador, type: 'text', class: 'form-control', value: element['existencia'], style: 'width:65%;', readonly: 'readonly'});
-                td = $("<td></td>");
-                td.append(exisArt);
-                row.append(td);
-                var icono = $("<i></i>", {class: 'fa fa-minus-square'});
-                removerModal = $("<button></button>", {id: "cantidad" + contador, name: "cantidad" + contador, type: 'button', class: 'btn btn-outline btn-danger', readonly: 'readonly', onclick: 'remover(' + contador + ');'});
-                $(removerModal).click(function () {
-                    $(row).remove();
-                    contador--;
-                });
-                removerModal.append(icono);
-                td = $("<td></td>");
-                td.append(removerModal);
-                row.append(td);
-                if (idTransaccion == CONFIGURACION_LISTA_FIJA) {
-                    $("#resultados").append(row);
-                } else {
-                    $("#tabla1").append(row);
-                }
-                $('#g2').hide();
-            });
-            if (find) {
-                tabla.show();
-            }
-        } else {
-            Funcion.notificacionWarning('No se encontró información');
-        }
-    };
-    var fallo = function (datos) {
-    };
     if (idConcepto == CONFIGURACION_AZAR) {
-        Funcion.peticionAjax(API_SYS_PATH + 'inventario/seleccionarAzar', arregloConInputs, exitoso, fallo);
+        Funcion.peticionAjax({Url:API_SYS_PATH + 'inventario/seleccionarAzar', datos:arregloConInputs, success:cargarArticulosPorTransaccion});
     } else if (idConcepto == CONFIGURACION_MAS_VENDIDOS) {
-        Funcion.peticionAjax(API_SYS_PATH + 'inventario/seleccionarMasVendidos', arregloConInputs, exitoso, fallo);
+        Funcion.peticionAjax({Url:API_SYS_PATH + 'inventario/seleccionarMasVendidos', datos:arregloConInputs, success:cargarArticulosPorTransaccion});
     } else if (idConcepto == CONFIGURACION_MAS_CONFLICTIVOS) {
-        Funcion.peticionAjax(API_SYS_PATH + 'inventario/seleccionarMasConflictivos', arregloConInputs, exitoso, fallo);
+        Funcion.peticionAjax({Url:API_SYS_PATH + 'inventario/seleccionarMasConflictivos', datos:arregloConInputs, success:cargarArticulosPorTransaccion});
     } else if (idConcepto == CONFIGURACION_INDIVIDUAL) {
-        Funcion.peticionAjax(API_SYS_PATH + 'inventario/seleccionarIndividual', arregloConInputs, exitoso, fallo);
+        Funcion.peticionAjax({Url:API_SYS_PATH + 'inventario/seleccionarIndividual', datos:arregloConInputs, success:cargarArticulosPorTransaccion});
     }else if (idConcepto ==CONFIGURACION_TODA_CATEGORIA){
-        Funcion.peticionAjax(API_SYS_PATH + 'inventario/seleccionarAzar', arregloConInputs, exitoso, fallo);
+        Funcion.peticionAjax({Url:API_SYS_PATH + 'inventario/seleccionarAzar', datos:arregloConInputs, success:cargarArticulosPorTransaccion});
     }else if (idConcepto ==CONFIGURACION_PROVEEDOR){
-        Funcion.peticionAjax(API_SYS_PATH + 'inventario/seleccionarPorProveedor', arregloConInputs, exitoso, fallo);
+        Funcion.peticionAjax({Url:API_SYS_PATH + 'inventario/seleccionarPorProveedor', datos:arregloConInputs, success:cargarArticulosPorTransaccion});
     }else if (idConcepto==CONFIGURACION_PROVEEDOR_BUSQUEDA){
         Funcion.peticionAjaxDT({
             RestUrl:'proveedor/seleccionar',
@@ -454,7 +489,7 @@ function cargarTablaModalPopup(arregloConInputs, idTransaccion) {
         });
     }
     else{
-        Funcion.peticionAjax(API_SYS_PATH + 'parametros/seleccionar/lista/fija/inventario', arregloConInputs, exitoso, fallo);
+        Funcion.peticionAjax({Url:API_SYS_PATH + 'parametros/seleccionar/lista/fija/inventario', datos:arregloConInputs, success:cargarArticulosPorTransaccion});
     }
     return false;
 }
@@ -480,7 +515,12 @@ $("#send").submit(function() {
         return false;
     };
     var tbody = resultados.find("tbody").empty();
-    Funcion.peticionAjax(API_SYS_PATH + 'inventario/insertar', datosTabla1, exitoso, fallo, "Enviando datos...");
+    Funcion.peticionAjax({
+        Url:API_SYS_PATH + 'inventario/insertar',
+        datos:datosTabla1,
+        success: exitoso,
+        error:fallo,
+        mensajeDeEspera:"Enviando datos..."});
     return false;
 });
 

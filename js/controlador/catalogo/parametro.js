@@ -76,7 +76,7 @@ function cargarTabla3(arregloConInputs, idTransaccion) {
     var fallo = function(datos) {
         console.log(datos);
     };
-    Funcion.peticionAjax(API_SYS_PATH + 'parametros/seleccionar', arregloConInputs, exitoso, fallo, 'Cargando lista de Parametros');
+    Funcion.peticionAjax({Url:API_SYS_PATH + 'parametros/seleccionar', datos:arregloConInputs, success:exitoso, error:fallo, mensajeDeEspera:'Cargando lista de Parametros'});
 }
 
 function editarParametros(element, tr) {
@@ -245,7 +245,7 @@ function editarParametros(element, tr) {
                 var fallo = function(datos) {
                     // notificacionError(datos.error);
                 };
-                Funcion.peticionAjax(API_SYS_PATH + 'parametros/actualizar', datos, exitoso, fallo, 'Guardando cambios...');
+                Funcion.peticionAjax({Url:API_SYS_PATH + 'parametros/actualizar', datos:datos, success:exitoso, error:fallo, mensajeDeEspera:'Guardando cambios...'});
                 return false;
             }
         }]
