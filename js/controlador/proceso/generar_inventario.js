@@ -26,7 +26,7 @@ $(function() {
             configuracionListaFija();
             Funcion.cargarDropDownList(("#dep_id"), 'dep_id', 'nombre', API_SYS_PATH + 'departamento/seleccionar', $("#idSucursal").val(), true, undefined, 'Seleccione un Departamento');
             Funcion.peticionAjax({
-                Url:API_SYS_PATH+'inventario/temporal/seleccionar',
+                Url:API_SYS_PATH+'inventario/temporal/seleccionar/lista',
                 datos:{
                     idSucursal:idSuc.val()
                 },
@@ -199,7 +199,7 @@ function AgregarInputBusquedaDeProveedor(form_group){
 function AgregarTablaDeResultados(form_group){
    var espacio = $("<label> &nbsp;&nbsp;&nbsp; </label>");
     form_group.append(espacio);
-    var gear = $("<a id='g2' style='display: none'><i class='fa fa-cog fa-spin fa-3x fa-fw' ></i></a>", {id: "gear", name: "gear"});
+    var gear = $("<a id='g2' style='display:none'><i class='fa fa-cog fa-spin fa-3x fa-fw' ></i></a>", {id: "gear", name: "gear"});
     form_group.append(gear);
     $('#g2').hide();
     var espacio3 = $("<br><br>");
@@ -255,22 +255,26 @@ function AgregarBotonesYTablaContenido(form_group){
 
 function configuracionGeneral(titulo, idTransaccion) {
     var form_group = $("<div></div>", { class: 'form-inline'});//var espacio2 = $("<label> &nbsp;&nbsp; </label>");
-    if (idTransaccion != CONFIGURACION_INDIVIDUAL&&idTransaccion!=CONFIGURACION_TODA_CATEGORIA) {
+    if (idTransaccion != CONFIGURACION_INDIVIDUAL&&idTransaccion!=CONFIGURACION_TODA_CATEGORIA&&idTransaccion!=CONFIGURACION_PROVEEDOR) {
         form_group=AgregarInputCantidad(form_group);
     }
-    if (idTransaccion == CONFIGURACION_INDIVIDUAL) {
-        form_group=AgregarInputBusquedaIndividual(form_group);
-    }
-    else if (idTransaccion == CONFIGURACION_MAS_CONFLICTIVOS || idTransaccion == CONFIGURACION_MAS_VENDIDOS) {
-        form_group=AgregarDateTimePickers(form_group);
-    }
-    else if(idTransaccion==CONFIGURACION_TODA_CATEGORIA){
-        form_group=AgregarHiddenFieldBusquedaCategoria(form_group);
-    }
-    else if(idTransaccion==CONFIGURACION_PROVEEDOR){
-        form_group=AgregarInputBusquedaDeProveedor(form_group);
-    }else if(idTransaccion==undefined){
-        Funcion.notificacionWarning("Función no implementada");
+    console.log('idTransaccion'+idTransaccion);
+    switch(idTransaccion){
+        case CONFIGURACION_INDIVIDUAL:
+            form_group=AgregarInputBusquedaIndividual(form_group);
+            break;
+        case CONFIGURACION_MAS_CONFLICTIVOS:
+        case CONFIGURACION_MAS_VENDIDOS:
+            form_group=AgregarDateTimePickers(form_group);
+            break;
+        case CONFIGURACION_TODA_CATEGORIA:
+            form_group=AgregarHiddenFieldBusquedaCategoria(form_group);
+            break;
+        case CONFIGURACION_PROVEEDOR:
+            form_group=AgregarInputBusquedaDeProveedor(form_group);
+            break;
+        case undefined:
+            Funcion.notificacionWarning("Función no implementada");
     }
     var contenido = AgregarBotonesYTablaContenido(form_group);
     InicializarDateTimePicker();
@@ -507,6 +511,7 @@ $("#send").submit(function() {
     datosTabla1['art_id'] = subArreglo;
     datosTabla1['idSucursal'] =  $('#idSucursal').val();
     datosTabla1['idUsuario'] = $('#idUsuario').val();
+    datosTabla1['nombreInventario']=$('#nombreInventario').val();
     var exitoso = function(datos) {
         Funcion.notificacionSuccess(datos.success);
         return false;
@@ -531,9 +536,9 @@ $("#inventario").submit(function() {
     if (idConcepto == CONFIGURACION_AZAR && idCategoria != "" && idDepartamento != "") {
         configuracionGeneral("Configuración de búsqueda al azar", CONFIGURACION_AZAR);
     } else if (idConcepto == CONFIGURACION_MAS_VENDIDOS && idCategoria != "" && idDepartamento != "") {
-        configuracionGeneral('Configuración de Búsqueda Mas Vendidos', CONFIGURACION_MAS_VENDIDOS);
+        configuracionGeneral('Configuración de búsqueda Mas vendidos', CONFIGURACION_MAS_VENDIDOS);
     } else if (idConcepto == CONFIGURACION_MAS_CONFLICTIVOS && idCategoria != "" && idDepartamento != "") {
-        configuracionGeneral('Configuración de Búsqueda Mas Conflictivos', CONFIGURACION_MAS_CONFLICTIVOS);
+        configuracionGeneral('Configuración de búsqueda Mas conflictivos', CONFIGURACION_MAS_CONFLICTIVOS);
     } else if (idConcepto == CONFIGURACION_INDIVIDUAL) {
         configuracionGeneral("Configuración de búsqueda individual", CONFIGURACION_INDIVIDUAL);
     }
@@ -541,7 +546,7 @@ $("#inventario").submit(function() {
         configuracionGeneral("Configuración de búsqueda de departamento", CONFIGURACION_TODA_CATEGORIA);
     }
     else if (idConcepto == CONFIGURACION_PROVEEDOR){
-        configuracionGeneral("Configuración de Búsqueda por Proveedor",CONFIGURACION_PROVEEDOR);
+        configuracionGeneral("Configuración de búsqueda por proveedor",CONFIGURACION_PROVEEDOR);
     }
     else {
         Funcion.notificacionWarning("Faltan parametros para la busqueda");

@@ -8,6 +8,7 @@ else
 {
     ?>
     <div id="page-wrapper">
+        <br><br>
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#home">Registrar</a></li>
             <li><a data-toggle="tab" href="#menu1" id="buscarYModificar" name="buscarYModificar">Buscar y Modificar</a></li>
@@ -32,7 +33,7 @@ else
                             <label for="apellido">Apellido:</label>
                             <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido" required autocomplete="off">
                             <label for="apellido">Contacto:</label>
-                            <input type="text" class="form-control" id="contacto" name="contacto" placeholder="Contacto" required autocomplete="off">
+                            <input type="text" class="form-control" id="contacto" name="contacto" placeholder="Contacto" autocomplete="off">
                             <label for="sexo">Sexo</label>
                             <select class="form-control"  id="sexo" name="sexo" REQUIRED  >
                                 <option value="">Seleccione el Sexo</option>

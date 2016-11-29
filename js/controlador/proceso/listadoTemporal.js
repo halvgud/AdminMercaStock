@@ -2,64 +2,90 @@ $(function() {
     Funcion.cargarDropDownList(("#idSucursal"), 'idSucursal', 'nombre', API_SYS_PATH + 'sucursal/seleccionar', 12, false, 'cargando', 'Seleccione una Sucursal');
     var idSuc=$('#idSucursal');
     idSuc.change(function() {
-        $("#resultados").find("tbody").empty();
+        if (idSuc.val()!=""){
+            $("#resultados").find("tbody").empty();
+            Funcion.peticionAjaxDT({
+                RestUrl:'inventario/temporal/seleccionar',
+                DT:("#resultados"),
+                datos:{
+                    idSucursal: idSuc.val(),
+                    edicion:"edicion"
+                },
+                arregloColumnas:[
+                    { data : "idInventarioTemporal" },
+                    {data : 'art_id'},
+                    { data : "clave"},
+                    { data : "descripcion" },
+                    {data : 'existencia'},
+                    {data: 'edicion'}
+                ], 'select': {
+                    'style': 'multi'
+                },
+                ocultarWarning:true,
+                columnDefs:[{
+                    'targets':[0,1],
+                    visible:false
+                }
+                ],
+                rowCallBack:function( row, data ) {
+                    if (data.edicion === "edicion") {
+                        $(row).find('td:eq(-1)').html("<button class='btn btn-warning'>Remover</button>");
+                    }else
+                    {
+                        $(row).find('td:eq(-1)').html("<b>"+data.edicion+"</b>");
+                    }
+                }
+            });
+        }
     });
 });
+//var contador=0  ;
+var dialogoProveedor;
+$('#agregarArticuloLista').click(function(){
+    var descripcionArticulo=$('#descripcionArticulo');
+    if(descripcionArticulo.val()!=""){
+        descripcionArticulo.click();
+    }else{
 
-$('#descripcion').click(function(){
+    }
+    return false;
+});
+$('#descripcionArticulo').click(function(){
     var $contenido = $("<form></form>", { name: 'formSucursal'});
-    var $form_group = $("<div></div>", { class: 'form-inline'});
-    var label = $("<label></label>", { for: 'input', text: 'Clave del Artículo:\u00a0'});
-    var nombre = $("<input>", { id: 'input', name: 'input', value: '', type: 'text', class: 'form-control', required: 'required'});
-    $form_group.append(label);
+    //var $form_group = $("<div></div>", { class: 'form-inline'});
+    var tabla1 = $("<table></table>", { id: 'tabla1', name: 'tabla1', class: 'table table-condensed text-center',style:'width:100%'});
 
-    $form_group.append(nombre);
-    var espacio = $("<label> &nbsp;&nbsp;&nbsp; </label>");
-    $form_group.append(espacio);
-    var generarModalPopUp = $("<button></button>", {id: "can", name: "can", type: 'button', class: 'btn btn-success', text: 'Generar', onclick: 'this.blur();'});
-    $form_group.append(generarModalPopUp);
-    espacio = $("<label> &nbsp;&nbsp;&nbsp; </label>");
-    $form_group.append(espacio);
-    var gear = $("<a id='g2' style='display: none'><i class='fa fa-cog fa-spin fa-3x fa-fw' ></i></a>", {id: "gear", name: "gear"});
-    $form_group.append(gear);
-    $('#g2').hide();
-    var espacio3 = $("<br><br>");
-    $form_group.append(espacio3);
-    tabla = $("<table></table>", { id: 'tabla1', name: 'tabla1', class: 'table table-condensed', style: ''});
-    $form_group.append(tabla);
-    var $thead = $("<thead></thead>", {
+    var thead = $("<thead></thead>", {
         name: 'thead'
     });
-    tabla.append($thead);
-    var th1 = $("<th>Clave</th>");
-    tabla.append(th1);
-    th1 = $("<th>Descripci&oacute;n</th>");
-    tabla.append(th1);
-    th1 = $("<th>Existencia</th>");
-    tabla.append(th1);/*
-     th1 = $("<th>Edici&oacute;n</th>");
-     tabla.append(th1);
-     */
-    $contenido.append($form_group);
-    $(nombre).focus();
-    $(generarModalPopUp).click(function() {
-        var g2=$('#g2');
-        g2.show();
-        inicializarTablaModalPopuUp();
-        $(generarModalPopUp).focusout();
-        g2.focus();
-        return false;
-    });
-    //InicializarDateTimePicker();
-    BootstrapDialog.show({
+    //tabla.append($thead);
+    var tr=$("<tr></tr>");
+    var th1=$("<th></th>").append('id');
+    var th2=$("<th></th>").append('clave');
+    var th3=$("<th></th>").append('descripcion');
+    var th4=$("<th></th>").append('existencia');
+    var th5=$("<th></th>").append('agregar');
+    tr.append(th1);
+    tr.append(th2);
+    tr.append(th3);
+    tr.append(th4);
+    tr.append(th5);
+    thead.append(tr);
+    tabla1.append(thead);
+   // $form_group.append(tabla1);
+    $contenido.append(tabla1);
+
+
+    dialogoProveedor=BootstrapDialog.show({
         title: 'Articulos',
         message: function() {
             return $contenido;
         },
-        style: 'width:85%;',
         closable: false,
         type: BootstrapDialog.TYPE_WARNING,
-        onshown: function() {},
+        onshown: function() {
+            cargarTablaModalPopup();
+        },
         buttons: [{
             id: 'btn-1',
             label: 'Cancelar',
@@ -67,16 +93,75 @@ $('#descripcion').click(function(){
             action: function(dialog) {
                 dialog.close();
             }
-        }, {
-            id: 'btn-2',
-            label: 'Terminar',
-            cssClass: 'btn-danger',
-            submit: function() {return false;},
-            action: function(dialog) {
-                dialog.close();
-                $('#descripcionArticulo').val(descripcion);
-                $('#input2').val(clave);
-            }
         }]
     });
+   /* $('#tabla1').find('tbody').on( 'click', 'button', function () {
+        var tabla1=$('#tabla1').DataTable();
+        var tabla2=$('#resultados').DataTable();
+        var cell = tabla1.cell($(this).closest('td'));
+        var datosRenglon = tabla1.row($(this).parents('tr')).data();
+        //cell.data("<p>AGREGADO</p>").draw(false);
+        tabla2.row.add( {
+            "id":       "Tiger Nixon",
+            "position":   "System Architect",
+            "salary":     "$3,120",
+            "start_date": "2011/04/25",
+            "office":     "Edinburgh",
+            "extn":       "5421"
+        } ).draw();
+    });*/
 });
+function cargarTablaModalPopup(){
+    $("#tabla1").find("tbody").empty();
+    Funcion.peticionAjaxDT({
+        RestUrl:'articulo/seleccionar',
+        DT:("#tabla1"),
+        datos : {
+            idSucursal: $('#idSucursal').val(),
+            cat_id:'%',
+            dep_id:'%',
+            edicion:'edicion'
+        },
+        arregloColumnas:[
+            { data : 'art_id'},
+            { data : "clave" },
+            { data : "descripcion"},
+            { data : "existencia" },
+            {data : 'edicion'}
+        ], 'select': {
+            'style': 'multi'
+        },columnDefs:{
+            targets:[0],
+            visible:false
+        },
+        rowCallBack:function( row, data ) {
+            if (data.edicion === "edicion") {
+                $(row).find('td:eq(-1)').html("<button class='btn btn-info'>Seleccionar</button>");
+            }else
+            {
+                $(row).find('td:eq(-1)').html("<b>"+data.edicion+"</b>");
+            }
+        },
+        success:function(){
+            $('#tabla1').find('tbody').on( 'click', 'button', function () {
+                alert('kek');
+                var datatable = $('#tabla1').DataTable();
+                var resultados = $('#resultados').DataTable();
+                var datosRenglon = datatable.row($(this).parents('tr')).data();
+                //$('#nombreProveedor').val(datosRenglon.nombre);
+                //contador++;
+                resultados.row.add( {
+                    "idInventarioTemporal":       "0",
+                    "art_id":   datosRenglon.art_id,
+                    "clave":     datosRenglon.clave,
+                    "descripcion": datosRenglon.descripcion,
+                    "existencia":     datosRenglon.existencia,
+                    "edicion":       "edicion"
+                } ).draw();
+                dialogoProveedor.close();
+                return false;
+            });
+            return false;
+        }
+    });
+}

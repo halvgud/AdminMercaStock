@@ -144,6 +144,10 @@ if(!isset($_SESSION['idUsuario'])){
                             <li>
                                 <a href="#" onclick="cambiarUrl('/reportes/perdidas.php');"><i class="fa fa-file-text-o fa-fw"></i>Pérdidas</a>
                             </li>
+                        <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"BITACORA")) {  ?>
+                            <li>
+                                <a href="#" onclick="cambiarUrl('/reportes/inventarioActual.php');"><i class="fa fa-file-text-o fa-fw"></i>Inventario solicitado por Sucursal</a>
+                            </li>
                         <?php }  ?>
                     </ul>
                 </li>

@@ -4505,6 +4505,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar-default {
   background-color: #7c2e2f;
   border-color: #303030;
+  /*position: fixed;
+  width: 100%;
+  margin: 0 0 40px 0;*/
 }
 .navbar-default .navbar-brand {
   color: #e9e9e9;
@@ -6769,3 +6772,33 @@ button.close {
 /*# sourceMappingURL=bootstrap.css.map */
 .selected { background-color: #7c2e2f !important; }
 .selected2 { background-color: #b84346 !important; }
+
+.tooltip2{
+  display: inline;
+  position: relative;
+}
+
+.tooltip2:hover:after{
+  background: #333;
+  background: rgba(0,0,0,.8);
+  border-radius: 5px;
+  bottom: 26px;
+  color: #fff;
+  content: attr(title);
+  left: 20%;
+  padding: 5px 15px;
+  position: absolute;
+  z-index: 98;
+  width: 220px;
+}
+
+.tooltip2:hover:before{
+  border: solid;
+  border-color: #333 transparent;
+  border-width: 6px 6px 0 6px;
+  bottom: 20px;
+  content: "";
+  left: 50%;
+  position: absolute;
+  z-index: 99;
+}

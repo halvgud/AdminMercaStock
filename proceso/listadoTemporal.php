@@ -7,7 +7,8 @@ if (!isset($_SESSION['idUsuario'])){
     <div id="page-wrapper">
         <?php $_SESSION['bandera'] = true; ?>
         <br/>
-        <h1 id="titulo">Listado Temporal de Inventario</h1>
+        <div title="Lista que guarda de forma temporal un listado de articulos antes de generar listado de inventario"><h1 id="titulo">Listado Temporal de Inventario</h1>
+        </div>
         <hr>
         <div class="col-md-12">
             <div class="col-md-6">
@@ -16,19 +17,28 @@ if (!isset($_SESSION['idUsuario'])){
                     <select id="idSucursal" name="idSucursal" class="form-control"  onchange="" required>
                     </select>&nbsp;&nbsp;&nbsp;
                     <input type="hidden" id="idUsuario" value="<?php echo $_SESSION['idUsuario']; ?>">
-                    <button type="submit" class="btn  btn-success" id="search"><i class="fa fa-search"></i> Buscar</button>
                 </form>
             </div>
             <div class="col-md-6">
                 <form method="post" id="buscarArticulo" class="form-inline">
-                    <label for="descripcion"  class="control-label">Descripción:</label>
-                    <input type="text" class="form-control" id="descripcion" name="descripcion" readonly="readonly">
-                    <button type="submit" class="btn btn-success" id="buscar"><i class="fa fa-search"></i>Buscar producto</button>
+                    <label for="descripcionArticulo"  class="control-label">Descripción:</label>
+                    <input type="text" class="form-control" id="descripcionArticulo" name="descripcionArticulo" readonly="readonly">
+                    <button type="button" class="btn btn-success" id="agregarArticuloLista"><i class="fa fa-search"></i>agregar producto</button>
                 </form>
             </div>
         </div>
         <table id="resultados" width="90%" class="table table-condensed" >
-            <thead><tr><th>Clave</th><th>Descripci&oacute;n</th><th>Existencia</th><th>Edici&oacute;n</th></tr></thead>
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>art_id</th>
+                <th>Clave</th>
+                <th>Descripci&oacute;n</th>
+
+                <th>Existencia</th>
+                <th>Edici&oacute;n</th>
+            </tr>
+            </thead>
             <tbody></tbody>
         </table>
         <script type="text/javascript" src="js/controlador/proceso/listadoTemporal.js"></script>

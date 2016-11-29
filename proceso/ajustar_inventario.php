@@ -13,18 +13,44 @@ if (!isset($_SESSION['idUsuario'])){
         <hr>
         <form class="form-inline" id="inventario" method="post">
             <label for="idSucursal">Filtrar por Sucursal: </label>
-            <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;" required>
+            <select id="idSucursal" name="idSucursal" class="form-control" required>
             </select>
+            <label for="idOpcion">Mostrar por:</label>
+            <select id="idOpcion" name="idOpcion" class="form-control" required></select>
+            <div id="fechas">
             <label for="fechaInicio">&nbsp;&nbsp;&nbsp;&nbsp;Fecha de Inicio</label>
             <input type="text" id="fechaInicio" name="fechaInicio" class="form-control" size="20" autocomplete="off" style="width: 10%"/>
             <label for="fechaFin">&nbsp;&nbsp;&nbsp;&nbsp;Fecha Final</label>
             <input type="text" id="fechaFin" name="fechaFin" class="form-control" size="20" autocomplete="off" style="width: 10%"/>
+            </div>
             <input type="hidden" id="idUsuario" value="<?php echo $_SESSION['idUsuario']; ?>">
             <button type="submit" class="btn  btn-success" id="search"><i class="fa fa-search"></i> Buscar</button>
         </form>
         <br><br>
+        <div id="divAgrupado">
+            <table id="tablaAgrupado" width="90%" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Id Inventario</th>
+                    <th>Id Departamento</th>
+                    <th>Departamento</th>
+                    <th>Clave</th>
+                    <th>Descripcion</th>
+                    <th>Cantidad en Sistema</th>
+                    <th>Cantidad Física</th>
+                    <th>Registros anteriores</th>
+                    <th>Diferencia</th>
+                    <th>Costo Actual</th>
+                    <th>Editar</th>
+                    <th><input name="seleccionarTodosAgrupado"  id="seleccionarTodosAgrupado" type="checkbox" /></th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
         <div id="divCabecero">
-            <table id="tabla" width="90%" class="table table-striped" >
+            <table id="tablaCabecero" width="90%" class="table table-striped" >
                 <thead>
                 <tr>
                 <th>id</th>

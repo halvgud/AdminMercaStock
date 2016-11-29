@@ -10,30 +10,47 @@ if(!isset($_SESSION['idUsuario'])){
         <h1>Inventario por Sucursal y Artículos</h1>
         <br>
         <br>
-        <form class="form-inline" id="inventario" name="inventario">
-            <div class="form-group">
-                <label>Sucursales:&nbsp;</label>
-                <select id="idSucursal" name="idSucursal" class="form-control" style="width: 25%;" required></select>
-                <label for="fechaInicio">&nbsp;&nbsp;&nbsp;&nbsp;Fecha de Inicio</label>
-                <input type="text" id="fechaInicio" name="fechaInicio" class="form-control" size="20" autocomplete="off" style="width: 10%"/>
-                <label for="fechaFin">&nbsp;&nbsp;&nbsp;&nbsp;Fecha Final</label>
-                <input type="text" id="fechaFin" name="fechaFin" class="form-control" size="20" autocomplete="off" style="width: 10%"/>
-                <label>&nbsp;&nbsp;&nbsp;</label>
-                <button type="submit" class="btn btn-success"><i class="fa fa-cog"></i> Generar</button>
+        <form class="form-horizontal" id="inventario" name="inventario">
+            <div class="row">
+                <div class='col-sm-4'>
+                    <label for="idSucursal">Sucursales:</label>
+                    <select id="idSucursal" name="idSucursal" class="form-control"  required></select>
+                </div>
+                <div class='col-sm-2'>
+                    <label for="fechaInicio">Fecha de Inicio</label>
+                    <input type="text" id="fechaInicio" name="fechaInicio" class="form-control" size="20" autocomplete="off" />
+                </div>
+                <div class='col-sm-2'>
+                    <label for="fechaFin">Fecha Final</label>
+                    <input type="text" id="fechaFin" name="fechaFin" class="form-control" size="20" autocomplete="off" />
+                </div>
+                <div class='col-sm-2'>
+                    <label for='concepto'>Concepto</label>
+                    <select id="concepto" name="concepto" class="form-control" >
+                    </select>
+                </div>
+                <div class="col-sm-1">
+                    <label for="search">Búsqueda</label>
+                    <button type="submit" class="form-control btn btn-success" id="search"><i class="fa fa-cog"></i> Generar</button>
+                </div>
             </div>
         </form>
         <h3>Inventario por Sucursal y Artículos</h3>
-        <table id="tabla" class="table table-condensed table-responsive" align="center">
+        <table id="tabla"  class="table table-condensed table-responsive"  style="width:100%" align="center">
             <thead>
             <tr align="center">
                 <th align="center">idSucursal</th>
                 <th align="center">Nombre</th>
+                <th align="center">idNombre</th>
                 <th align="center">fecha</th>
                 <th align="center">Total</th>
-                <th align="center">Total Acertado</th>
-                <th align="center">Total Fallado</th>
+                <th align="center">Acertado</th>
+                <th align="center">Fallado</th>
+                <th align="center">Restante</th>
                 <th align="center">Costo</th>
-                <th align="center" >Porcentaje</th>
+                <th align="center">%</th>
+                <th align="center">Detalle</th>
+                <th align="center">Cancelar</th>
             </tr>
             </thead>
             <tbody></tbody>
@@ -60,10 +77,13 @@ if(!isset($_SESSION['idUsuario'])){
                 <tr align="center">
                     <th align="center">id</th>
                     <th align="center">Fecha</th>
+                    <th align="center">Id Departamento</th>
+                    <th align="center">Departamento</th>
                     <th align="center">Clave</th>
                     <th align="center">Descripcion</th>
                     <th align="center">Cantidad solicitada</th>
                     <th align="center">Cantidad en sistema</th>
+                    <th align="center">Cantidad ACTUAL en sistema</th>
                     <th align="center">Cantidad física</th>
                     <th align="center">Diferencia</th>
                     <th align="center">Costo</th>

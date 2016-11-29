@@ -5,7 +5,7 @@
       <webServer id="ad29bb4d-69af-4331-9221-4f1123a120eb" name="Godaddy Admin" url="http://mercatto.mx">
         <fileTransfer host="mercatto.mx" port="21" password="dff9dfd3dfd9dfcbdfcedfc7dfc3dfc4df9bdf9bdfeadfea" username="apiftp@mercatto.mx">
           <advancedOptions>
-            <advancedOptions dataProtectionLevel="Private" passiveMode="true" />
+            <advancedOptions dataProtectionLevel="Private" maxConnections="10" passiveMode="true" />
           </advancedOptions>
         </fileTransfer>
       </webServer>

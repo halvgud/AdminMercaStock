@@ -68,23 +68,20 @@ class Funcion{
      * @param opciones.rowCallBack                          callback para ajustar valor de columnas
      * @param opciones.select
      * @param opciones.habilitarCheckBox
+     * @param opciones.ocultarWarning
      */
     static peticionAjaxDT(opciones) {
         opciones =  opciones || {}; //forzar que sea objeto
         if ((opciones.loading) != undefined) {
             Funcion.mostrarDialogoDeEspera(opciones.loading);
         }
-        var banderaMostrarBusqueda=false;
-        if(opciones.ocultarBusqueda==undefined){
-            banderaMostrarBusqueda=true;
-        }
+        var banderaMostrarBusqueda=opciones.ocultarBusqueda==undefined;
         var order=[[ 0, "asc" ]];
         var dom='Bfrtip';
-
         if(opciones.funcionDeColor!=undefined){
             dom='<"toolbar">Bfrtip';
-            if(opciones.funcionDeColor['Posicion']!=undefined){
-                order= [[ opciones.funcionDeColor['Posicion'], "desc" ]]
+            if(opciones.funcionDeColor['PosicionOrden']!=undefined){
+                order= [[ opciones.funcionDeColor['PosicionOrden'], "desc" ]]
             }
         }
         return $(opciones.DT).DataTable({
@@ -95,19 +92,20 @@ class Funcion{
             "bFilter": banderaMostrarBusqueda,
             "bPaginate":banderaMostrarBusqueda,
             "bInfo":banderaMostrarBusqueda,
-            "bStateSave": true,
             'createdRow': function( nRow, aData) {
                 if(opciones.funcionDeColor==undefined){
                     return nRow;
-                }else if(opciones.funcionDeColor['Posicion']!=undefined){
+                }else if(opciones.funcionDeColor['PosicionColor']!=undefined){
                     if(aData.bandera!=undefined){
-                        $('td', nRow).eq(opciones.funcionDeColor['Posicion'])
+
+                        $('td', nRow).eq(opciones.funcionDeColor['PosicionColor'])
                             .css('background-color',
                                 Funcion.obtenerColorPorPorcentaje(aData.bandera));
                     }
                 }
                 return nRow;
             },
+            initComplete:opciones.initComplete,
             columnDefs: opciones.columnDefs,
             "rowCallback":  opciones.rowCallBack,
             "select":opciones.select,
@@ -134,6 +132,9 @@ class Funcion{
                         BootstrapDialog.closeAll();
                     }
                     if (json.estado == "warning") {
+                        if(opciones.ocultarWarning!=undefined && opciones.ocultarWarning==true){
+                            return json.data;
+                        }
                         Funcion.notificacionWarning(json.success);
                         return json.data;
                     }
@@ -170,7 +171,8 @@ class Funcion{
                 })
             },
             columns: opciones.arregloColumnas,
-            buttons: Funcion.setearBotones()
+            buttons: Funcion.setearBotones(),
+            drawCallback:opciones.drawCallback
         });
     }//peticionAjaxDT
     static setearBotones(){
@@ -235,6 +237,7 @@ class Funcion{
                 url: opciones.Url,
                 data: JSON.stringify(opciones.datos),
                 dataType: 'json',
+
                 beforeSend: function (request){
                     request.setRequestHeader("Auth", API_TOKEN);
                 }
@@ -317,6 +320,7 @@ class Funcion{
                 exit: 'animated fadeOutUp'
             }
         });
+        BootstrapDialog.closeAll();
     }
 
     static notificacionSuccess(mensaje) {
@@ -358,7 +362,9 @@ class Funcion{
         var exitoso = function (result) {
             if (result.estado!="warning"){
                 var resultados;
+
                 resultados = idSql == 'idSucursal' || idSql == 'idConcepto' ? result.data : result.data[0];
+                console.log(resultados);
                 if(itemS!=null){
                     $(nombreJquery).append($("<option></option>", {value: '', text: itemS}));
                 }

@@ -21,9 +21,9 @@ $("#articulo").submit(function() {
     }, {
         data: "descripcion"
     }, {
-        data: "margen1"
-    }, {
         data: "precio1"
+    }, {
+        data: "margen1"
     }, {
         data: "existencia"
     }];
@@ -39,7 +39,7 @@ $('#idSucursal').on('change', function(){
     $("#dep_id").empty();
     $("#cat_id").empty();
     if(this.value!='') {
-        Funcion.cargarDropDownList(("#dep_id"), 'dep_id', 'nombre', API_SYS_PATH + 'departamento/seleccionar', $("#idSucursal").val(), true, 'Buscando Departamentos...', 'Seleccione un Departamento');
+        Funcion.cargarDropDownList(("#dep_id"), 'dep_id', 'nombre', API_SYS_PATH + 'departamento/seleccionar', $("#idSucursal").val(), false, 'Buscando Departamentos...', 'Seleccione un Departamento');
     }else{
         $("#resultadosArticulo").empty();
     }

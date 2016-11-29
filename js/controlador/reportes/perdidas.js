@@ -80,7 +80,7 @@ $("#inventario").submit(function(){
         arregloColumnas:columnas,
         loading:null,
         success:success,
-        funcionDeColor:{Boton:true,Posicion:6}
+        funcionDeColor:{Boton:true,PosicionColor:6,PosicionOrden:6}
 });
     $('#total').show();
     return false;
