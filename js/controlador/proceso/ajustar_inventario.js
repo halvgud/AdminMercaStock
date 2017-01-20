@@ -115,6 +115,7 @@ function cargarInventarioAgrupado(){
             {data:'clave'},
             {data:'descripcion'},
             {data:'existenciaEjecucion'},
+            {data:'existencia'},
             {data:'existenciaRespuesta'},
             {data:'cantidadDeVueltas'},
             {data:'diferencia'},
@@ -139,11 +140,9 @@ function cargarInventarioAgrupado(){
                 false,
                 'Buscando Departamentos...',
                 'TODOS');
-
             this.api().column(2).each(function() {
                 var column = this;
                 $('#idDepartamento').on('change', function() {
-
                     var val = $(this).val();
                     console.log(val);
                     column.search(val ? '^' + val + '$' : '', true, false)

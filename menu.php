@@ -140,15 +140,19 @@ if(!isset($_SESSION['idUsuario'])){
                             <li>
                                 <a href="#" onclick="cambiarUrl('/reportes/bitacora.php');"><i class="fa fa-calendar fa-fw"></i> Bit&aacute;cora</a>
                             </li>
-                        <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"BITACORA")) {  ?>
+                        <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"PERDIDAS")) {  ?>
                             <li>
                                 <a href="#" onclick="cambiarUrl('/reportes/perdidas.php');"><i class="fa fa-file-text-o fa-fw"></i>Pérdidas</a>
                             </li>
-                        <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"BITACORA")) {  ?>
+                        <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"INVENTARIO_ACTUAL")) {  ?>
                             <li>
-                                <a href="#" onclick="cambiarUrl('/reportes/inventarioActual.php');"><i class="fa fa-file-text-o fa-fw"></i>Inventario solicitado por Sucursal</a>
+                                <a href="#" onclick="cambiarUrl('/reportes/inventarioActual.php');"><i class="fa fa-file-text-o fa-fw"></i>Lista actual por Sucursal</a>
                             </li>
-                        <?php }  ?>
+                        <?php } if (PrivilegiosUsuario::tienePrivilegio($decoded,"AJUSTES")) {  ?>
+                            <li>
+                                <a href="#" onclick="cambiarUrl('/reportes/ajustes.php');"><i class="fa fa-file-text-o fa-fw"></i>Ajustes por departamento</a>
+                            </li>
+                        <?php } ?>
                     </ul>
                 </li>
                 <?php }  ?>

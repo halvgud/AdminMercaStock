@@ -61,6 +61,9 @@ $("#inventario").submit(function(){
     var columnas =[
         { data: "fecha" },
         {data : "nombre"},
+        { data: "TotalEsperado"},
+        { data: "TotalAcertado"},
+        { data: "TotalFallado" },
         { data: "costo"},
         { data: "costo2"},
         { data: "bandera"},
@@ -77,11 +80,11 @@ $("#inventario").submit(function(){
         arregloColumnas:columnas,
         loading:'Cargando lista de perdidas...',
         success:success,
-        funcionDeColor:{PosicionColor:4,PosicionColor2:5},
+        funcionDeColor:{PosicionColor:7,PosicionColor2:8},
         rowCallBack:function(row, data){
             $(row).find('td:eq(-1)').html("<button class='btn btn-info' disabled='disabled'>Detalle</button>");
         }
-});
+    });
     $('#total').show();
     return false;
 

@@ -155,7 +155,7 @@ else{
                                     var emItemLista = $("<em></em>").append(element['tiempoRestante']
                                         + "/" + element['tiempoDefinido'] + " min &nbsp;");
                                     var spanItemLista2 = $("<span></span>", {'class': 'pull-right text-muted small'});
-                                    var emItemLista2 = $("<em></em>",{'style':'font-size:8px'}).append('<br>última act:' + element['fechaActualizacion']);
+                                    var emItemLista2 = $("<em></em>",{'style':'font-size:12px'}).append('<br>última act:' + element['fechaActualizacion']);
                                     spanItemLista.append(emItemLista);
                                     spanItemLista.append(emItemLista2);
                                     aItemDeLista.append(iItemLista);

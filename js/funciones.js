@@ -18,7 +18,7 @@ class Funcion{
             },
             'type': BootstrapDialog.TYPE_WARNING,
             'size': BootstrapDialog.SIZE_SMALL
-        })
+        });
     }
     static setearLenguaje(){
         return {
@@ -64,7 +64,6 @@ class Funcion{
      * @param opciones.ocultarBusqueda                      valor booleano para ocultar la opcion de busqueda //opcional
      * @param opciones.funcionDeColor                       arreglo para la columna de colores. //opcional
      * @param opciones.funcionDeColor['Posicion']           lugar en el que se va ordenar y se va pintar
-     * @param opciones.funcionDeColor['PosicionMultiple']   arreglo que contiene las columnas que se van a ocultar
      * @param opciones.rowCallBack                          callback para ajustar valor de columnas
      * @param opciones.select
      * @param opciones.habilitarCheckBox
@@ -96,12 +95,12 @@ class Funcion{
                 if(opciones.funcionDeColor==undefined){
                     return nRow;
                 }else if(opciones.funcionDeColor['PosicionColor']!=undefined){
-                    if(aData.bandera!=undefined){
-
-                        $('td', nRow).eq(opciones.funcionDeColor['PosicionColor'])
-                            .css('background-color',
-                                Funcion.obtenerColorPorPorcentaje(aData.bandera));
-                    }
+                    $('td', nRow).eq(opciones.funcionDeColor['PosicionColor'])
+                        .css('background-color',
+                            Funcion.obtenerColorPorPorcentaje(aData.bandera));
+                    $('td', nRow).eq(opciones.funcionDeColor['PosicionColor2'])
+                        .css('background-color',
+                            Funcion.obtenerColorPorPorcentaje(aData.bandera2));
                 }
                 return nRow;
             },
@@ -117,7 +116,6 @@ class Funcion{
                     request.setRequestHeader("Auth", API_TOKEN);
                 },
                 data: function () {
-                    console.log(JSON.stringify(opciones.datos));
                     return JSON.stringify(opciones.datos);
                 },
                 /**
@@ -126,8 +124,6 @@ class Funcion{
                  * @param {{data:array}} json
                  */
                 'dataSrc': function (json) {
-                    console.log(json);
-                    console.log(json.data);
                     if ((opciones.loading) != undefined) {
                         BootstrapDialog.closeAll();
                     }
@@ -144,7 +140,6 @@ class Funcion{
                         }else{
                             Funcion.notificacionSuccess(json.success);
                         }
-                        console.log(json.data);
                         return json.data;
                     }
                 }
@@ -156,10 +151,8 @@ class Funcion{
                     if ((opciones.loading) != undefined) {
                         BootstrapDialog.closeAll();
                     }
-                    console.log(jqXHR.responseText);
                     var resulta = jqXHR.responseJSON;
                     if (resulta != undefined) {
-                        console.log(resulta);
                         if (resulta['error']) {
                             Funcion.notificacionError(resulta['error']);
                         } else {
@@ -206,9 +199,9 @@ class Funcion{
         var limiteInferior = colores[i - 1];
         var limiteSuperior = colores[i];
         var rango = limiteSuperior.pct - limiteInferior.pct;
-        var rangoPorcentaje = (pct - limiteInferior.pct) / rango;
-        var pctLower = 1 - rangoPorcentaje;
-        var pctUpper = rangoPorcentaje;
+        var rangoPorcentaje = (pct<0?0:pct - limiteInferior.pct) / rango;
+        var pctLower = 1 - rangoPorcentaje<0?0:1 - rangoPorcentaje;
+        var pctUpper = rangoPorcentaje<0?0:rangoPorcentaje;
         var color = {
             r: Math.floor(limiteInferior.color.r * pctLower + limiteSuperior.color.r * pctUpper),
             g: Math.floor(limiteInferior.color.g * pctLower + limiteSuperior.color.g * pctUpper),
@@ -258,7 +251,6 @@ class Funcion{
                     BootstrapDialog.closeAll();
                 }
                 if (resulta != undefined) {
-                    console.log(resulta);
                     Funcion.notificacionError(resulta['error'] ?
                         resulta['error']    : resulta['mensaje']?
                         resulta['mensaje']  : resulta['message']);
@@ -266,7 +258,6 @@ class Funcion{
                         Funcion.logout();
                     }
                 } else {
-                    console.log(jqXHR.responseText);
                     Funcion.notificacionError('Error de conexión al servicio API');
                 }
                 if (opciones.error) {
@@ -364,7 +355,6 @@ class Funcion{
                 var resultados;
 
                 resultados = idSql == 'idSucursal' || idSql == 'idConcepto' ? result.data : result.data[0];
-                console.log(resultados);
                 if(itemS!=null){
                     $(nombreJquery).append($("<option></option>", {value: '', text: itemS}));
                 }

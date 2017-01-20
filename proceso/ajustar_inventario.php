@@ -38,6 +38,7 @@ if (!isset($_SESSION['idUsuario'])){
                     <th>Clave</th>
                     <th>Descripcion</th>
                     <th>Cantidad en Sistema</th>
+                    <th>Cantidad ACTUAL en Sistema</th>
                     <th>Cantidad Física</th>
                     <th>Registros anteriores</th>
                     <th>Diferencia</th>

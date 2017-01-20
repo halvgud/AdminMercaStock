@@ -27,7 +27,7 @@ else{
                 <th>Nombre</th>
                 <th>Existencia real</th>
                 <th>Existencia en sistema</th>
-                <th>Estado</th>
+                <th>Cancelar</th>
             </tr>
             </thead>
             <tbody></tbody>

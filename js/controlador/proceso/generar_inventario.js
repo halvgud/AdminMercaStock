@@ -508,10 +508,12 @@ $("#send").submit(function() {
             subArreglo.push(input.value);
         }
     });
+    var idSucursal = $('#idSucursal').val();
     datosTabla1['art_id'] = subArreglo;
-    datosTabla1['idSucursal'] =  $('#idSucursal').val();
+    datosTabla1['idSucursal'] =  idSucursal;
     datosTabla1['idUsuario'] = $('#idUsuario').val();
     datosTabla1['nombreInventario']=$('#nombreInventario').val();
+    console.log(datosTabla1);
     var exitoso = function(datos) {
         Funcion.notificacionSuccess(datos.success);
         return false;

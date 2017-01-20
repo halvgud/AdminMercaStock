@@ -11,29 +11,6 @@ $(function() {
         false,
         'Buscando Sucursal...',
         'Seleccione una Sucursal');
-$.datetimepicker.setLocale('es');
-var fechaIni=$('#fechaInicio');
-var fechaFin=$('#fechaFin');
-fechaIni.datetimepicker({
-    theme:'dark',
-    format:'Y-m-d',
-    onShow:function( ){
-        this.setOptions({
-            maxDate:fechaFin.val()?fechaFin.val():false
-        })
-    },
-    timepicker:false
-});
-fechaFin.datetimepicker({
-    theme:'dark',
-    format:'Y-m-d ',
-    onShow:function(  ){
-        this.setOptions({
-            minDate:fechaIni.val()?fechaIni.val():false
-        })
-    },
-    timepicker:false
-});
 });
 $("#inventarioActual").submit(function(){
     var form1 = $("#inventarioActual").find("select,input").serializeArray();
@@ -48,11 +25,8 @@ $("#inventarioActual").submit(function(){
         { data: "nombre" },
         { data: "existenciareal" },
         { data: "existenciasistema" },
-        { data: "estado" }
+        { data: "cancelar" }
     ];
-    var success=function(){
-
-    };
 
     Funcion.peticionAjaxDT({
         RestUrl: '/inventario/reporte/actual',
@@ -60,7 +34,9 @@ $("#inventarioActual").submit(function(){
         datos:datosTabla1,
         arregloColumnas:columnas,
         loading:null,
-        success:success
+        rowCallBack:function(row, data){
+            $(row).find('td:eq(-1)').html("<button class='btn btn-danger'>Cancelar</button>");
+        }
     });
     $('#resultados').show();
     return false;

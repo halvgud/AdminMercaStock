@@ -1,4 +1,4 @@
-<?php session_start();
+    <?php session_start();
 
 
 if(!isset($_SESSION['idUsuario'])){
@@ -17,6 +17,11 @@ if(!isset($_SESSION['idUsuario'])){
                     <select id="idSucursal" name="idSucursal" class="form-control"  required></select>
                 </div>
                 <div class='col-sm-2'>
+                    <label for='concepto'>Concepto</label>
+                    <select id="concepto" name="concepto" class="form-control" >
+                    </select>
+                </div>
+                <div class='col-sm-2'>
                     <label for="fechaInicio">Fecha de Inicio</label>
                     <input type="text" id="fechaInicio" name="fechaInicio" class="form-control" size="20" autocomplete="off" />
                 </div>
@@ -24,17 +29,14 @@ if(!isset($_SESSION['idUsuario'])){
                     <label for="fechaFin">Fecha Final</label>
                     <input type="text" id="fechaFin" name="fechaFin" class="form-control" size="20" autocomplete="off" />
                 </div>
-                <div class='col-sm-2'>
-                    <label for='concepto'>Concepto</label>
-                    <select id="concepto" name="concepto" class="form-control" >
-                    </select>
-                </div>
+
                 <div class="col-sm-1">
                     <label for="search">Búsqueda</label>
                     <button type="submit" class="form-control btn btn-success" id="search"><i class="fa fa-cog"></i> Generar</button>
                 </div>
             </div>
         </form>
+        <div id="divCabecero">
         <h3>Inventario por Sucursal y Artículos</h3>
         <table id="tabla"  class="table table-condensed table-responsive"  style="width:100%" align="center">
             <thead>
@@ -55,6 +57,31 @@ if(!isset($_SESSION['idUsuario'])){
             </thead>
             <tbody></tbody>
         </table>
+        </div>
+        <div id="divCabecero2">
+            <h3>Inventario por Sucursal y Articulos</h3>
+            <table id="tabla2" class="table table-condensed table-responsive"  style="width:100%" align="center">
+                <thead>
+                <tr align="center">
+                    <th align="center">idSucursal</th>
+                    <th align="center">Nombre</th>
+                    <th align="center">idNombre</th>
+                    <th align="center">Fecha</th>
+                    <th align="center">Total</th>
+                    <th align="center">Acertado</th>
+                    <th align="center">Fallado</th>
+                    <th align="center">Restante</th>
+                    <th align="center">Costo 2</th>
+                    <th align="center">% 2</th>
+                    <th align="center">Costo</th>
+                    <th align="center">%</th>
+                    <th align="center">Detalle</th>
+                    <th align="center">Cancelar</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
         <br>
         <div id="divDetalle">
             <table border="0" cellpadding="5" cellspacing="5">
@@ -75,6 +102,7 @@ if(!isset($_SESSION['idUsuario'])){
             <table id="tablaDetalle"  class="table table-striped table-responsive" align="center">
                 <thead>
                 <tr align="center">
+                    <th align="center">Detalle</th>
                     <th align="center">id</th>
                     <th align="center">Fecha</th>
                     <th align="center">Id Departamento</th>
@@ -82,7 +110,7 @@ if(!isset($_SESSION['idUsuario'])){
                     <th align="center">Clave</th>
                     <th align="center">Descripcion</th>
                     <th align="center">Cantidad solicitada</th>
-                    <th align="center">Cantidad en sistema</th>
+                    <th align="center">Cantidad en sis. al momento del Inv</th>
                     <th align="center">Cantidad ACTUAL en sistema</th>
                     <th align="center">Cantidad física</th>
                     <th align="center">Diferencia</th>
